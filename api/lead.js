@@ -142,8 +142,9 @@ export default async function handler(req, res) {
   const saldoCons  = estimativa ? clampInt(estimativa.saldoCons, 0, 100000000) : null;
   const saldoOtim  = estimativa ? clampInt(estimativa.saldoOtim, 0, 100000000) : null;
   const meses      = estimativa ? clampInt(estimativa.meses, 0, 200) : null;
-  const userAgent  = cleanText(req.headers['user-agent'], 500) || null;
-  const referer    = cleanText(req.headers['referer'], 500) || null;
+  // Minimização RGPD: o schema permite estes campos, mas a captura de lead não precisa deles.
+  const userAgent  = null;
+  const referer    = null;
 
   let leadId;
   try {
