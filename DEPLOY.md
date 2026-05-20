@@ -35,8 +35,16 @@ vercel link
 ```bash
 # (a) ligação à Neon — usa a MESMA connection string da LTX
 vercel env add DATABASE_URL production
-# cola exactamente (mesma string que está no ../deploy-vercel/DEPLOY_INSTRUCOES.md):
-# postgresql://neondb_owner:REDACTED_NEON_PW@ep-wispy-cake-ajf2zyci-pooler.c-3.us-east-2.aws.neon.tech/neondb?channel_binding=require&sslmode=require
+# Copia a connection string a partir do Neon Console (NUNCA commitar em git):
+#   Neon Console → projecto cool-bird-69912607 → Dashboard → Connection string
+# Formato esperado:
+#   postgresql://<user>:<pass>@<host>/<db>?channel_binding=require&sslmode=require
+#
+# ⚠ Se este ficheiro alguma vez teve uma connection string em texto claro
+#   (versões anteriores), considera essa credencial COMPROMETIDA:
+#   1) Rotar a password no Neon Console.
+#   2) Actualizar DATABASE_URL no Vercel (production + preview).
+#   3) Reescrever histórico Git (`git filter-repo`) e force-push.
 
 # (b) Resend para receberes email a cada lead (opcional mas recomendado)
 vercel env add RESEND_API_KEY production
