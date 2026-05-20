@@ -1,0 +1,21 @@
+# Vercel
+.vercel
+
+# Env / segredos — NUNCA commitar
+.env
+.env*.local
+*.env
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# macOS
+.DS_Store
+
+# Logs / temp
+*.log
+.cache/

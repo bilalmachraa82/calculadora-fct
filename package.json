@@ -1,0 +1,11 @@
+{
+  "name": "aitipro-calculadora-fct",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Calculadora pública do saldo FCT — AiTiPro",
+  "type": "module",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "resend": "^4.0.0"
+  }
+}
