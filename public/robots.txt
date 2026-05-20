@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://calculadora-fct.aitipro.com/sitemap.xml

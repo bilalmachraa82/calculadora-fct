@@ -3,15 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora FCT — AiTiPro</title>
+<meta name="description" content="Estime o saldo FCT da sua empresa em três cenários e peça uma proposta de formação certificada DGERT para usar o saldo até 31 de dezembro de 2026.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0d3b38">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="canonical" href="https://calculadora-fct.aitipro.com/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d3b38'/%3E%3Cg transform='translate(18 12) skewX(-12)'%3E%3Crect width='8' height='40' rx='2' fill='%232ae5a0'/%3E%3Crect x='10' width='8' height='40' rx='2' fill='%231bc88a'/%3E%3Crect x='20' width='8' height='40' rx='2' fill='%23ffffff'/%3E%3C/g%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_PT">
+<meta property="og:site_name" content="AiTiPro">
+<meta property="og:title" content="Calculadora FCT 2026 — AiTiPro">
+<meta property="og:description" content="Calcule uma estimativa do saldo FCT da sua empresa e veja como o transformar em formação certificada DGERT.">
+<meta property="og:url" content="https://calculadora-fct.aitipro.com/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Calculadora FCT 2026 — AiTiPro">
+<meta name="twitter:description" content="Estime o saldo FCT da sua empresa e peça uma proposta de formação certificada DGERT.">
+<title>Calculadora FCT 2026: estime saldo para formação DGERT | AiTiPro</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://aitipro.com/#organization",
+      "name": "AiTiPro",
+      "url": "https://aitipro.com/"
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://calculadora-fct.aitipro.com/#app",
+      "name": "Calculadora FCT AiTiPro",
+      "url": "https://calculadora-fct.aitipro.com/",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "pt-PT",
+      "provider": { "@id": "https://aitipro.com/#organization" },
+      "description": "Calculadora client-side para estimar o saldo do Fundo de Compensação do Trabalho em três cenários."
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://calculadora-fct.aitipro.com/#faq",
+      "inLanguage": "pt-PT",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "O que é o Fundo de Compensação do Trabalho?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O FCT é o fundo para onde as empresas com trabalhadores por conta de outrem contribuíram 0,925% do salário base e diuturnidades entre outubro de 2013 e maio de 2023."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Até quando pode ser resgatado o saldo FCT?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O prazo final de resgate é 31 de dezembro de 2026. O valor real deve ser confirmado pela empresa em fundoscompensacao.pt."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "O saldo FCT pode ser usado em formação?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Desde 2024, o saldo FCT pode ser mobilizado para formação profissional certificada, desde que a entidade formadora tenha certificação DGERT nas áreas relevantes."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 <style>
 :root{
   color-scheme: light;
-  --color-primary:#2ae5a0; --color-primary-dark:#1bc88a; --color-primary-light:#d4faf0; --color-primary-xlight:#f0fdf8;
+  --color-primary:#2ae5a0; --color-primary-dark:#1bc88a; --color-primary-readable:#0a7a50; --color-primary-light:#d4faf0; --color-primary-xlight:#f0fdf8;
   --color-dark:#2d3a4a; --color-dark-teal:#0d3b38; --color-dark-navy:#1e2d3d;
   --color-surface:#f0f5f4; --color-surface-card:#ffffff; --color-border:#e2e8f0; --color-border-light:#f1f5f9;
   --color-text-heading:#1e2d3d; --color-text-body:#374151; --color-text-muted:#6b7280;
-  --color-orange:#ca742d; --color-orange-light:#fef3e8;
+  --color-orange:#ca742d; --color-orange-readable:#8a4b14; --color-orange-light:#fef3e8;
   --color-warning:#f59e0b; --color-error:#ef4444;
   --font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   --radius-md:8px; --radius-lg:12px; --radius-xl:16px; --radius-full:9999px;
@@ -21,10 +91,12 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:var(--font-family);background:var(--color-surface);color:var(--color-text-body);line-height:1.6;font-size:16px;}
-a{color:var(--color-primary-dark);}
+a{color:var(--color-primary-readable);}
 .wrap{max-width:920px;margin:0 auto;padding:0 20px;}
 h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1.2;}
-.section-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--color-orange);margin-bottom:.5rem;}
+.section-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--color-orange-readable);margin-bottom:.5rem;}
+.skip-link{position:absolute;left:1rem;top:1rem;z-index:10;transform:translateY(-160%);background:#fff;color:var(--color-dark-navy);padding:.65rem .9rem;border-radius:var(--radius-md);box-shadow:var(--shadow-md);font-weight:700;}
+.skip-link:focus{transform:translateY(0);}
 
 /* HERO */
 .hero{background:linear-gradient(135deg,var(--color-dark) 0%,#3a4a5c 100%);color:#fff;padding:3.5rem 0 3rem;}
@@ -49,7 +121,11 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
 .section.alt .info-card{background:var(--color-surface);}
 .info-card h4{font-size:1rem;font-weight:700;margin-bottom:.4rem;}
 .info-card p{font-size:.9rem;color:var(--color-text-muted);}
-.info-card .big{font-size:1.6rem;font-weight:800;color:var(--color-primary-dark);letter-spacing:-.03em;display:block;margin-bottom:.2rem;}
+.info-card .big{font-size:1.6rem;font-weight:800;color:var(--color-primary-readable);letter-spacing:-.03em;display:block;margin-bottom:.2rem;}
+.faq-grid{display:grid;gap:.85rem;margin-top:1.5rem;}
+.faq-item{background:var(--color-surface-card);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;}
+.faq-item h3{font-size:1rem;margin-bottom:.25rem;}
+.faq-item p{font-size:.9rem;color:var(--color-text-muted);}
 
 /* CALCULATOR */
 .calc-card{background:var(--color-surface-card);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:2rem;box-shadow:var(--shadow-md);}
@@ -57,25 +133,31 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
 .field label{display:block;font-size:.85rem;font-weight:600;color:var(--color-text-heading);margin-bottom:.4rem;}
 .field .hint{font-weight:400;color:var(--color-text-muted);font-size:.78rem;}
 .field input,.field select{width:100%;padding:.7rem .85rem;border:1.5px solid var(--color-border);border-radius:var(--radius-md);font-family:inherit;font-size:.95rem;color:var(--color-text-heading);background:#fff;transition:border-color .15s;}
-.field input:focus,.field select:focus{outline:none;border-color:var(--color-primary-dark);}
+.field input:focus,.field select:focus{outline:none;border-color:var(--color-primary-readable);}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:inherit;font-weight:600;font-size:.95rem;line-height:1;border:2px solid transparent;border-radius:var(--radius-full);padding:.8rem 1.6rem;cursor:pointer;transition:all .15s ease;text-decoration:none;}
 .btn-primary{background:var(--color-primary);color:var(--color-dark-navy);border-color:var(--color-primary);}
 .btn-primary:hover{background:var(--color-primary-dark);transform:translateY(-1px);box-shadow:0 4px 16px rgba(42,229,160,.35);}
-.btn-outline{background:transparent;color:var(--color-primary-dark);border-color:var(--color-primary-dark);}
+.btn-outline{background:transparent;color:var(--color-primary-readable);border-color:var(--color-primary-readable);}
 .btn-outline:hover{background:var(--color-primary-xlight);}
 .btn-block{width:100%;}
 .btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.btn-small{margin-top:.9rem;padding:.65rem 1rem;font-size:.86rem;}
+.btn:focus-visible,.field input:focus-visible,.field select:focus-visible,.check-field input:focus-visible{outline:3px solid rgba(42,229,160,.65);outline-offset:3px;}
+.field-error{min-height:1.1rem;margin-top:.3rem;color:#b91c1c;font-size:.78rem;font-weight:600;}
+.field input[aria-invalid="true"],.field select[aria-invalid="true"]{border-color:var(--color-error);}
+.form-message{display:none;margin:.25rem 0 1rem;padding:.75rem .9rem;border-radius:var(--radius-md);background:#fef2f2;color:#991b1b;font-size:.86rem;font-weight:600;}
+.form-message.is-visible{display:block;}
 
 /* RESULTS */
 #results{display:none;margin-top:2rem;}
 .scenario-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.25rem;}
 .scenario{border:1.5px solid var(--color-border);border-radius:var(--radius-lg);padding:1.25rem 1rem;text-align:center;background:#fff;}
-.scenario.base{border-color:var(--color-primary-dark);background:var(--color-primary-xlight);box-shadow:var(--shadow-sm);}
+.scenario.base{border-color:var(--color-primary-readable);background:var(--color-primary-xlight);box-shadow:var(--shadow-sm);}
 .scenario .s-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-muted);margin-bottom:.5rem;}
-.scenario.base .s-label{color:var(--color-primary-dark);}
+.scenario.base .s-label{color:var(--color-primary-readable);}
 .scenario .s-value{font-size:1.65rem;font-weight:800;color:var(--color-text-heading);letter-spacing:-.03em;line-height:1;}
-.scenario.base .s-value{color:var(--color-primary-dark);}
+.scenario.base .s-value{color:var(--color-primary-readable);}
 .scenario .s-per{font-size:.78rem;color:var(--color-text-muted);margin-top:.4rem;}
 .alert{display:flex;gap:.75rem;padding:1rem 1.15rem;border-radius:var(--radius-lg);border-left:4px solid;font-size:.85rem;margin-bottom:1rem;}
 .alert-orange{background:var(--color-orange-light);border-color:var(--color-orange);color:#7a3d12;}
@@ -104,28 +186,38 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
 .lead-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:var(--radius-xl);padding:1.75rem;margin-top:1.5rem;}
 .lead-card .field label{color:rgba(255,255,255,.92);}
 .lead-card .field input{background:rgba(255,255,255,.97);border-color:transparent;}
+.lead-card .field-error{color:#fecaca;}
+.lead-card .form-message{background:rgba(254,242,242,.12);border:1px solid rgba(254,202,202,.45);color:#fecaca;}
 .lead-note{font-size:.75rem;color:rgba(255,255,255,.5);margin-top:.9rem;}
 #leadOk{display:none;background:var(--color-primary-light);color:#0a5c3a;border-radius:var(--radius-lg);padding:1.25rem;font-size:.92rem;font-weight:600;margin-top:1.5rem;}
+.check-field{display:flex;gap:.65rem;align-items:flex-start;margin:0 0 1rem;color:rgba(255,255,255,.86);font-size:.82rem;line-height:1.45;}
+.check-field input{width:18px;height:18px;margin-top:.1rem;accent-color:var(--color-primary);}
+.hp-field{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
 
 /* FOOTER */
 .footer{background:var(--color-dark-navy);color:rgba(255,255,255,.55);padding:2.5rem 0 2rem;font-size:.8rem;}
 .footer strong{color:rgba(255,255,255,.8);}
 .footer a{color:rgba(255,255,255,.7);}
 
-@media(max-width:640px){
-  .scenario-grid{grid-template-columns:1fr;}
-  .field-row{grid-template-columns:1fr;}
-  .hero{padding:2.5rem 0;}
+	@media(max-width:640px){
+	  .scenario-grid{grid-template-columns:1fr;}
+	  .field-row{grid-template-columns:1fr;}
+	  .hero{padding:2.5rem 0;}
+	}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important;}
+  .btn-primary:hover{transform:none;}
 }
-</style>
+	</style>
 </head>
 <body>
+<a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
 
 <!-- HERO -->
 <header class="hero">
   <div class="wrap">
     <div class="brand">
-      <span class="brand-mark">
+      <span class="brand-mark" aria-hidden="true">
         <span style="background:#2ae5a0;"></span>
         <span style="background:#1bc88a;"></span>
         <span style="background:#0d3b38;"></span>
@@ -138,6 +230,7 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
   </div>
 </header>
 
+<main id="conteudo">
 <!-- O QUE É -->
 <section class="section">
   <div class="wrap">
@@ -161,6 +254,20 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
         <p>Aplicada ao salário base + diuturnidades de cada trabalhador, mês a mês, durante quase 10 anos.</p>
       </div>
     </div>
+    <div class="faq-grid" id="faq">
+      <div class="faq-item">
+        <h3>O que é o Fundo de Compensação do Trabalho?</h3>
+        <p>É o fundo para onde as empresas com trabalhadores por conta de outrem contribuíram 0,925% do salário base e diuturnidades entre outubro de 2013 e maio de 2023.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Até quando pode ser resgatado o saldo FCT?</h3>
+        <p>O prazo final de resgate é 31 de dezembro de 2026. O valor real deve ser confirmado pela empresa em fundoscompensacao.pt.</p>
+      </div>
+      <div class="faq-item">
+        <h3>O saldo FCT pode ser usado em formação?</h3>
+        <p>Desde 2024, o saldo FCT pode ser mobilizado para formação profissional certificada, desde que a entidade formadora tenha certificação DGERT nas áreas relevantes.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -171,10 +278,10 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
     <h2>Estime o saldo FCT da sua empresa</h2>
     <p class="lead">Indique alguns dados básicos. A calculadora aplica a fórmula oficial com salários médios por setor e devolve três cenários — conservador, base e otimista.</p>
 
-    <div class="calc-card">
+    <form class="calc-card" id="calcForm" novalidate>
       <div class="field">
         <label for="setor">Setor de atividade <span class="hint">— define salário médio e rotatividade típica</span></label>
-        <select id="setor">
+        <select id="setor" name="setor" required aria-describedby="setorError">
           <option value="">Selecione…</option>
           <option value="contabilidade">Contabilidade, auditoria, consultoria fiscal</option>
           <option value="consultoria_it">Consultoria / IT / serviços profissionais</option>
@@ -187,24 +294,29 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
           <option value="restauracao">Restauração</option>
           <option value="outro">Outro / não tenho a certeza</option>
         </select>
+        <div class="field-error" id="setorError" aria-live="polite"></div>
       </div>
       <div class="field-row">
         <div class="field">
           <label for="nTrab">Nº de trabalhadores <span class="hint">(por conta de outrem)</span></label>
-          <input type="number" id="nTrab" min="1" max="5000" placeholder="ex.: 15">
+          <input type="number" id="nTrab" name="nTrab" min="1" max="5000" inputmode="numeric" autocomplete="off" required placeholder="ex.: 15" aria-describedby="nTrabError">
+          <div class="field-error" id="nTrabError" aria-live="polite"></div>
         </div>
         <div class="field">
           <label for="anoConst">Ano de constituição <span class="hint">(da empresa)</span></label>
-          <input type="number" id="anoConst" min="1950" max="2026" placeholder="ex.: 2010">
+          <input type="number" id="anoConst" name="anoConst" min="1950" max="2026" inputmode="numeric" autocomplete="off" required placeholder="ex.: 2010" aria-describedby="anoConstError">
+          <div class="field-error" id="anoConstError" aria-live="polite"></div>
         </div>
       </div>
       <div class="field">
         <label for="salario">Salário base médio mensal <span class="hint">— opcional, em €. Se souber, melhora a estimativa</span></label>
-        <input type="number" id="salario" min="600" max="6000" placeholder="deixe vazio para usar a média do setor">
+        <input type="number" id="salario" name="salario" min="600" max="6000" inputmode="decimal" autocomplete="off" placeholder="deixe vazio para usar a média do setor" aria-describedby="salarioError">
+        <div class="field-error" id="salarioError" aria-live="polite"></div>
       </div>
-      <button class="btn btn-primary btn-block" id="calcBtn">Calcular saldo estimado</button>
+      <div class="form-message" id="calcErrors" aria-live="polite"></div>
+      <button type="submit" class="btn btn-primary btn-block" id="calcBtn">Calcular saldo estimado</button>
 
-      <div id="results">
+      <div id="results" role="status" aria-live="polite" tabindex="-1">
         <div class="scenario-grid">
           <div class="scenario"><div class="s-label">Conservador</div><div class="s-value" id="vCons">—</div><div class="s-per" id="pCons"></div></div>
           <div class="scenario base"><div class="s-label">Base</div><div class="s-value" id="vBase">—</div><div class="s-per" id="pBase"></div></div>
@@ -212,15 +324,15 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
         </div>
         <div class="calc-detail" id="calcDetail"></div>
         <div class="alert alert-orange">
-          <span>⚠</span>
+          <span aria-hidden="true">⚠</span>
           <div>Esta é uma <strong>estimativa</strong> com margem de ±30%. O valor real só é confirmado pela empresa através de consulta direta em <strong>fundoscompensacao.pt</strong> (login na Segurança Social Direta). Use este número como ordem de grandeza, não como valor garantido.</div>
         </div>
         <div class="alert alert-success">
-          <span>→</span>
-          <div id="resultCta">Com este saldo, a sua equipa pode fazer formação certificada em IA, automação e produtividade — sem custo líquido para a empresa. Veja os próximos passos abaixo.</div>
+          <span aria-hidden="true">→</span>
+          <div><span id="resultCta">Com este saldo, a sua equipa pode fazer formação certificada em IA, automação e produtividade — sujeita à validação do saldo real no portal oficial. Veja os próximos passos abaixo.</span><br><a class="btn btn-primary btn-small" href="#contacto">Pedir proposta detalhada</a></div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </section>
 
@@ -248,36 +360,40 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
     <h2>Entidade formadora certificada DGERT</h2>
     <p class="lead">Para o FCT, a condição é simples e definida por lei: a formação tem de ser dada por entidade certificada DGERT nas áreas relevantes. Nada mais.</p>
     <div class="why-list">
-      <div class="why-item"><span class="tick">✓</span><div><strong>Certificação DGERT</strong> — condição necessária e suficiente para a formação ser elegível. Não é preciso acreditação IAPMEI, não há lista fechada de fornecedores, não há pré-aprovação. Quem diz o contrário está a confundir o FCT com o Portugal 2030 ou a Formação-Ação — programas distintos, com bases legais distintas.</div></div>
-      <div class="why-item"><span class="tick">✓</span><div><strong>Cumulável com o Voucher Formação do IEFP</strong> — o FCT não é financiamento público (é saldo do próprio empregador), por isso pode somar-se a outros apoios.</div></div>
-      <div class="why-item"><span class="tick">✓</span><div><strong>Cumpre a obrigação das 40h/ano</strong> de formação por trabalhador prevista no artigo 131.º do Código do Trabalho.</div></div>
-      <div class="why-item"><span class="tick">✓</span><div><strong>Formação prática em IA e automação</strong> — módulos aplicados ao dia-a-dia da equipa: prompting, automação de workflows, análise de dados, IA no atendimento. Output tangível, não teoria.</div></div>
+      <div class="why-item"><span class="tick" aria-hidden="true">✓</span><div><strong>Certificação DGERT</strong> — condição necessária e suficiente para a formação ser elegível. Não é preciso acreditação IAPMEI, não há lista fechada de fornecedores, não há pré-aprovação. Quem diz o contrário está a confundir o FCT com o Portugal 2030 ou a Formação-Ação — programas distintos, com bases legais distintas.</div></div>
+      <div class="why-item"><span class="tick" aria-hidden="true">✓</span><div><strong>Cumulável com o Voucher Formação do IEFP</strong> — o FCT não é financiamento público (é saldo do próprio empregador), por isso pode somar-se a outros apoios.</div></div>
+      <div class="why-item"><span class="tick" aria-hidden="true">✓</span><div><strong>Cumpre a obrigação das 40h/ano</strong> de formação por trabalhador prevista no artigo 131.º do Código do Trabalho.</div></div>
+      <div class="why-item"><span class="tick" aria-hidden="true">✓</span><div><strong>Formação prática em IA e automação</strong> — módulos aplicados ao dia-a-dia da equipa: prompting, automação de workflows, análise de dados, IA no atendimento. Output tangível, não teoria.</div></div>
     </div>
   </div>
 </section>
 
 <!-- LEAD / CTA -->
-<section class="cta-section">
+<section class="cta-section" id="contacto">
   <div class="wrap">
     <div class="section-label" style="color:#f3c89a;">Falar com a AiTiPro</div>
     <h2>Quer uma estimativa rigorosa e um plano de formação à medida?</h2>
     <p class="lead">Deixe os seus dados. A AiTiPro prepara uma proposta detalhada — saldo afinado ao seu setor, mix de módulos e calendário — sem compromisso. <strong style="color:#fff;">Faltam <span id="monthsLeft">poucos</span> meses até ao prazo de 31 dez 2026.</strong></p>
 
-    <div class="lead-card" id="leadForm">
+    <form class="lead-card" id="leadForm" novalidate>
       <div class="field-row">
-        <div class="field"><label for="lNome">Nome</label><input type="text" id="lNome" placeholder="O seu nome"></div>
-        <div class="field"><label for="lEmpresa">Empresa</label><input type="text" id="lEmpresa" placeholder="Nome da empresa"></div>
+        <div class="field"><label for="lNome">Nome</label><input type="text" id="lNome" name="nome" autocomplete="name" maxlength="120" required placeholder="O seu nome" aria-describedby="lNomeError"><div class="field-error" id="lNomeError" aria-live="polite"></div></div>
+        <div class="field"><label for="lEmpresa">Empresa</label><input type="text" id="lEmpresa" name="empresa" autocomplete="organization" maxlength="120" required placeholder="Nome da empresa" aria-describedby="lEmpresaError"><div class="field-error" id="lEmpresaError" aria-live="polite"></div></div>
       </div>
       <div class="field-row">
-        <div class="field"><label for="lEmail">Email</label><input type="email" id="lEmail" placeholder="email@empresa.pt"></div>
-        <div class="field"><label for="lTel">Telefone <span class="hint" style="color:rgba(255,255,255,.5);">(opcional)</span></label><input type="tel" id="lTel" placeholder="9xx xxx xxx"></div>
+        <div class="field"><label for="lEmail">Email</label><input type="email" id="lEmail" name="email" autocomplete="email" maxlength="160" required placeholder="email@empresa.pt" aria-describedby="lEmailError"><div class="field-error" id="lEmailError" aria-live="polite"></div></div>
+        <div class="field"><label for="lTel">Telefone <span class="hint" style="color:rgba(255,255,255,.5);">(opcional)</span></label><input type="tel" id="lTel" name="telefone" autocomplete="tel" maxlength="30" placeholder="9xx xxx xxx" aria-describedby="lTelError"><div class="field-error" id="lTelError" aria-live="polite"></div></div>
       </div>
-      <button class="btn btn-primary btn-block" id="leadBtn">Quero a proposta detalhada</button>
-      <p class="lead-note">Os seus dados são usados apenas para a AiTiPro o contactar sobre esta proposta. Sem partilha com terceiros. Pode pedir a eliminação a qualquer momento.</p>
-    </div>
-    <div id="leadOk"></div>
+      <div class="field hp-field"><label for="lWebsite">Website</label><input type="text" id="lWebsite" name="website" tabindex="-1" autocomplete="off"></div>
+      <label class="check-field" for="lConsent"><input type="checkbox" id="lConsent" required> <span>Autorizo a AiTiPro a usar estes dados para me contactar sobre esta proposta FCT. Sem partilha com terceiros; posso pedir a eliminação a qualquer momento.</span></label>
+      <div class="form-message" id="leadErrors" aria-live="polite"></div>
+      <button type="submit" class="btn btn-primary btn-block" id="leadBtn">Quero a proposta detalhada</button>
+      <p class="lead-note">Recolhemos apenas os dados necessários para responder ao pedido e associar a estimativa calculada.</p>
+    </form>
+    <div id="leadOk" role="status" aria-live="polite" tabindex="-1"></div>
   </div>
 </section>
+</main>
 
 <!-- FOOTER -->
 <footer class="footer">
@@ -335,23 +451,67 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
     return m;
   }
 
-  function fmtEur(n){
-    return new Intl.NumberFormat('pt-PT',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+	  function fmtEur(n){
+	    return new Intl.NumberFormat('pt-PT',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+	  }
+
+  function field(id){ return document.getElementById(id); }
+  function setError(inputId, errorId, message){
+    var input = field(inputId);
+    var error = field(errorId);
+    if (!input || !error) return;
+    if (message){
+      input.setAttribute('aria-invalid','true');
+      error.textContent = message;
+    } else {
+      input.removeAttribute('aria-invalid');
+      error.textContent = '';
+    }
+  }
+  function showFormMessage(id, message){
+    var el = field(id);
+    if (!el) return;
+    el.textContent = message || '';
+    el.classList.toggle('is-visible', Boolean(message));
+  }
+  function focusFirst(id){
+    var el = field(id);
+    if (el && typeof el.focus === 'function') el.focus();
+  }
+  function emailValido(email){
+    return /^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(email);
   }
 
-  // --- Cálculo ---
-  function calcular(){
-    var setorKey = document.getElementById('setor').value;
-    var nTrab = parseInt(document.getElementById('nTrab').value,10);
-    var ano = parseInt(document.getElementById('anoConst').value,10);
-    var salManual = parseFloat(document.getElementById('salario').value);
+	  // --- Cálculo ---
+	  function calcular(){
+	    var setorKey = document.getElementById('setor').value;
+	    var nTrab = parseInt(document.getElementById('nTrab').value,10);
+	    var ano = parseInt(document.getElementById('anoConst').value,10);
+	    var salRaw = document.getElementById('salario').value.trim();
+	    var salManual = salRaw ? parseFloat(salRaw.replace(',','.')) : null;
+    var firstInvalid = null;
 
-    if (!setorKey){ alert('Escolha o setor de atividade.'); return; }
-    if (!nTrab || nTrab < 1){ alert('Indique o número de trabalhadores.'); return; }
-    if (!ano || ano < 1950 || ano > 2026){ alert('Indique um ano de constituição válido.'); return; }
+    setError('setor','setorError','');
+    setError('nTrab','nTrabError','');
+    setError('anoConst','anoConstError','');
+    setError('salario','salarioError','');
+    showFormMessage('calcErrors','');
 
-    var s = SETORES[setorKey];
-    var meses = mesesContribuicao(ano);
+	    if (!setorKey){ setError('setor','setorError','Escolha o setor de atividade.'); firstInvalid = firstInvalid || 'setor'; }
+	    if (!nTrab || nTrab < 1 || nTrab > 5000){ setError('nTrab','nTrabError','Indique um número entre 1 e 5000.'); firstInvalid = firstInvalid || 'nTrab'; }
+	    if (!ano || ano < 1950 || ano > 2026){ setError('anoConst','anoConstError','Indique um ano entre 1950 e 2026.'); firstInvalid = firstInvalid || 'anoConst'; }
+    if (salRaw && (!Number.isFinite(salManual) || salManual < 600 || salManual > 6000)){
+      setError('salario','salarioError','Use um valor entre 600 € e 6000 €, ou deixe em branco.');
+      firstInvalid = firstInvalid || 'salario';
+    }
+    if (firstInvalid){
+      showFormMessage('calcErrors','Corrija os campos assinalados para calcular a estimativa.');
+      focusFirst(firstInvalid);
+      return;
+    }
+
+	    var s = SETORES[setorKey];
+	    var meses = mesesContribuicao(ano);
 
     // salários por cenário: se o utilizador indicar um valor, ancora os 3 cenários nele (±12%)
     var salCons, salBase, salOtim;
@@ -382,12 +542,13 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
       "Período de contribuição usado: <code>" + mesesNota + "</code>. Setor: <code>" + s.nome + "</code>. " +
       (salManual && salManual >= 600 ? "Salário base: indicado por si (" + fmtEur(salManual) + ")." : "Salário base: média do setor.");
 
-    document.getElementById('resultCta').innerHTML =
-      "Com um saldo base estimado de <strong>" + fmtEur(perBase * nTrab) + "</strong>, a sua equipa pode fazer formação certificada em IA, automação e produtividade — usando dinheiro que já é da empresa. Veja os próximos passos abaixo, ou peça uma proposta detalhada à AiTiPro.";
+	    document.getElementById('resultCta').innerHTML =
+	      "Com um saldo base estimado de <strong>" + fmtEur(perBase * nTrab) + "</strong>, a sua equipa pode fazer formação certificada em IA, automação e produtividade — sujeita à validação do saldo real no portal oficial. Veja os próximos passos abaixo, ou peça uma proposta detalhada à AiTiPro.";
 
-    var r = document.getElementById('results');
-    r.style.display = 'block';
-    r.scrollIntoView({behavior:'smooth', block:'nearest'});
+	    var r = document.getElementById('results');
+	    r.style.display = 'block';
+	    r.scrollIntoView({behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'nearest'});
+    r.focus({preventScroll:true});
 
     // memoriza para pré-preencher o formulário de lead
     window.__fctEstimativa = {
@@ -398,7 +559,10 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
       meses: meses
     };
   }
-  document.getElementById('calcBtn').addEventListener('click', calcular);
+	  document.getElementById('calcForm').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    calcular();
+  });
 
   // --- Captura de lead: dual-mode (API Vercel -> fallback mailto) ---
   function buildResumo(d){
@@ -426,33 +590,46 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
     return linhas.join("\n");
   }
 
-  function showLeadOk(via){
-    document.getElementById('leadForm').style.display = 'none';
-    var ok = document.getElementById('leadOk');
-    ok.style.display = 'block';
-    ok.innerHTML = via === 'mailto'
-      ? "Abrimos o seu cliente de email com a mensagem pronta — basta carregar em enviar. Se não abriu, escreva para <strong>bilal.machraa@aitipro.com</strong>."
-      : "Recebido. A AiTiPro entra em contacto consigo em breve com a proposta detalhada. Obrigado!";
-  }
+	  function showLeadOk(via){
+	    document.getElementById('leadForm').style.display = 'none';
+	    var ok = document.getElementById('leadOk');
+	    ok.style.display = 'block';
+	    ok.innerHTML = via === 'mailto'
+	      ? "Abrimos o seu cliente de email com a mensagem pronta — basta carregar em enviar. Se não abriu, escreva para <strong>bilal.machraa@aitipro.com</strong>."
+	      : "Recebido. A AiTiPro entra em contacto consigo em breve com a proposta detalhada e os próximos passos para validar o saldo real.";
+    ok.focus({preventScroll:true});
+	  }
 
-  function submitLead(){
-    var d = {
-      nome: document.getElementById('lNome').value.trim(),
-      empresa: document.getElementById('lEmpresa').value.trim(),
-      email: document.getElementById('lEmail').value.trim(),
-      telefone: document.getElementById('lTel').value.trim(),
-      estimativa: window.__fctEstimativa || null
-    };
-    if (!d.nome || !d.empresa || !d.email){
-      alert('Preencha pelo menos nome, empresa e email.');
+	  function submitLead(){
+	    var d = {
+	      nome: document.getElementById('lNome').value.trim(),
+	      empresa: document.getElementById('lEmpresa').value.trim(),
+	      email: document.getElementById('lEmail').value.trim(),
+	      telefone: document.getElementById('lTel').value.trim(),
+      website: document.getElementById('lWebsite').value.trim(),
+      consent: document.getElementById('lConsent').checked,
+	      estimativa: window.__fctEstimativa || null
+	    };
+    var firstInvalid = null;
+    setError('lNome','lNomeError','');
+    setError('lEmpresa','lEmpresaError','');
+    setError('lEmail','lEmailError','');
+    setError('lTel','lTelError','');
+    showFormMessage('leadErrors','');
+
+    if (!d.nome){ setError('lNome','lNomeError','Indique o seu nome.'); firstInvalid = firstInvalid || 'lNome'; }
+    if (!d.empresa){ setError('lEmpresa','lEmpresaError','Indique o nome da empresa.'); firstInvalid = firstInvalid || 'lEmpresa'; }
+    if (!d.email || !emailValido(d.email)){ setError('lEmail','lEmailError','Indique um email profissional válido.'); firstInvalid = firstInvalid || 'lEmail'; }
+    if (d.telefone && !/^[+()\d\s.-]{6,30}$/.test(d.telefone)){ setError('lTel','lTelError','Confirme o formato do telefone.'); firstInvalid = firstInvalid || 'lTel'; }
+    if (!d.consent){ showFormMessage('leadErrors','Confirme a autorização de contacto para enviar o pedido.'); firstInvalid = firstInvalid || 'lConsent'; }
+    if (firstInvalid){
+      focusFirst(firstInvalid);
       return;
     }
-    if (!/^\S+@\S+\.\S+$/.test(d.email)){
-      alert('Verifique o email indicado.');
-      return;
-    }
-    var btn = document.getElementById('leadBtn');
-    btn.disabled = true; btn.textContent = 'A enviar…';
+    if (d.website) return;
+
+	    var btn = document.getElementById('leadBtn');
+	    btn.disabled = true; btn.textContent = 'A enviar…';
 
     function fallbackMailto(){
       var assunto = encodeURIComponent('[Calculadora FCT] Contacto: ' + d.empresa);
@@ -475,7 +652,10 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
       btn.disabled = false; btn.textContent = 'Quero a proposta detalhada';
     });
   }
-  document.getElementById('leadBtn').addEventListener('click', submitLead);
+	  document.getElementById('leadForm').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    submitLead();
+  });
 })();
 </script>
 </body>
