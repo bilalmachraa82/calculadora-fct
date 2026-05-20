@@ -590,13 +590,23 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
     return linhas.join("\n");
   }
 
+  // Endereço de contacto montado em runtime para reduzir email-harvesting trivial do source.
+  var ALERT_EMAIL = ['bilal.machraa','aitipro.com'].join('@');
+
 	  function showLeadOk(via){
 	    document.getElementById('leadForm').style.display = 'none';
 	    var ok = document.getElementById('leadOk');
 	    ok.style.display = 'block';
-	    ok.innerHTML = via === 'mailto'
-	      ? "Abrimos o seu cliente de email com a mensagem pronta — basta carregar em enviar. Se não abriu, escreva para <strong>bilal.machraa@aitipro.com</strong>."
-	      : "Recebido. A AiTiPro entra em contacto consigo em breve com a proposta detalhada e os próximos passos para validar o saldo real.";
+    var head = via === 'mailto'
+      ? "Abrimos o seu cliente de email com a mensagem pronta — basta carregar em enviar. Se não abriu, escreva para <strong>" + ALERT_EMAIL + "</strong>."
+      : "Recebido. A AiTiPro responde com a proposta detalhada em 1 dia útil.";
+    var next =
+      "<p style='margin-top:.9rem;font-weight:600;color:#0a5c3a;'>Enquanto espera, pode adiantar dois passos:</p>" +
+      "<div style='display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.55rem;'>" +
+      "<a class='btn btn-primary btn-small' href='https://www.fundoscompensacao.pt' target='_blank' rel='noopener noreferrer'>Confirmar o saldo oficial</a>" +
+      "<a class='btn btn-outline btn-small' href='mailto:" + ALERT_EMAIL + "?subject=" + encodeURIComponent('[Calculadora FCT] Marcar reunião') + "'>Marcar 20 min comigo</a>" +
+      "</div>";
+    ok.innerHTML = head + next;
     ok.focus({preventScroll:true});
 	  }
 
@@ -634,7 +644,7 @@ h1,h2,h3,h4{color:var(--color-text-heading);letter-spacing:-0.02em;line-height:1
     function fallbackMailto(){
       var assunto = encodeURIComponent('[Calculadora FCT] Contacto: ' + d.empresa);
       var corpo = encodeURIComponent(buildResumo(d));
-      window.location.href = 'mailto:bilal.machraa@aitipro.com?subject=' + assunto + '&body=' + corpo;
+      window.location.href = 'mailto:' + ALERT_EMAIL + '?subject=' + assunto + '&body=' + corpo;
       showLeadOk('mailto');
     }
 
