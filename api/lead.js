@@ -11,6 +11,7 @@
 //   RESEND_API_KEY        (opcional)     chave Resend para notificação
 //   LEAD_ALERT_EMAIL      (opcional)     destinatário(s), default bilal.machraa@aitipro.com
 //   LEAD_ALERT_FROM       (opcional)     remetente Resend, default onboarding@resend.dev
+//   LEAD_ALLOWED_ORIGINS  (opcional)     lista CORS separada por vírgulas
 
 import { neon } from '@neondatabase/serverless';
 import { Resend } from 'resend';
@@ -18,10 +19,23 @@ import { Resend } from 'resend';
 const ALERT_TO = (process.env.LEAD_ALERT_EMAIL || 'bilal.machraa@aitipro.com')
   .split(',').map(s => s.trim());
 const ALERT_FROM = process.env.LEAD_ALERT_FROM || 'AiTiPro Calculadora <onboarding@resend.dev>';
+const MAX_BODY_BYTES = 10_000;
+const ALLOWED_ORIGINS = (process.env.LEAD_ALLOWED_ORIGINS ||
+  'https://calculadora-fct.aitipro.com,http://localhost:3000,http://localhost:3001,http://localhost:5173,http://127.0.0.1:3000')
+  .split(',').map(s => s.trim()).filter(Boolean);
 
 function esc(s) {
   return String(s == null ? '' : s)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function cleanText(v, max) {
+  return String(v == null ? '' : v)
+    .replace(/[\u0000-\u001f\u007f]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, max);
 }
 
 function fmtEur(n) {
@@ -34,6 +48,21 @@ function clampInt(v, min, max) {
   if (!Number.isFinite(n)) return null;
   if (n < min || n > max) return null;
   return n;
+}
+
+function originAllowed(req) {
+  const origin = req.headers.origin;
+  return !origin || ALLOWED_ORIGINS.includes(origin);
+}
+
+function setResponseHeaders(req, res) {
+  res.setHeader('Cache-Control', 'no-store');
+  res.setHeader('Vary', 'Origin');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (originAllowed(req) && req.headers.origin) {
+    res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  }
 }
 
 function buildEmailHtml(d, leadId) {
@@ -67,8 +96,16 @@ function buildEmailHtml(d, leadId) {
 }
 
 export default async function handler(req, res) {
-  if (req.method === 'OPTIONS') { res.status(200).end(); return; }
+  setResponseHeaders(req, res);
+
+  if (req.method === 'OPTIONS') {
+    return res.status(originAllowed(req) ? 204 : 403).end();
+  }
+  if (!originAllowed(req)) return res.status(403).json({ error: 'Origin not allowed.' });
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed.' });
+
+  const contentLength = Number(req.headers['content-length'] || 0);
+  if (contentLength > MAX_BODY_BYTES) return res.status(413).json({ error: 'Payload too large.' });
 
   const databaseUrl = process.env.DATABASE_URL;
   if (!databaseUrl) {
@@ -78,28 +115,35 @@ export default async function handler(req, res) {
 
   let body = req.body;
   if (typeof body === 'string') {
+    if (Buffer.byteLength(body, 'utf8') > MAX_BODY_BYTES) return res.status(413).json({ error: 'Payload too large.' });
     try { body = JSON.parse(body); } catch { return res.status(400).json({ error: 'Invalid JSON.' }); }
   }
   if (!body || typeof body !== 'object') return res.status(400).json({ error: 'Body required.' });
 
-  const nome     = String(body.nome     || '').trim().slice(0, 200);
-  const empresa  = String(body.empresa  || '').trim().slice(0, 200);
-  const email    = String(body.email    || '').trim().slice(0, 200);
-  const telefone = String(body.telefone || '').trim().slice(0, 60) || null;
+  const honeypot = cleanText(body.website || body.empresa_site, 200);
+  if (honeypot) return res.status(204).end();
+
+  const consent = body.consent === true || body.consent === 'true' || body.consent === '1';
+  const nome     = cleanText(body.nome, 200);
+  const empresa  = cleanText(body.empresa, 200);
+  const email    = cleanText(body.email, 200).toLowerCase();
+  const telefone = cleanText(body.telefone, 60) || null;
   const estimativa = (body.estimativa && typeof body.estimativa === 'object') ? body.estimativa : null;
 
   if (!nome || !empresa || !email) return res.status(400).json({ error: 'nome, empresa e email são obrigatórios.' });
-  if (!/^\S+@\S+\.\S+$/.test(email)) return res.status(400).json({ error: 'Email inválido.' });
+  if (!/^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(email)) return res.status(400).json({ error: 'Email inválido.' });
+  if (telefone && !/^[+()\d\s.-]{6,30}$/.test(telefone)) return res.status(400).json({ error: 'Telefone inválido.' });
+  if (!consent) return res.status(400).json({ error: 'Consentimento obrigatório.' });
 
-  const setor      = estimativa ? (String(estimativa.setor || '').slice(0, 100) || null) : null;
+  const setor      = estimativa ? (cleanText(estimativa.setor, 100) || null) : null;
   const nTrab      = estimativa ? clampInt(estimativa.nTrab, 1, 100000) : null;
   const anoConst   = estimativa ? clampInt(estimativa.anoConst, 1900, 2030) : null;
   const saldoBase  = estimativa ? clampInt(estimativa.saldoBase, 0, 100000000) : null;
   const saldoCons  = estimativa ? clampInt(estimativa.saldoCons, 0, 100000000) : null;
   const saldoOtim  = estimativa ? clampInt(estimativa.saldoOtim, 0, 100000000) : null;
   const meses      = estimativa ? clampInt(estimativa.meses, 0, 200) : null;
-  const userAgent  = (req.headers['user-agent']  || '').slice(0, 500) || null;
-  const referer    = (req.headers['referer']     || '').slice(0, 500) || null;
+  const userAgent  = cleanText(req.headers['user-agent'], 500) || null;
+  const referer    = cleanText(req.headers['referer'], 500) || null;
 
   let leadId;
   try {
@@ -137,5 +181,5 @@ export default async function handler(req, res) {
     }
   }
 
-  return res.status(200).json({ ok: true, id: leadId, email: emailStatus });
+  return res.status(200).json({ ok: true });
 }

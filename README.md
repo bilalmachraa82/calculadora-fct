@@ -89,6 +89,7 @@ Definidas no Vercel (Project → Settings → Environment Variables). **Nunca** 
 | `RESEND_API_KEY` | não | Notificação por email a cada lead |
 | `LEAD_ALERT_EMAIL` | não | Destinatário(s), default `bilal.machraa@aitipro.com` |
 | `LEAD_ALERT_FROM` | não | Remetente Resend, default `onboarding@resend.dev` |
+| `LEAD_ALLOWED_ORIGINS` | não | Lista CORS separada por vírgulas; default inclui domínio de produção e localhost |
 
 Para desenvolvimento local, criar `.env.local` (já no `.gitignore`) com as mesmas chaves.
 
