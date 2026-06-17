@@ -1,13 +1,15 @@
 // POST /api/lead
 // Recebe um contacto da Calculadora FCT pública.
 // 1. Grava na tabela Neon `leads_fct_calc` (projecto: cool-bird-69912607, db: neondb).
-// 2. Best-effort: envia notificação por email ao Bilal via Resend.
+// 2. Best-effort: cria/actualiza o contacto no HubSpot CRM (upsert por email).
+// 3. Best-effort: envia notificação por email ao Bilal via Resend.
 // Se DATABASE_URL não estiver definida, devolve 503 e o front-end cai no
-// fallback mailto:. Se RESEND_API_KEY não estiver definida, grava na mesma e
-// pula o email (a app continua funcional).
+// fallback mailto:. HubSpot e Resend são opcionais — se as chaves não estiverem
+// definidas, são saltados sem falhar o pedido (a app continua funcional).
 //
 // Env vars (no Vercel):
 //   DATABASE_URL          (obrigatória)  postgres connection string da Neon
+//   HUBSPOT_TOKEN         (opcional)     Private App token HubSpot (scope crm.objects.contacts.write)
 //   RESEND_API_KEY        (opcional)     chave Resend para notificação
 //   LEAD_ALERT_EMAIL      (opcional)     destinatário(s), default bilal.machraa@aitipro.com
 //   LEAD_ALERT_FROM       (opcional)     remetente Resend, default onboarding@resend.dev
@@ -48,6 +50,52 @@ function clampInt(v, min, max) {
   if (!Number.isFinite(n)) return null;
   if (n < min || n > max) return null;
   return n;
+}
+
+// Cria/actualiza o contacto no HubSpot CRM. Idempotente: faz upsert por email,
+// por isso re-submissões do mesmo email actualizam o contacto em vez de duplicar.
+// Best-effort — qualquer falha é registada mas NÃO bloqueia a captura do lead.
+async function pushToHubspot(d) {
+  const token = process.env.HUBSPOT_TOKEN;
+  if (!token) return 'skipped';
+
+  const e = (d.estimativa && typeof d.estimativa === 'object') ? d.estimativa : null;
+  const partes = String(d.nome || '').split(' ').filter(Boolean);
+  const firstname = partes.shift() || String(d.nome || '');
+  const lastname = partes.join(' ');
+
+  const resumo = e
+    ? `Estimativa FCT (calculadora): base ${fmtEur(e.saldoBase)} · conservador ${fmtEur(e.saldoCons)} · otimista ${fmtEur(e.saldoOtim)}. ` +
+      `Setor: ${e.setor || '—'} · Trabalhadores: ${e.nTrab ?? '—'} · Ano constituição: ${e.anoConst ?? '—'}.`
+    : 'Contacto da Calculadora FCT (sem estimativa calculada antes de enviar).';
+
+  const properties = {
+    email: d.email,
+    firstname,
+    company: d.empresa,
+    lifecyclestage: 'lead',
+    hs_lead_status: 'NEW',
+    message: resumo,
+  };
+  if (lastname) properties.lastname = lastname;
+  if (d.telefone) properties.phone = d.telefone;
+
+  const payload = { inputs: [{ idProperty: 'email', id: d.email, properties }] };
+
+  try {
+    const r = await fetch('https://api.hubapi.com/crm/v3/objects/contacts/batch/upsert', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (r.ok) return 'upserted';
+    const detalhe = await r.text().catch(() => '');
+    console.error('HubSpot upsert failed:', r.status, detalhe.slice(0, 300));
+    return `failed:${r.status}`;
+  } catch (err) {
+    console.error('HubSpot error:', err);
+    return `failed:${err.message || 'unknown'}`;
+  }
 }
 
 function originAllowed(req) {
@@ -160,6 +208,15 @@ export default async function handler(req, res) {
   } catch (err) {
     console.error('Neon insert error:', err);
     return res.status(500).json({ error: 'Database error.' });
+  }
+
+  // HubSpot CRM best-effort — upsert do contacto; não falha o request se falhar.
+  let hubspotStatus = 'skipped';
+  try {
+    hubspotStatus = await pushToHubspot({ nome, empresa, email, telefone, estimativa });
+  } catch (err) {
+    console.error('HubSpot push error:', err);
+    hubspotStatus = `failed:${err.message || 'unknown'}`;
   }
 
   // Notificação Resend best-effort — não falha o request se o email falhar.
