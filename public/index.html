@@ -6,6 +6,19 @@
 <meta name="description" content="Estime o saldo FCT da sua empresa em três cenários e peça uma proposta de formação certificada DGERT para usar o saldo até 31 de dezembro de 2026.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#080f18">
+<script>
+/* Resolve o tema ANTES do primeiro paint (evita flash). Ordem: escolha guardada
+   > preferência do SO > escuro por defeito. */
+(function(){
+  try{
+    var t = localStorage.getItem('aitipro-theme');
+    if(!t){ t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark'; }
+    document.documentElement.setAttribute('data-theme', t);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if(m) m.setAttribute('content', t === 'light' ? '#f4f7fb' : '#080f18');
+  }catch(e){ document.documentElement.setAttribute('data-theme','dark'); }
+})();
+</script>
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="canonical" href="https://calculadora-fct.aitipro.com/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d3b38'/%3E%3Cg transform='translate(18 12) skewX(-12)'%3E%3Crect width='8' height='40' rx='2' fill='%232ae5a0'/%3E%3Crect x='10' width='8' height='40' rx='2' fill='%231bc88a'/%3E%3Crect x='20' width='8' height='40' rx='2' fill='%23ffffff'/%3E%3C/g%3E%3C/svg%3E">
@@ -111,7 +124,7 @@
   html {
     font-size: 16px;
     scroll-behavior: smooth;
-    color-scheme: dark;
+    color-scheme: var(--color-scheme);
   }
   body {
     font-family: var(--font-body);
@@ -120,9 +133,10 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    transition: background var(--transition-base), color var(--transition-base);
   }
   a {
-    color: var(--color-primary);
+    color: var(--color-primary-text);
     text-decoration: none;
     transition: color var(--transition-fast);
   }
@@ -131,7 +145,7 @@
   }
   h1, h2, h3, h4 {
     font-family: var(--font-heading);
-    color: #ffffff;
+    color: var(--color-text-heading);
     font-weight: 700;
     line-height: 1.2;
     letter-spacing: -0.02em;
@@ -214,6 +228,89 @@
     /* Transições */
     --transition-fast:      0.15s cubic-bezier(0.16, 1, 0.3, 1);
     --transition-base:      0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* === Tokens adicionais para suporte de tema (dark = default) === */
+    --color-scheme:         dark;
+    --color-primary-text:   #2ae5a0;   /* teal usado como TEXTO (link/código/valores) */
+    --color-surface-alt:    rgba(255, 255, 255, 0.015);
+    --color-border-hover:   rgba(255, 255, 255, 0.12);
+    --color-border-input:   rgba(255, 255, 255, 0.28); /* borda de input >=3:1 (WCAG 1.4.11) */
+    --color-error-text:     #fecaca;
+    --bg-nav:               rgba(7, 12, 20, 0.8);
+    --bg-footer:            #04080e;
+    --input-bg:             rgba(255, 255, 255, 0.03);
+    --input-bg-focus:       rgba(255, 255, 255, 0.06);
+    --badge-orange-bg:      rgba(202, 116, 45, 0.1);
+    --badge-orange-border:  rgba(202, 116, 45, 0.3);
+    --badge-orange-text:    #f3c89a;
+    --alert-orange-text:    #fbd38d;
+    --alert-success-text:   #a7f3d0;
+    --h2-grad-from:         #ffffff;
+    --h2-grad-to:           #a1a1aa;
+    --shadow-card-hover:    0 12px 30px rgba(0, 0, 0, 0.4);
+    --glow-aurora-soft:     rgba(42, 229, 160, 0.1);
+    --glow-aurora-faint:    rgba(42, 229, 160, 0.05);
+    --btn-primary-ink:      #050a10;
+  }
+
+  /* ===========================================================
+     TEMA CLARO — override token-driven. Mantém a marca AiTiPro
+     (teal #2ae5a0 nos fills/CTAs; teal escurecido #0a7a50 no texto
+     para passar WCAG AA sobre fundo claro).
+     =========================================================== */
+  html[data-theme="light"] {
+    --color-scheme:         light;
+    --color-primary-dark:   #15a877;
+    --color-primary-text:   #0a7a50;
+    --color-primary-xlight: #e6fbf3;
+    --color-dark-navy:      #cdd7e3;
+
+    --color-surface:        #ffffff;
+    --color-surface-card:   #ffffff;
+    --color-surface-alt:    #eef2f7;
+    --color-border:         rgba(15, 23, 42, 0.10);
+    --color-border-light:   rgba(15, 23, 42, 0.06);
+    --color-border-hover:   rgba(15, 23, 42, 0.16);
+    --color-border-input:   rgba(15, 23, 42, 0.28);
+
+    --color-text-heading:   #0b1220;
+    --color-text-body:      #1f2937;
+    --color-text-muted:     #52606d;
+
+    --color-orange:         #b45f17;
+    --color-success:        #0a7a50;
+    --color-warning:        #b45309;
+    --color-error:          #dc2626;
+    --color-error-text:     #b91c1c;
+
+    --bg-page:              #f4f7fb;
+    --bg-surface-glass:     rgba(255, 255, 255, 0.72);
+    --bg-nav:               rgba(244, 247, 251, 0.85);
+    --bg-footer:            #eef2f7;
+    --input-bg:             #ffffff;
+    --input-bg-focus:       #ffffff;
+    --border-glass:         rgba(15, 23, 42, 0.10);
+    --border-glass-focus:   rgba(42, 229, 160, 0.55);
+
+    --text-primary:         #0f172a;
+    --text-secondary:       #475569;
+    --text-muted:           #64748b;
+
+    --badge-orange-bg:      rgba(202, 116, 45, 0.12);
+    --badge-orange-border:  rgba(202, 116, 45, 0.40);
+    --badge-orange-text:    #9a4f10;
+    --alert-orange-text:    #8a4a12;
+    --alert-success-text:   #086c47;
+    --h2-grad-from:         #0b1220;
+    --h2-grad-to:           #3f4a5a;
+
+    --shadow-glow:          0 0 20px rgba(42, 229, 160, 0.22);
+    --shadow-glow-strong:   0 6px 24px rgba(42, 229, 160, 0.28);
+    --shadow-glass:         0 8px 28px 0 rgba(15, 23, 42, 0.10);
+    --shadow-card-hover:    0 12px 30px rgba(15, 23, 42, 0.12);
+    --glow-aurora-soft:     rgba(42, 229, 160, 0.10);
+    --glow-aurora-faint:    rgba(42, 229, 160, 0.07);
+    --btn-primary-ink:      #04130d;
   }
 }
 
@@ -228,7 +325,7 @@
     position: relative;
   }
   .section.alt {
-    background: rgba(255, 255, 255, 0.015);
+    background: var(--color-surface-alt);
     border-block: 1px solid var(--color-border);
   }
   
@@ -247,9 +344,9 @@
     position: absolute;
     width: 350px;
     height: 350px;
-    background: radial-gradient(circle, rgba(42, 229, 160, 0.1) 0%, transparent 70%);
-    top: -150px;
-    right: -100px;
+    background: radial-gradient(circle, var(--glow-aurora-soft) 0%, transparent 70%);
+    top: 40px;
+    right: -80px;
     z-index: -1;
     pointer-events: none;
   }
@@ -285,7 +382,7 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--color-border);
-    background: rgba(7, 12, 20, 0.8);
+    background: var(--bg-nav);
     backdrop-filter: blur(10px);
     position: sticky;
     top: 0;
@@ -299,15 +396,52 @@
     height: 32px;
     width: auto;
   }
+  /* Em tema claro troca o logo "negativa" (branco) pelo principal (texto escuro),
+     senão o logo desaparece sobre o header/footer claros. */
+  html[data-theme="light"] .brand-logo {
+    content: url("aitipro_logo_principal.png");
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  /* THEME TOGGLE */
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border-input);
+    color: var(--text-primary);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color var(--transition-base), background var(--transition-base), color var(--transition-base);
+  }
+  .theme-toggle:hover {
+    border-color: var(--border-glass-focus);
+    color: var(--color-primary);
+  }
+  .theme-toggle:focus-visible {
+    outline: 3px solid rgba(42, 229, 160, 0.6);
+    outline-offset: 3px;
+  }
+  .theme-toggle .icon-sun { display: block; }
+  .theme-toggle .icon-moon { display: none; }
+  html[data-theme="light"] .theme-toggle .icon-sun { display: none; }
+  html[data-theme="light"] .theme-toggle .icon-moon { display: block; }
   
   /* URGENCY BADGE */
   .urgency-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(202, 116, 45, 0.1);
-    border: 1px solid rgba(202, 116, 45, 0.3);
-    color: #f3c89a;
+    background: var(--badge-orange-bg);
+    border: 1px solid var(--badge-orange-border);
+    color: var(--badge-orange-text);
     padding: 0.5rem 1.25rem;
     border-radius: var(--radius-full);
     font-size: 0.85rem;
@@ -354,8 +488,9 @@
   .section h2 {
     font-size: clamp(1.8rem, 1.2rem + 2dvw, 2.5rem);
     margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+    background: linear-gradient(135deg, var(--h2-grad-from) 0%, var(--h2-grad-to) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   .section .lead {
@@ -383,7 +518,7 @@
   }
   .btn-primary {
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-    color: #050a10;
+    color: var(--btn-primary-ink);
   }
   .btn-primary:hover:not(:disabled) {
     transform: translateY(-2px);
@@ -435,12 +570,12 @@
   .field input, .field select {
     width: 100%;
     padding: 0.85rem 1rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--color-border);
+    background: var(--input-bg);
+    border: 1px solid var(--color-border-input);
     border-radius: var(--radius-md);
     font-family: inherit;
     font-size: 0.95rem;
-    color: #ffffff;
+    color: var(--color-text-heading);
     transition: border-color var(--transition-base), box-shadow var(--transition-base), background var(--transition-base);
   }
   
@@ -449,7 +584,7 @@
     outline: none;
     border-color: var(--color-primary);
     box-shadow: var(--shadow-glow);
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--input-bg-focus);
   }
 
   /* Seletor :has() para estilização do container e labels */
@@ -489,7 +624,7 @@
     transition: border-color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
   }
   .glass-card:hover {
-    border-color: rgba(255, 255, 255, 0.12);
+    border-color: var(--color-border-hover);
   }
 
   /* CALCULADORA CARD */
@@ -503,7 +638,7 @@
     position: absolute;
     width: 200px;
     height: 200px;
-    background: radial-gradient(circle, rgba(42, 229, 160, 0.05) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--glow-aurora-faint) 0%, transparent 70%);
     bottom: -100px;
     right: -100px;
     pointer-events: none;
@@ -520,12 +655,12 @@
     padding: 2rem;
     border-radius: var(--radius-lg);
     border: 1px solid var(--color-border);
-    background: rgba(255, 255, 255, 0.015);
+    background: var(--color-surface-alt);
   }
   .info-card .big {
     font-size: clamp(2rem, 1.5rem + 1.5dvw, 2.8rem);
     font-weight: 800;
-    color: var(--color-primary);
+    color: var(--color-primary-text);
     font-family: var(--font-heading);
     letter-spacing: -0.04em;
     display: block;
@@ -536,7 +671,7 @@
     font-size: 1.1rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    color: #ffffff;
+    color: var(--color-text-heading);
   }
   .info-card p {
     font-size: 0.9rem;
@@ -590,7 +725,7 @@
     font-size: 1.25rem;
     font-weight: 700;
     margin-bottom: 0.6rem;
-    color: #ffffff;
+    color: var(--color-text-heading);
   }
   .bento-card p {
     font-size: 0.92rem;
@@ -600,7 +735,7 @@
   
   .bento-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-card-hover);
     border-color: rgba(42, 229, 160, 0.2);
   }
   
@@ -658,7 +793,7 @@
     transition: background var(--transition-base), color var(--transition-base), transform var(--transition-base);
   }
   .timeline-content {
-    background: rgba(255, 255, 255, 0.01);
+    background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: 1.25rem 1.5rem;
@@ -667,7 +802,7 @@
   .timeline-content h4 {
     font-size: 1.05rem;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--color-text-heading);
     margin-bottom: 0.25rem;
   }
   .timeline-content p {
@@ -686,7 +821,45 @@
   }
   .timeline-item:hover .timeline-content {
     border-color: rgba(42, 229, 160, 0.3);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--color-surface-card);
+  }
+
+  /* HERO STATS */
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .hero-stats > div + div {
+    border-left: 1px solid var(--color-border);
+    padding-left: 2rem;
+  }
+  .hero-stat-num {
+    display: block;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--color-text-heading);
+    font-family: var(--font-heading);
+    line-height: 1;
+  }
+  .hero-stat-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  @media (max-width: 480px) {
+    .hero-stats {
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .hero-stats > div + div {
+      border-left: 0;
+      padding-left: 0;
+      border-top: 1px solid var(--color-border);
+      padding-top: 1.25rem;
+    }
+    .hero-stat-num { font-size: 1.9rem; }
   }
 
   /* FAQ GRID */
@@ -696,8 +869,12 @@
     gap: 1.5rem;
     margin-top: 2rem;
   }
+  /* 5.º item (ímpar final) ocupa a largura toda para não ficar órfão */
+  .faq-item:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
   .faq-item {
-    background: rgba(255, 255, 255, 0.01);
+    background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: 1.5rem;
@@ -705,7 +882,7 @@
   }
   .faq-item h3 {
     font-size: 1.05rem;
-    color: #ffffff;
+    color: var(--color-text-heading);
     margin-bottom: 0.5rem;
     font-weight: 600;
   }
@@ -730,14 +907,14 @@
     margin-bottom: 1.25rem;
   }
   .alert-orange {
-    background: rgba(202, 116, 45, 0.1);
+    background: var(--badge-orange-bg);
     border-color: var(--color-orange);
-    color: #fbd38d;
+    color: var(--alert-orange-text);
   }
   .alert-success {
     background: rgba(42, 229, 160, 0.1);
     border-color: var(--color-primary-dark);
-    color: #a7f3d0;
+    color: var(--alert-success-text);
   }
   .form-message {
     display: none;
@@ -746,7 +923,7 @@
     border-radius: var(--radius-md);
     background: rgba(239, 68, 68, 0.1);
     border: 1px solid rgba(239, 68, 68, 0.3);
-    color: #fecaca;
+    color: var(--color-error-text);
     font-size: 0.86rem;
     font-weight: 600;
   }
@@ -791,7 +968,7 @@
     border-radius: var(--radius-md);
     padding: 1.5rem 1rem;
     text-align: center;
-    background: rgba(255, 255, 255, 0.015);
+    background: var(--color-surface-alt);
     transition: transform var(--transition-base), border-color var(--transition-base);
   }
   .scenario.base {
@@ -808,17 +985,17 @@
     margin-bottom: 0.5rem;
   }
   .scenario.base .s-label {
-    color: var(--color-primary);
+    color: var(--color-primary-text);
   }
   .scenario .s-value {
     font-size: clamp(1.4rem, 1rem + 1dvw, 2rem);
     font-weight: 800;
-    color: #ffffff;
+    color: var(--color-text-heading);
     letter-spacing: -0.03em;
     line-height: 1.1;
   }
   .scenario.base .s-value {
-    color: var(--color-primary);
+    color: var(--color-primary-text);
     text-shadow: 0 0 10px rgba(42, 229, 160, 0.1);
   }
   .scenario .s-per {
@@ -829,7 +1006,7 @@
   .calc-detail {
     font-size: 0.85rem;
     color: var(--text-secondary);
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: 1rem 1.25rem;
@@ -838,8 +1015,8 @@
   .calc-detail code {
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 0.82rem;
-    color: var(--color-primary);
-    background: rgba(42, 229, 160, 0.05);
+    color: var(--color-primary-text);
+    background: rgba(42, 229, 160, 0.12);
     padding: 0.15rem 0.35rem;
     border-radius: var(--radius-sm);
   }
@@ -858,7 +1035,7 @@
 
   /* LEAD FORM CARD */
   .lead-card {
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     padding: 2.2rem;
@@ -867,23 +1044,23 @@
     backdrop-filter: blur(10px);
   }
   .lead-card .field label {
-    color: #ffffff;
+    color: var(--color-text-heading);
   }
   .lead-card .field input {
-    background: rgba(255, 255, 255, 0.03);
-    border-color: var(--color-border);
+    background: var(--input-bg);
+    border-color: var(--color-border-input);
   }
   .lead-card .field input:focus-visible {
     border-color: var(--color-primary);
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--input-bg-focus);
   }
   .lead-card .field-error {
-    color: #fecaca;
+    color: var(--color-error-text);
   }
   .lead-card .form-message {
     background: rgba(239, 68, 68, 0.15);
     border-color: rgba(239, 68, 68, 0.4);
-    color: #fecaca;
+    color: var(--color-error-text);
   }
   .lead-note {
     font-size: 0.75rem;
@@ -919,7 +1096,7 @@
     display: none;
     background: rgba(42, 229, 160, 0.06);
     border: 1px solid rgba(42, 229, 160, 0.25);
-    color: #ffffff;
+    color: var(--color-text-heading);
     border-radius: var(--radius-lg);
     padding: 2.2rem;
     font-size: 0.95rem;
@@ -931,7 +1108,7 @@
 
   /* FOOTER */
   .footer {
-    background: #04080e;
+    background: var(--bg-footer);
     color: var(--text-secondary);
     padding: 4rem 0 3rem;
     font-size: 0.8rem;
@@ -948,7 +1125,7 @@
     color: var(--text-secondary);
   }
   .footer-legal strong {
-    color: #ffffff;
+    color: var(--color-text-heading);
   }
   
   @media (max-width: 640px) {
@@ -1021,7 +1198,13 @@
     <a href="https://aitipro.com/" class="brand-logo-container" aria-label="AiTiPro Website">
       <img src="aitipro_logo_negativa.png" alt="AiTiPro" class="brand-logo">
     </a>
-    <div class="urgency-badge" id="urgencyBadge">Prazo de resgate: 31 de dezembro de 2026</div>
+    <div class="nav-right">
+      <div class="urgency-badge" id="urgencyBadge">Prazo de resgate: 31 de dezembro de 2026</div>
+      <button type="button" id="themeToggle" class="theme-toggle" aria-label="Alternar tema claro/escuro" aria-pressed="false" title="Alternar tema claro/escuro">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -1029,23 +1212,23 @@
   <!-- HERO + CALCULADORA (Layout de duas colunas) -->
   <section class="section glow-container">
     <div class="wrap">
-      <div class="grid-2" style="align-items: center;">
+      <div class="grid-2" style="align-items: start;">
         <div>
-          <h1>Quanto tem a sua empresa <span style="color:var(--color-primary);">esquecido no FCT?</span></h1>
+          <h1>Quanto tem a sua empresa <span style="color:var(--color-primary-text);">esquecido no FCT?</span></h1>
           <p class="lead" style="margin-top: 1rem; font-size: 1.15rem; line-height: 1.7;">
             O Fundo de Compensação do Trabalho guarda contribuições que as empresas portuguesas fizeram entre 2013 e 2023. O saldo pode ser mobilizado a 100% para formação certificada da sua equipa até ao fim de 2026.
           </p>
           <p class="lead" style="font-size: 1.05rem;">
             Caso não seja resgatado até <strong>31 de dezembro de 2026</strong>, este valor será definitivamente transferido para o Estado português (Fundo de Garantia). Não perca o seu saldo.
           </p>
-          <div style="display: flex; gap: 2rem; margin-top: 2rem;">
+          <div class="hero-stats">
             <div>
-              <span style="display:block; font-size: 2.2rem; font-weight: 800; color: #ffffff; font-family: var(--font-heading); line-height: 1;">~517 M€</span>
-              <span style="font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Por resgatar a nível nacional</span>
+              <span class="hero-stat-num">~517 M€</span>
+              <span class="hero-stat-label">Por resgatar a nível nacional</span>
             </div>
-            <div style="border-left: 1px solid var(--color-border); padding-left: 2rem;">
-              <span style="display:block; font-size: 2.2rem; font-weight: 800; color: #ffffff; font-family: var(--font-heading); line-height: 1;" id="monthsBadge">—</span>
-              <span style="font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Meses restantes para o resgate</span>
+            <div>
+              <span class="hero-stat-num" id="monthsBadge">—</span>
+              <span class="hero-stat-label">Meses restantes para o resgate</span>
             </div>
           </div>
         </div>
@@ -1053,7 +1236,7 @@
         <div>
           <!-- Calculadora Form -->
           <form class="glass-card calc-card" id="calcForm" novalidate>
-            <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem; background: none; -webkit-text-fill-color: initial; color: #ffffff;">Calcule a sua estimativa FCT</h2>
+            <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem; background: none; -webkit-text-fill-color: initial; color: var(--color-text-heading);">Calcule a sua estimativa FCT</h2>
             
             <div class="field">
               <label for="setor">Setor de atividade <span class="hint">— define salário médio e rotatividade</span></label>
@@ -1290,12 +1473,12 @@
     <div class="wrap">
       <div class="grid-2">
         <div>
-          <div class="section-label" style="color:var(--color-primary);">Apoio à Decisão</div>
-          <h2 style="font-size: 2.2rem; margin-bottom: 1.5rem; background: none; -webkit-text-fill-color: initial; color: #ffffff;">Quer um plano de formação adaptado à sua empresa?</h2>
+          <div class="section-label" style="color:var(--color-primary-text);">Apoio à Decisão</div>
+          <h2 style="font-size: 2.2rem; margin-bottom: 1.5rem; background: none; -webkit-text-fill-color: initial; color: var(--color-text-heading);">Quer um plano de formação adaptado à sua empresa?</h2>
           <p class="lead" style="font-size: 1.02rem; line-height: 1.75;">
             Os nossos especialistas analisam a realidade operacional da sua empresa, desenham o mix de módulos de produtividade IA mais adequado à sua estrutura e apoiam toda a instrução administrativa de resgate do saldo FCT.
           </p>
-          <p class="lead" style="font-size: 1rem; color: #ffffff;">
+          <p class="lead" style="font-size: 1rem; color: var(--color-text-heading);">
             A janela temporal expira no fim de 2026. Aja agora para evitar a perda definitiva de verbas legítimas do seu negócio.
           </p>
         </div>
@@ -1323,14 +1506,14 @@
                 <div class="field-error" id="lEmailError" aria-live="polite"></div>
               </div>
               <div class="field">
-                <label for="lTel">Nº de Contacto <span class="hint" style="color:rgba(255,255,255,0.45);">(opcional)</span></label>
+                <label for="lTel">Nº de Contacto <span class="hint" style="color:var(--text-muted);">(opcional)</span></label>
                 <input type="tel" id="lTel" name="telefone" autocomplete="tel" maxlength="30" placeholder="9xx xxx xxx" aria-describedby="lTelError">
                 <div class="field-error" id="lTelError" aria-live="polite"></div>
               </div>
             </div>
             
-            <!-- Honeypot -->
-            <div class="field hp-field">
+            <!-- Honeypot (oculto a humanos e a leitores de ecrã) -->
+            <div class="field hp-field" aria-hidden="true">
               <label for="lWebsite">Website</label>
               <input type="text" id="lWebsite" name="website" tabindex="-1" autocomplete="off">
             </div>
@@ -1362,7 +1545,7 @@
         <p class="footer-tagline">Capacitação e Soluções Tecnológicas de IA para PMEs</p>
       </div>
       <div>
-        <p style="font-weight: 600; color: #ffffff; margin-bottom: 0.25rem;">Contacto Comercial</p>
+        <p style="font-weight: 600; color: var(--color-text-heading); margin-bottom: 0.25rem;">Contacto Comercial</p>
         <p><a href="mailto:bilal.machraa@aitipro.com">bilal.machraa@aitipro.com</a></p>
       </div>
     </div>
@@ -1635,7 +1818,7 @@
       : "Contacto registado com sucesso. A equipa da AiTiPro irá contactá-lo com a proposta personalizada em breve.";
       
     var next =
-      "<p style='margin-top:1.2rem; font-weight:600; color:var(--color-primary);'>Entretanto, pode acelerar os seguintes passos:</p>" +
+      "<p style='margin-top:1.2rem; font-weight:600; color:var(--color-primary-text);'>Entretanto, pode acelerar os seguintes passos:</p>" +
       "<div style='display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:0.75rem;'>" +
       "<a class='btn btn-primary btn-small' href='https://www.fundoscompensacao.pt' target='_blank' rel='noopener noreferrer'>Aceder ao FCT Oficial</a>" +
       "<a class='btn btn-outline btn-small' href='mailto:" + ALERT_EMAIL + "?subject=" + encodeURIComponent('[FCT] Reunião de Capacitação IA') + "'>Agendar Reunião</a>" +
@@ -1707,6 +1890,33 @@
     ev.preventDefault();
     submitLead();
   });
+
+  // --- Toggle de tema claro/escuro ---
+  var themeBtn = document.getElementById('themeToggle');
+  function applyTheme(t){
+    document.documentElement.setAttribute('data-theme', t);
+    try{ localStorage.setItem('aitipro-theme', t); }catch(e){}
+    if(themeBtn) themeBtn.setAttribute('aria-pressed', String(t === 'light'));
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if(meta) meta.setAttribute('content', t === 'light' ? '#f4f7fb' : '#080f18');
+  }
+  if(themeBtn){
+    themeBtn.setAttribute('aria-pressed', String(document.documentElement.getAttribute('data-theme') === 'light'));
+    themeBtn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+      applyTheme(cur === 'light' ? 'dark' : 'light');
+    });
+  }
+  // Segue mudanças do SO só enquanto o utilizador não escolheu explicitamente.
+  if(window.matchMedia){
+    var mq = window.matchMedia('(prefers-color-scheme: light)');
+    var onSchemeChange = function(e){
+      try{ if(localStorage.getItem('aitipro-theme')) return; }catch(err){}
+      applyTheme(e.matches ? 'light' : 'dark');
+    };
+    if(mq.addEventListener) mq.addEventListener('change', onSchemeChange);
+    else if(mq.addListener) mq.addListener(onSchemeChange);
+  }
 })();
 </script>
 </body>
