@@ -1025,7 +1025,41 @@
     padding: 0.6rem 1.2rem;
     font-size: 0.82rem;
   }
-  
+  /* CTA de conversão dentro dos resultados (pico de intenção) */
+  #ctaResgatar {
+    margin-top: 1.25rem;
+    font-size: 1.02rem;
+    padding: 1.05rem 2rem;
+  }
+  .result-cta-sub {
+    margin-top: 0.65rem;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+  }
+  /* Chip de estimativa no topo do formulário de lead */
+  .lead-estimate-chip {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin-bottom: 1.4rem;
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-md);
+    background: rgba(42, 229, 160, 0.08);
+    border: 1px solid var(--border-glass-focus);
+    color: var(--color-text-heading);
+    font-size: 0.86rem;
+    line-height: 1.5;
+  }
+  .lead-estimate-chip[hidden] { display: none; }
+  .lead-estimate-icon {
+    color: var(--color-primary-text);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    flex-shrink: 0;
+  }
+  .lead-estimate-chip strong { color: var(--color-primary-text); }
+
   @media (max-width: 640px) {
     .scenario-grid {
       grid-template-columns: 1fr;
@@ -1306,10 +1340,11 @@
               <div class="alert alert-success">
                 <span aria-hidden="true">→</span>
                 <div>
-                  <span id="resultCta">Com este saldo, a sua equipa pode aceder a formação certificada DGERT em IA, Copilot e automação sem custo líquido para a empresa.</span><br>
-                  <a class="btn btn-primary btn-small" href="#contacto">Pedir proposta detalhada</a>
+                  <span id="resultCta">Com este saldo, a sua equipa pode aceder a formação certificada DGERT em IA, Copilot e automação sem custo líquido para a empresa.</span>
                 </div>
               </div>
+              <a class="btn btn-primary btn-block" id="ctaResgatar" href="#contacto">Quero resgatar este valor em formação →</a>
+              <p class="result-cta-sub">Resposta em 1 dia útil · Sem compromisso · Análise gratuita</p>
             </div>
           </form>
         </div>
@@ -1486,6 +1521,10 @@
         <div>
           <!-- Formulário de lead -->
           <form class="lead-card" id="leadForm" novalidate>
+            <div class="lead-estimate-chip" id="leadEstimateChip" hidden>
+              <span class="lead-estimate-icon" aria-hidden="true">★</span>
+              <span id="leadEstimateText"></span>
+            </div>
             <div class="field-row">
               <div class="field">
                 <label for="lNome">Nome completo</label>
@@ -1759,6 +1798,19 @@
     document.getElementById('resultCta').innerHTML =
       "Com um saldo base estimado de <strong>" + fmtEur(totalBase) + "</strong>, a sua equipa pode fazer formação prática certificada em IA e produtividade sem custo efetivo para a empresa. Peça à AiTiPro o plano de formação customizado.";
 
+    // CTA de conversão ancorado no valor (pico de intenção)
+    var ctaBtn = document.getElementById('ctaResgatar');
+    if (ctaBtn) ctaBtn.textContent = "Quero resgatar ~" + fmtEur(totalBase) + " em formação →";
+
+    // Chip da estimativa no topo do formulário de lead
+    var chip = document.getElementById('leadEstimateChip');
+    var chipText = document.getElementById('leadEstimateText');
+    if (chip && chipText) {
+      chipText.innerHTML = "A preparar proposta para um saldo base estimado de <strong>" + fmtEur(totalBase) +
+        "</strong> · " + s.nome + " · " + nTrab + " trabalhador" + (nTrab > 1 ? "es" : "") + ".";
+      chip.hidden = false;
+    }
+
     // Smooth scroll into results
     setTimeout(function() {
       r.scrollIntoView({behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'nearest'});
@@ -1774,6 +1826,20 @@
       meses: meses
     };
   }
+
+  // CTA "Quero resgatar..." dentro dos resultados: scroll suave até ao formulário + foco no 1.º campo
+  (function(){
+    var cta = document.getElementById('ctaResgatar');
+    if (!cta) return;
+    cta.addEventListener('click', function(ev){
+      ev.preventDefault();
+      var contacto = document.getElementById('contacto');
+      var nome = document.getElementById('lNome');
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (contacto) contacto.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'});
+      setTimeout(function(){ if (nome) nome.focus({preventScroll:true}); }, reduce ? 0 : 500);
+    });
+  })();
   
   document.getElementById('calcForm').addEventListener('submit', function(ev){
     ev.preventDefault();
