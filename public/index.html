@@ -314,6 +314,19 @@
     font-weight: 600;
     margin-bottom: 1.5rem;
     position: relative;
+    white-space: nowrap;
+    max-width: 60vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* No header sticky a deadline já está visível no hero — esconde no mobile para não inflar o header (codex iter 3 mediu 200px em 320px viewport). */
+  .brand-bar .urgency-badge {
+    margin-bottom: 0;
+  }
+  @media (max-width: 640px) {
+    .brand-bar .urgency-badge {
+      display: none;
+    }
   }
   .urgency-badge::after {
     content: "";
@@ -1394,13 +1407,16 @@
     var months = (DEADLINE.getFullYear()-now.getFullYear())*12 + (DEADLINE.getMonth()-now.getMonth());
     if (DEADLINE.getDate() < now.getDate()) months -= 1;
     if (months < 0) months = 0;
-    
+    var expired = now > DEADLINE;
+
     var badge = document.getElementById('urgencyBadge');
-    badge.textContent = months > 0
-      ? "Faltam ~" + months + " meses para o resgate do FCT (31 dez 2026)"
-      : "Prazo de resgate expirou a 31 de dezembro de 2026";
-      
-    document.getElementById('monthsBadge').textContent = months > 0 ? months : "0";
+    badge.textContent = expired
+      ? "Prazo de resgate expirou a 31 de dezembro de 2026"
+      : (months > 0
+          ? "Faltam ~" + months + " meses para o resgate do FCT (31 dez 2026)"
+          : "Últimos dias para resgatar o FCT (até 31 dez 2026)");
+
+    document.getElementById('monthsBadge').textContent = expired ? "0" : (months > 0 ? months : "<1");
   }
   updateDeadline();
 
@@ -1450,15 +1466,23 @@
   }
 
   // --- Rolling Number Anim Utility ---
+  // Acessibilidade: respeita prefers-reduced-motion; quando o elemento está dentro de uma
+  // aria-live region (ex.: #results), marca aria-busy durante a animação para evitar
+  // que screen readers anunciem cada frame (codex iter 3 P3).
   function animateRollingValue(elementId, start, end, duration, perTrabValText) {
     var element = document.getElementById(elementId);
     if (!element) return;
-    
-    if (duration === 0) {
+
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var liveRegion = element.closest ? element.closest('[aria-live]') : null;
+
+    if (duration === 0 || prefersReduced) {
       element.textContent = fmtEur(end);
       return;
     }
-    
+
+    if (liveRegion) liveRegion.setAttribute('aria-busy', 'true');
+
     var startTimestamp = null;
     function step(timestamp) {
       if (!startTimestamp) startTimestamp = timestamp;
@@ -1467,6 +1491,10 @@
       element.textContent = fmtEur(current);
       if (progress < 1) {
         window.requestAnimationFrame(step);
+      } else if (liveRegion) {
+        // Final value: garante texto exato e liberta o live region para 1 anúncio único.
+        element.textContent = fmtEur(end);
+        liveRegion.setAttribute('aria-busy', 'false');
       }
     }
     window.requestAnimationFrame(step);
