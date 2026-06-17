@@ -35,6 +35,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- Analytics privacy-first (Umami Cloud, cookieless, sem dados pessoais) -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="f6328289-5032-4d41-b082-ff953bf39b4d"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -1773,7 +1775,10 @@
     // Reveal results div with transitions
     var r = document.getElementById('results');
     r.style.display = 'block';
-    
+
+    // Analytics: cálculo concluído (funil, sem dados pessoais)
+    try { if (window.umami) window.umami.track('calcular', { setor: s.nome, nTrab: nTrab }); } catch(e){}
+
     // Animation Duration (reduced motion support)
     var animationDuration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 800;
 
@@ -1833,6 +1838,7 @@
     if (!cta) return;
     cta.addEventListener('click', function(ev){
       ev.preventDefault();
+      try { if (window.umami) window.umami.track('cta-resgatar'); } catch(e){}
       var contacto = document.getElementById('contacto');
       var nome = document.getElementById('lNome');
       var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1878,7 +1884,10 @@
     document.getElementById('leadForm').style.display = 'none';
     var ok = document.getElementById('leadOk');
     ok.style.display = 'block';
-    
+
+    // Analytics: lead capturado (conversão final do funil)
+    try { if (window.umami) window.umami.track('lead', { via: via }); } catch(e){}
+
     var head = via === 'mailto'
       ? "Abrimos o seu cliente de email com a mensagem pronta — basta clicar em enviar. Se não abriu, escreva-nos diretamente para <strong>" + ALERT_EMAIL + "</strong>."
       : "Contacto registado com sucesso. A equipa da AiTiPro irá contactá-lo com a proposta personalizada em breve.";
