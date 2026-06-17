@@ -69,8 +69,8 @@ async function pushToHubspot(d) {
       `Setor: ${e.setor || '—'} · Trabalhadores: ${e.nTrab ?? '—'} · Ano constituição: ${e.anoConst ?? '—'}.`
     : 'Contacto da Calculadora FCT (sem estimativa calculada antes de enviar).';
 
+  // NB: email é o idProperty do upsert — não vai em properties (HubSpot rejeita).
   const properties = {
-    email: d.email,
     firstname,
     company: d.empresa,
     lifecyclestage: 'lead',
@@ -88,13 +88,24 @@ async function pushToHubspot(d) {
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
-    if (r.ok) return 'upserted';
-    const detalhe = await r.text().catch(() => '');
-    console.error('HubSpot upsert failed:', r.status, detalhe.slice(0, 300));
-    return `failed:${r.status}`;
+    const text = await r.text().catch(() => '');
+    let parsed = null;
+    try { parsed = JSON.parse(text); } catch { /* corpo não-JSON */ }
+
+    if (!r.ok) {
+      console.error('HubSpot upsert HTTP error:', r.status, text.slice(0, 400));
+      return `failed:http:${r.status}:${text.slice(0, 160)}`;
+    }
+    // Endpoints batch podem devolver 2xx com falhas por-registo.
+    if (parsed && (parsed.numErrors || (Array.isArray(parsed.errors) && parsed.errors.length))) {
+      console.error('HubSpot upsert record error:', text.slice(0, 400));
+      return `failed:record:${text.slice(0, 160)}`;
+    }
+    const id = parsed && parsed.results && parsed.results[0] && parsed.results[0].id;
+    return id ? `upserted:${id}` : 'upserted';
   } catch (err) {
     console.error('HubSpot error:', err);
-    return `failed:${err.message || 'unknown'}`;
+    return `failed:exc:${err.message || 'unknown'}`;
   }
 }
 
@@ -239,5 +250,10 @@ export default async function handler(req, res) {
     }
   }
 
+  // Diagnóstico opt-in: com header "x-debug: 1" devolve o estado das integrações.
+  // Resposta normal mantém-se { ok: true } (o front-end ignora campos extra).
+  if (req.headers['x-debug'] === '1') {
+    return res.status(200).json({ ok: true, hubspot: hubspotStatus, email: emailStatus, leadId });
+  }
   return res.status(200).json({ ok: true });
 }
