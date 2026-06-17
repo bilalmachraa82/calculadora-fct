@@ -1399,7 +1399,7 @@
 
   var TAXA = 0.00925;          // 0,925%
   var MESES_MAX = 116;         // out/2013 a mai/2023, inclusive
-  var DEADLINE = new Date(2026,11,31);
+  var DEADLINE = new Date(2026,11,31,23,59,59,999); // fim do dia 31 dez 2026
 
   // --- Meses até ao prazo (badge + indicador hero) ---
   function updateDeadline(){
