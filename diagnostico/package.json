@@ -4,10 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check api/lead.js",
+    "check": "node --check api/lead.js && node --check api/company-enrichment.js",
+    "test": "node test/diagnostico.test.mjs",
     "audit:deps": "npm audit --omit=dev"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^0.10.0"
+    "@neondatabase/serverless": "^0.10.0",
+    "resend": "^4.0.0"
   }
 }

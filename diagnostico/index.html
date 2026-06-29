@@ -83,6 +83,9 @@
   }
   </script>
 
+  <!-- Analytics privacy-first (Plausible, cookieless). Ativa o funil já instrumentado em track(). -->
+  <script defer src="https://plausible.io/js/script.js" data-domain="diagnostico.aitipro.com"></script>
+
   <style>
     :root {
       --bg: #eef3f7;
@@ -90,7 +93,7 @@
       --surface-soft: #f7fafc;
       --ink: #132033;
       --ink-strong: #0a1525;
-      --muted: #5b6a7e;
+      --muted: #4d5b6e;
       --muted-strong: #3a4b61;
       --line: #dbe5ed;
       --line-strong: #c5d3df;
@@ -136,7 +139,9 @@
     }
 
     button,
-    input {
+    input,
+    select,
+    textarea {
       font: inherit;
     }
 
@@ -550,7 +555,9 @@
       font-weight: 800;
     }
 
-    .field input {
+    .field input,
+    .field select,
+    .field textarea {
       width: 100%;
       min-height: 46px;
       border: 1px solid var(--line-strong);
@@ -561,9 +568,22 @@
       outline: none;
     }
 
-    .field input:focus {
+    .field textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
       border-color: var(--brand-dark);
       box-shadow: 0 0 0 3px rgba(32, 201, 151, 0.18);
+    }
+
+    .field-hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
     }
 
     .consent {
@@ -719,6 +739,7 @@
       padding: 52px 0;
       border-top: 1px solid var(--line);
       background: #f8fbfd;
+      scroll-margin-top: 84px;
     }
 
     .result-layout {
@@ -770,6 +791,177 @@
       font-size: 14px;
     }
 
+    .thinking-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .thinking-card,
+    .thinking-steps {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 10px 28px rgba(14, 31, 53, 0.06);
+    }
+
+    .thinking-card {
+      padding: 26px;
+    }
+
+    .thinking-card h2 {
+      margin-bottom: 10px;
+      color: var(--ink-strong);
+      font-size: 32px;
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .thinking-card p {
+      color: var(--muted-strong);
+    }
+
+    .thinking-meter {
+      height: 10px;
+      margin-top: 22px;
+      border-radius: 999px;
+      background: #e7eef4;
+      overflow: hidden;
+    }
+
+    .thinking-meter span {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--brand-dark), var(--brand));
+      transition: width 420ms ease;
+    }
+
+    .thinking-steps {
+      display: grid;
+      gap: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      overflow: hidden;
+    }
+
+    .thinking-step {
+      display: grid;
+      grid-template-columns: 32px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted-strong);
+    }
+
+    .thinking-step:last-child {
+      border-bottom: 0;
+    }
+
+    .thinking-step__mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .thinking-step strong {
+      display: block;
+      color: var(--ink-strong);
+      font-size: 15px;
+    }
+
+    .thinking-step small {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .thinking-step.is-active .thinking-step__mark {
+      border-color: rgba(32, 201, 151, 0.4);
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      animation: pulseMark 900ms ease-in-out infinite;
+    }
+
+    .thinking-step.is-done .thinking-step__mark {
+      border-color: var(--brand-dark);
+      background: var(--brand-dark);
+      color: #ffffff;
+    }
+
+    .preview-card {
+      display: grid;
+      gap: 16px;
+    }
+
+    .preview-metric {
+      padding: 18px;
+      border: 1px solid rgba(32, 201, 151, 0.32);
+      border-radius: var(--radius);
+      background: var(--brand-soft);
+    }
+
+    .preview-metric span,
+    .preview-agent span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .preview-metric strong {
+      display: block;
+      margin-top: 6px;
+      color: var(--brand-dark);
+      font-size: 38px;
+      line-height: 1;
+    }
+
+    .preview-metric p,
+    .preview-agent p {
+      margin: 8px 0 0;
+      color: var(--muted-strong);
+      font-size: 14px;
+    }
+
+    .preview-agent {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+    }
+
+    .preview-agent h3 {
+      margin: 5px 0 0;
+      color: var(--ink-strong);
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    .preview-actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    @keyframes pulseMark {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
     .breakdown {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -799,6 +991,45 @@
       font-size: 22px;
     }
 
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .analysis-card {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+    }
+
+    .analysis-card span {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .analysis-card strong {
+      display: block;
+      color: var(--ink-strong);
+      font-size: 16px;
+      line-height: 1.25;
+    }
+
+    .analysis-card p {
+      margin: 6px 0 0;
+      color: var(--muted-strong);
+      font-size: 13px;
+    }
+
+    .analysis-card.is-wide {
+      grid-column: 1 / -1;
+    }
+
     .result-panel {
       padding: 22px;
       margin-top: 16px;
@@ -813,6 +1044,150 @@
       color: var(--ink-strong);
       font-size: 20px;
       letter-spacing: 0;
+    }
+
+    .report-lead {
+      margin-bottom: 14px;
+      color: var(--muted-strong);
+      font-size: 15px;
+    }
+
+    .report-list,
+    .risk-list,
+    .metric-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .report-list li,
+    .risk-list li,
+    .metric-list li {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+      color: var(--muted-strong);
+      font-size: 14px;
+    }
+
+    .report-list strong,
+    .risk-list strong,
+    .metric-list strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--ink-strong);
+      font-size: 14px;
+    }
+
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .scenario-card {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+    }
+
+    .scenario-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .scenario-card strong {
+      display: block;
+      margin-top: 6px;
+      color: var(--ink-strong);
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    .scenario-card p {
+      margin: 7px 0 0;
+      color: var(--muted-strong);
+      font-size: 13px;
+    }
+
+    .matrix {
+      display: grid;
+      gap: 12px;
+    }
+
+    .matrix-row {
+      display: grid;
+      gap: 6px;
+    }
+
+    .matrix-row__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--ink-strong);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .matrix-row__bar {
+      height: 8px;
+      border-radius: 999px;
+      background: #e7eef4;
+      overflow: hidden;
+    }
+
+    .matrix-row__bar span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--brand-dark);
+    }
+
+    .matrix-row p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .roadmap {
+      display: grid;
+      gap: 10px;
+    }
+
+    .roadmap-phase {
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr);
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+    }
+
+    .roadmap-phase span {
+      color: var(--brand-dark);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .roadmap-phase strong {
+      display: block;
+      color: var(--ink-strong);
+      font-size: 15px;
+    }
+
+    .roadmap-phase p {
+      margin: 4px 0 0;
+      color: var(--muted-strong);
+      font-size: 13px;
     }
 
     .range-row {
@@ -882,6 +1257,23 @@
       font-size: 16px;
     }
 
+    .agent-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 8px 0;
+    }
+
+    .agent-meta span {
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--muted-strong);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
     .agent p {
       margin: 0;
       color: var(--muted-strong);
@@ -900,6 +1292,39 @@
       border: 1px solid rgba(32, 201, 151, 0.32);
       background: var(--brand-soft);
       color: #07583f;
+    }
+
+    .playbook-list,
+    .meeting-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .playbook-list li,
+    .meeting-list li {
+      display: grid;
+      grid-template-columns: 24px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      color: var(--muted-strong);
+      font-size: 14px;
+    }
+
+    .playbook-list span,
+    .meeting-list span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      font-size: 12px;
+      font-weight: 900;
     }
 
     .delivery-status {
@@ -935,6 +1360,18 @@
     .final-cta p {
       color: #d7e2eb;
       font-size: 14px;
+    }
+
+    .fct-panel {
+      border-color: rgba(32, 201, 151, 0.34);
+      background: linear-gradient(180deg, #ffffff 0%, var(--brand-soft) 100%);
+    }
+
+    .trust-line {
+      margin-top: 14px;
+      color: #b9c9d5;
+      font-size: 12px;
+      font-weight: 800;
     }
 
     .cta-stack {
@@ -1002,6 +1439,7 @@
 
     @media (max-width: 900px) {
       .hero-grid,
+      .thinking-shell,
       .result-layout {
         grid-template-columns: 1fr;
       }
@@ -1052,6 +1490,8 @@
       .trust-grid,
       .form-grid,
       .faq-grid,
+      .analysis-grid,
+      .scenario-grid,
       .breakdown {
         grid-template-columns: 1fr;
       }
@@ -1089,6 +1529,10 @@
 
       .big-number {
         font-size: 46px;
+      }
+
+      .roadmap-phase {
+        grid-template-columns: 1fr;
       }
 
       .footer-grid {
@@ -1171,6 +1615,22 @@
         break-inside: avoid;
       }
     }
+
+    @media (forced-colors: active) {
+      .btn,
+      input,
+      select,
+      textarea,
+      .result-panel,
+      .lead-form {
+        border: 2px solid CanvasText !important;
+      }
+
+      .btn-primary {
+        background: ButtonFace !important;
+        color: ButtonText !important;
+      }
+    }
   </style>
 </head>
 
@@ -1197,7 +1657,7 @@
           <p class="eyebrow">Diagnóstico AiTiPro para PMEs</p>
           <h1 id="hero-title">Descubra quais <strong>agentes de IA</strong> fazem sentido na sua empresa</h1>
           <p class="lead">
-            Responda a 6 perguntas e receba uma estimativa ajustável do tempo e das oportunidades que podem ser recuperados, com 3 agentes prioritários para começar sem mudar a stack da equipa.
+            Responda a 9 perguntas e receba uma estimativa ajustável do tempo e das oportunidades que podem ser recuperados, com 3 agentes prioritários e uma agenda de implementação concreta.
           </p>
           <div class="hero-actions">
             <a class="btn" href="#diagnostico">Fazer diagnóstico <span aria-hidden="true">→</span></a>
@@ -1229,10 +1689,10 @@
               <p class="card-kicker" id="card-mode">Diagnóstico gratuito</p>
               <h2 id="diagnostic-title">Comece pela realidade da sua equipa</h2>
             </div>
-            <span class="step-pill" id="stepPill">Pergunta 1/6</span>
+            <span class="step-pill" id="stepPill">Pergunta 1/9</span>
           </div>
           <div class="diagnostic-card__body" id="diagnosticBody">
-            <div class="progress" role="progressbar" aria-label="Progresso do diagnóstico" aria-valuemin="1" aria-valuemax="6" aria-valuenow="1">
+            <div class="progress" role="progressbar" aria-label="Progresso do diagnóstico" aria-valuemin="1" aria-valuemax="9" aria-valuenow="1">
               <span id="progressBar"></span>
             </div>
             <div id="questionHost"></div>
@@ -1255,8 +1715,8 @@
         </div>
         <div class="proof-grid">
           <div class="proof-item">
-            <strong>6</strong>
-            <p>Perguntas de contexto, suficientes para estimar valor sem pedir dados sensíveis.</p>
+            <strong>9</strong>
+            <p>Perguntas de contexto, suficientes para estimar valor, prioridade, potencial FCT e urgência sem pedir dados sensíveis.</p>
           </div>
           <div class="proof-item">
             <strong>3</strong>
@@ -1291,9 +1751,23 @@
           <div class="step-item">
             <span class="step-number" aria-hidden="true">3</span>
             <h3>Prioriza formação e implementação</h3>
-            <p>Entrega 3 agentes iniciais e um CTA para converter a estimativa num plano de formação prática com a AiTiPro.</p>
+            <p>Entrega 3 agentes iniciais, um plano de 14 dias e uma agenda concreta para marcar a sessão de priorização com a AiTiPro.</p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="result-section" id="analise" aria-labelledby="analise-title" tabindex="-1" hidden>
+      <div class="container thinking-shell">
+        <div class="thinking-card">
+          <p class="result-kicker">A compor relatório</p>
+          <h2 id="analise-title">Estamos a cruzar os sinais antes de mostrar a resposta</h2>
+          <p id="thinkingDetail">A validar respostas, NIF/CAE opcional, sector, dor prioritária e stack actual.</p>
+          <div class="thinking-meter" aria-label="Progresso da análise">
+            <span id="thinkingProgress"></span>
+          </div>
+        </div>
+        <ol class="thinking-steps" id="thinkingSteps"></ol>
       </div>
     </section>
 
@@ -1319,6 +1793,22 @@
           </div>
 
           <div class="result-panel">
+            <h3>Sumário executivo</h3>
+            <p class="report-lead" id="executiveLead"></p>
+            <ul class="report-list" id="executiveBullets"></ul>
+          </div>
+
+          <div class="result-panel">
+            <h3>Leitura da empresa</h3>
+            <div class="analysis-grid" id="companyIntel"></div>
+          </div>
+
+          <div class="result-panel">
+            <h3>Cenários de impacto</h3>
+            <div class="scenario-grid" id="scenarioHost"></div>
+          </div>
+
+          <div class="result-panel">
             <h3>Assunções editáveis</h3>
             <div class="range-row">
               <label for="assumptionHour">Custo médio por hora</label>
@@ -1329,7 +1819,7 @@
               <label for="assumptionRecovery">Tempo recuperável com IA</label>
               <output id="labelRecovery" for="assumptionRecovery">30%</output>
             </div>
-            <input type="range" id="assumptionRecovery" min="10" max="70" step="5" value="30">
+            <input type="range" id="assumptionRecovery" min="10" max="70" step="1" value="30">
             <div class="range-row">
               <label for="assumptionLeadValue">Valor esperado por lead/cliente</label>
               <output id="labelLeadValue" for="assumptionLeadValue">80 €</output>
@@ -1343,15 +1833,49 @@
           <div class="result-panel">
             <h3>3 agentes por onde começar</h3>
             <div class="agents" id="agentsHost"></div>
+            <p class="stack-note" id="benchmarkLine"></p>
             <p class="stack-note" id="stackNote"></p>
             <p class="delivery-status" id="deliveryStatus" aria-live="polite">A preparar o envio do pedido.</p>
           </div>
 
+          <div class="result-panel">
+            <h3>Matriz de prioridade</h3>
+            <div class="matrix" id="priorityMatrix"></div>
+          </div>
+
+          <div class="result-panel">
+            <h3>Plano inicial de 14 dias</h3>
+            <ul class="playbook-list" id="playbookHost"></ul>
+          </div>
+
+          <div class="result-panel">
+            <h3>Roadmap 30/60/90 dias</h3>
+            <div class="roadmap" id="roadmapHost"></div>
+          </div>
+
+          <div class="result-panel">
+            <h3>Riscos e controlos</h3>
+            <ul class="risk-list" id="riskHost"></ul>
+          </div>
+
+          <div class="result-panel">
+            <h3>Métricas de sucesso</h3>
+            <ul class="metric-list" id="metricHost"></ul>
+          </div>
+
+          <div class="result-panel fct-panel" id="fctPanel" hidden>
+            <h3>Financiamento FCT possível</h3>
+            <p id="fctCopy"></p>
+            <a class="btn btn-full" href="https://calculadora-fct.aitipro.com" target="_blank" rel="noopener noreferrer">Estimar saldo FCT <span aria-hidden="true">→</span></a>
+          </div>
+
           <div class="final-cta">
-            <h3>Transforme o diagnóstico num plano de formação</h3>
-            <p>Se fizer sentido avançar, a próxima conversa deve sair daqui com um caso de uso prioritário, equipa-alvo, ferramentas e critérios de sucesso.</p>
+            <h3>Marcar sessão de priorização</h3>
+            <p>A melhor próxima conversa deve durar 20 minutos e sair com processo prioritário, stack, dono interno e critério de sucesso.</p>
+            <ul class="meeting-list" id="meetingAgenda"></ul>
+            <p class="trust-line">PME apoiadas pela AiTiPro em formação certificada · entidade certificada DGERT.</p>
             <div class="cta-stack">
-              <a class="btn" id="planCta" href="mailto:bilal.machraa@aitipro.com">Pedir plano de implementação <span aria-hidden="true">→</span></a>
+              <a class="btn" id="planCta" href="mailto:bilal.machraa@aitipro.com">Pedir marcação de 20 minutos <span aria-hidden="true">→</span></a>
               <button class="btn btn-secondary" type="button" id="printButton">Imprimir ou guardar PDF</button>
             </div>
           </div>
@@ -1364,7 +1888,7 @@
         <div class="section-header">
           <p class="eyebrow">RGPD</p>
           <h2 id="rgpd-title">Dados mínimos para um contacto útil</h2>
-          <p>O formulário recolhe apenas nome, email profissional, empresa, telefone opcional e respostas do diagnóstico. A finalidade é enviar o resultado, responder ao pedido e preparar uma eventual conversa comercial sobre formação certificada.</p>
+          <p>O formulário recolhe nome, email profissional, empresa, telefone opcional, contexto de qualificação opcional e respostas do diagnóstico. A finalidade é mostrar o resultado, responder ao pedido e preparar uma eventual conversa comercial sobre formação certificada.</p>
         </div>
         <div class="faq-grid">
           <div class="faq-item">
@@ -1377,7 +1901,7 @@
           </div>
           <div class="faq-item">
             <h3>Há dados sensíveis no diagnóstico?</h3>
-            <p>Não são pedidos ficheiros, clientes, passwords, dados clínicos ou dados financeiros. O telefone é opcional.</p>
+            <p>Não são pedidos ficheiros, clientes, passwords, dados clínicos ou dados financeiros. NIF, CAE, website e telefone são opcionais e servem apenas para contextualizar o mapa.</p>
           </div>
           <div class="faq-item">
             <h3>Como peço eliminação?</h3>
@@ -1405,6 +1929,8 @@
 
   <script>
     const CONTACT_EMAIL = 'bilal.machraa@aitipro.com';
+    const BOOKING_URL = 'https://cal.com/aitipro/diagnostico-ia';
+    const FCT_CALCULATOR_URL = 'https://calculadora-fct.aitipro.com';
 
     const state = {
       currentStep: 0,
@@ -1414,9 +1940,13 @@
         leads: null,
         resposta: null,
         repetitivas: null,
+        dor: null,
+        prazo: null,
+        existia: null,
         ferramentas: []
       },
-      lead: {}
+      lead: {},
+      companyEnrichment: { status: 'not_requested', source: '', checks: [] }
     };
 
     const QUESTIONS = [
@@ -1430,7 +1960,8 @@
           ['imobiliario', 'Imobiliário / Condomínios', 'Gestão de pedidos, documentos e atendimento.'],
           ['saude', 'Saúde / Clínicas', 'Marcações, FAQ e triagem administrativa.'],
           ['retalho', 'Retalho / Comércio', 'Apoio a vendas, atendimento e reporting.'],
-          ['servicos', 'Serviços profissionais / Contabilidade', 'Documentação, reuniões, email e análise.'],
+          ['contabilidade', 'Contabilidade / Fiscalidade', 'Faturas, reconciliação, prazos e pedidos de clientes.'],
+          ['servicos', 'Serviços profissionais', 'Documentação, reuniões, email e análise.'],
           ['industria', 'Indústria / Produção', 'Procedimentos, turnos, qualidade e KPIs.'],
           ['outro', 'Outro sector', 'Mapeamos a recomendação de forma mais genérica.']
         ]
@@ -1488,6 +2019,46 @@
         ]
       },
       {
+        key: 'dor',
+        label: 'Prioridade',
+        title: 'Onde quer ver melhoria primeiro?',
+        help: 'Isto transforma a recomendação numa agenda de implementação, não numa lista genérica.',
+        mode: 'single',
+        options: [
+          ['resposta', 'Responder a leads e pedidos', 'Reduzir tempo até primeira resposta e perdas por demora.'],
+          ['admin', 'Automatizar trabalho administrativo', 'Menos cópia manual, emails repetidos e tarefas de backoffice.'],
+          ['documentos', 'Pesquisar documentos e conhecimento interno', 'Encontrar respostas com fontes e reduzir dependência de pessoas-chave.'],
+          ['reporting', 'Criar relatórios e análises', 'Transformar dados dispersos em resumos accionáveis.'],
+          ['atendimento', 'Atendimento e suporte', 'Responder melhor a perguntas frequentes e encaminhar excepções.'],
+          ['formacao', 'Formar a equipa para usar IA bem', 'Criar regras, exemplos e rotinas antes de automatizar.']
+        ]
+      },
+      {
+        key: 'prazo',
+        label: 'Decisão',
+        title: 'Quando faria sentido avançar se o caso for claro?',
+        help: 'Ajuda a sugerir o próximo passo certo sem pressão comercial.',
+        mode: 'single',
+        options: [
+          ['agora', 'Nas próximas 2 semanas', 'Alta intenção: vale uma sessão curta de priorização.'],
+          ['mes', 'Este mês', 'Bom momento para desenhar piloto e critérios de sucesso.'],
+          ['trimestre', 'Nos próximos 3 meses', 'Faz sentido preparar roadmap e formação.'],
+          ['explorar', 'Só estou a explorar', 'Resultado útil agora; conversa apenas se acrescentar contexto.']
+        ]
+      },
+      {
+        key: 'existia',
+        label: 'FCT',
+        title: 'A empresa já tinha trabalhadores antes de 2023?',
+        help: 'Isto permite sinalizar se a implementação pode ser financiada com saldo FCT, sem calcular aqui o saldo.',
+        mode: 'single',
+        options: [
+          ['sim', 'Sim', 'Pode fazer sentido estimar saldo FCT para formação certificada.'],
+          ['nao', 'Não', 'O diagnóstico segue sem sugestão de financiamento FCT.'],
+          ['naosei', 'Não sei', 'Podemos deixar como ponto de validação na sessão.']
+        ]
+      },
+      {
         key: 'ferramentas',
         label: 'Stack actual',
         title: 'Que ferramentas de IA a equipa já usa?',
@@ -1526,6 +2097,11 @@
         ['Atendimento de produto', 'Responde com base em documentação de produto, políticas de troca e disponibilidade.'],
         ['Resumo de vendas', 'Converte dados de vendas ou campanhas em resumo executivo com sinais de acção.']
       ],
+      contabilidade: [
+        ['Extração de faturas', 'Lê faturas e anexos, identifica campos críticos, assinala excepções e prepara dados para revisão humana.'],
+        ['Conciliação bancária assistida', 'Agrupa movimentos, sugere correspondências prováveis e evidencia casos que precisam de validação.'],
+        ['Rascunho fiscal e reporting', 'Prepara resumos de IVA, pendentes e pedidos recorrentes de clientes com linguagem consistente.']
+      ],
       servicos: [
         ['Assistente de reuniões', 'Transforma notas e reuniões em tarefas, resumos e documentos estruturados.'],
         ['Análise de ficheiros', 'Ajuda a resumir CSV/Excel e a explicar variações relevantes para clientes ou gestão.'],
@@ -1547,9 +2123,150 @@
       imobiliario: 'imobiliário / condomínios',
       saude: 'saúde / clínicas',
       retalho: 'retalho / comércio',
+      contabilidade: 'contabilidade / fiscalidade',
       servicos: 'serviços profissionais',
       industria: 'indústria / produção',
+      construcao: 'construção',
+      logistica: 'transportes / logística',
+      hotelaria: 'alojamento / restauração',
+      tic: 'tecnologia / informação',
+      formacao: 'educação / formação',
       outro: 'a sua empresa'
+    };
+
+    const SETORES_DIAG = {
+      imobiliario: {
+        label: 'imobiliário / condomínios',
+        custoHora: 22,
+        recuperavel: 0.34,
+        benchmark: 'Bench interno: pedidos repetidos, documentação e follow-up costumam ser os primeiros 20-35% de tempo recuperável.',
+        agentes: [
+          { nome: 'Agente de pedidos de condomínio', onde: 'Email, formulário e histórico de ocorrências', esforco: 'Baixo' },
+          { nome: 'Agente de contratos e atas', onde: 'Base documental com fontes citadas', esforco: 'Médio' },
+          { nome: 'Agente de follow-up imobiliário', onde: 'Leads, visitas, propostas e próxima acção', esforco: 'Médio' }
+        ]
+      },
+      saude: {
+        label: 'saúde / clínicas',
+        custoHora: 24,
+        recuperavel: 0.28,
+        benchmark: 'Bench interno: o ganho deve ficar em tarefas administrativas; nada de triagem clínica sem governação reforçada.',
+        agentes: [
+          { nome: 'Agente de marcações', onde: 'Pedidos administrativos, horários e preparação da consulta', esforco: 'Baixo' },
+          { nome: 'Agente de FAQ administrativa', onde: 'Regras aprovadas, preços, documentos e encaminhamento', esforco: 'Baixo' },
+          { nome: 'Agente de procedimentos internos', onde: 'Normas, checklists e respostas com fonte', esforco: 'Médio' }
+        ]
+      },
+      retalho: {
+        label: 'retalho / comércio',
+        custoHora: 18,
+        recuperavel: 0.32,
+        benchmark: 'Bench interno: ganhos rápidos aparecem em resposta a produto, follow-up e resumo de vendas.',
+        agentes: [
+          { nome: 'Agente de resposta a produto', onde: 'Catálogo, políticas de troca e disponibilidade', esforco: 'Baixo' },
+          { nome: 'Agente de follow-up comercial', onde: 'Pedidos, campanhas e carrinhos/contactos quentes', esforco: 'Baixo' },
+          { nome: 'Agente de resumo de vendas', onde: 'Excel/CSV, campanhas e variações semanais', esforco: 'Médio' }
+        ]
+      },
+      contabilidade: {
+        label: 'contabilidade / fiscalidade',
+        custoHora: 26,
+        recuperavel: 0.40,
+        benchmark: 'Bench interno: escritórios com anexos, movimentos e pedidos repetidos tendem a recuperar mais tempo no backoffice do que no atendimento.',
+        agentes: [
+          { nome: 'Agente de extração de faturas', onde: 'Inbox, PDFs, anexos e campos contabilísticos', esforco: 'Médio' },
+          { nome: 'Agente de conciliação bancária', onde: 'Movimentos, faturas e regras de correspondência', esforco: 'Médio' },
+          { nome: 'Agente de rascunho fiscal', onde: 'Pendentes, IVA, pedidos a clientes e calendário fiscal', esforco: 'Alto' }
+        ]
+      },
+      servicos: {
+        label: 'serviços profissionais',
+        custoHora: 28,
+        recuperavel: 0.36,
+        benchmark: 'Bench interno: serviços B2B capturam valor em preparação de reuniões, documentos e análise de ficheiros.',
+        agentes: [
+          { nome: 'Agente de reuniões e tarefas', onde: 'Notas, emails e decisões com dono', esforco: 'Baixo' },
+          { nome: 'Agente de análise de ficheiros', onde: 'Excel/CSV e explicação de variações', esforco: 'Médio' },
+          { nome: 'Agente de propostas e documentos', onde: 'Templates, histórico e linguagem aprovada', esforco: 'Médio' }
+        ]
+      },
+      industria: {
+        label: 'indústria / produção',
+        custoHora: 23,
+        recuperavel: 0.26,
+        benchmark: 'Bench interno: começar por documentação, qualidade e reporting; integração com chão de fábrica deve vir depois.',
+        agentes: [
+          { nome: 'Agente de procedimentos operacionais', onde: 'SOPs, checklists e instruções de trabalho', esforco: 'Médio' },
+          { nome: 'Agente de qualidade', onde: 'Não conformidades, causas prováveis e acções correctivas', esforco: 'Médio' },
+          { nome: 'Agente de resumo de KPIs', onde: 'Turnos, produção, paragens e alertas de gestão', esforco: 'Alto' }
+        ]
+      },
+      construcao: {
+        label: 'construção',
+        custoHora: 22,
+        recuperavel: 0.25,
+        benchmark: 'Bench interno: maior valor em propostas, autos, documentação de obra e pedidos a fornecedores.',
+        agentes: [
+          { nome: 'Agente de propostas de obra', onde: 'Pedidos, medições e rascunhos de orçamento', esforco: 'Médio' },
+          { nome: 'Agente documental de obra', onde: 'Autos, fichas técnicas, segurança e anexos', esforco: 'Médio' },
+          { nome: 'Agente de fornecedores', onde: 'Pedidos de preço, comparativos e follow-up', esforco: 'Baixo' }
+        ]
+      },
+      logistica: {
+        label: 'transportes / logística',
+        custoHora: 20,
+        recuperavel: 0.30,
+        benchmark: 'Bench interno: triagem de pedidos, documentação e comunicação de estado costumam ser bons pilotos.',
+        agentes: [
+          { nome: 'Agente de pedidos de transporte', onde: 'Email, formulário, origem/destino e prioridade', esforco: 'Baixo' },
+          { nome: 'Agente documental', onde: 'Guias, comprovativos, anexos e excepções', esforco: 'Médio' },
+          { nome: 'Agente de reporting operacional', onde: 'Atrasos, volumes e motivos recorrentes', esforco: 'Médio' }
+        ]
+      },
+      hotelaria: {
+        label: 'alojamento / restauração',
+        custoHora: 17,
+        recuperavel: 0.31,
+        benchmark: 'Bench interno: perguntas frequentes, reservas, avaliações e escalas dão ganhos rápidos sem sistemas complexos.',
+        agentes: [
+          { nome: 'Agente de reservas e FAQ', onde: 'Email, WhatsApp, regras e disponibilidade', esforco: 'Baixo' },
+          { nome: 'Agente de avaliações', onde: 'Reviews, padrões de reclamação e respostas aprovadas', esforco: 'Baixo' },
+          { nome: 'Agente de turnos e procedimentos', onde: 'Checklists, normas e passagem de turno', esforco: 'Médio' }
+        ]
+      },
+      tic: {
+        label: 'tecnologia / informação',
+        custoHora: 34,
+        recuperavel: 0.38,
+        benchmark: 'Bench interno: suporte, documentação técnica e triagem de requisitos capturam valor antes de integrações avançadas.',
+        agentes: [
+          { nome: 'Agente de suporte técnico', onde: 'Tickets, base de conhecimento e passos de diagnóstico', esforco: 'Médio' },
+          { nome: 'Agente de documentação', onde: 'Specs, runbooks e decisões técnicas', esforco: 'Baixo' },
+          { nome: 'Agente de qualificação de requisitos', onde: 'Pedidos comerciais, escopo e próximos passos', esforco: 'Médio' }
+        ]
+      },
+      formacao: {
+        label: 'educação / formação',
+        custoHora: 21,
+        recuperavel: 0.33,
+        benchmark: 'Bench interno: conteúdos, avaliações e apoio administrativo são melhores candidatos do que substituição pedagógica.',
+        agentes: [
+          { nome: 'Agente de conteúdos formativos', onde: 'Planos, exercícios e adaptação por público', esforco: 'Médio' },
+          { nome: 'Agente administrativo de formação', onde: 'Inscrições, presenças e certificados', esforco: 'Baixo' },
+          { nome: 'Agente de avaliação', onde: 'Rubricas, feedback e análise de respostas', esforco: 'Médio' }
+        ]
+      },
+      outro: {
+        label: 'a sua empresa',
+        custoHora: 21,
+        recuperavel: 0.30,
+        benchmark: 'Bench interno: sem CAE confirmado, recomenda-se validar primeiro o processo com maior volume e menor risco.',
+        agentes: [
+          { nome: 'Agente de triagem de email', onde: 'Pedidos, prioridade e rascunhos de resposta', esforco: 'Baixo' },
+          { nome: 'Agente de conhecimento interno', onde: 'Documentos aprovados e respostas com fonte', esforco: 'Médio' },
+          { nome: 'Agente de reporting assistido', onde: 'Ficheiros, notas e resumo executivo', esforco: 'Médio' }
+        ]
+      }
     };
 
     const TOOL_LABEL = {
@@ -1560,6 +2277,105 @@
       claude: 'Claude',
       outra: 'outra ferramenta'
     };
+
+    const ROLE_LABEL = {
+      gerencia: 'Gerência / Administração',
+      comercial: 'Comercial / Marketing',
+      operacoes: 'Operações / Produção',
+      financeiro: 'Financeiro / Contabilidade',
+      rh: 'RH / Formação',
+      it: 'IT / Sistemas',
+      outro: 'Outra função'
+    };
+
+    const OBJECTIVE_LABEL = {
+      marcar: 'Marcar sessão e validar piloto',
+      responder: 'Responder mais rápido a leads/pedidos',
+      automatizar: 'Reduzir trabalho administrativo repetitivo',
+      formar: 'Formar a equipa com casos práticos',
+      avaliar: 'Avaliar potencial sem compromisso'
+    };
+
+    const CONTACT_WINDOW_LABEL = {
+      manha: 'Manhã',
+      almoco: 'Hora de almoço',
+      tarde: 'Tarde',
+      email: 'Email primeiro'
+    };
+
+    const PAIN_LABEL = {
+      resposta: 'Responder a leads e pedidos',
+      admin: 'Automatizar trabalho administrativo',
+      documentos: 'Pesquisar documentos e conhecimento interno',
+      reporting: 'Criar relatórios e análises',
+      atendimento: 'Atendimento e suporte',
+      formacao: 'Formar a equipa para usar IA bem'
+    };
+
+    const TIMELINE_LABEL = {
+      agora: 'Nas próximas 2 semanas',
+      mes: 'Este mês',
+      trimestre: 'Nos próximos 3 meses',
+      explorar: 'Só estou a explorar'
+    };
+
+    const CAE_DIVISIONS = [
+      [1, 3, 'Agricultura, produção animal, caça, floresta e pesca', 'outro'],
+      [5, 9, 'Indústrias extractivas', 'industria'],
+      [10, 33, 'Indústrias transformadoras', 'industria'],
+      [35, 35, 'Electricidade, gás e energia', 'industria'],
+      [36, 39, 'Água, saneamento e gestão de resíduos', 'industria'],
+      [41, 43, 'Construção', 'construcao'],
+      [45, 47, 'Comércio por grosso e a retalho', 'retalho'],
+      [49, 53, 'Transportes e armazenagem', 'logistica'],
+      [55, 56, 'Alojamento e restauração', 'hotelaria'],
+      [58, 63, 'Informação e comunicação', 'tic'],
+      [64, 66, 'Actividades financeiras e de seguros', 'servicos'],
+      [68, 68, 'Actividades imobiliárias', 'imobiliario'],
+      [69, 69, 'Actividades jurídicas, contabilidade, auditoria e fiscalidade', 'contabilidade'],
+      [70, 75, 'Consultoria, técnicas e científicas', 'servicos'],
+      [77, 82, 'Actividades administrativas e serviços de apoio', 'servicos'],
+      [84, 84, 'Administração pública', 'outro'],
+      [85, 85, 'Educação e formação', 'formacao'],
+      [86, 88, 'Saúde humana e apoio social', 'saude'],
+      [90, 93, 'Actividades artísticas, desportivas e recreativas', 'servicos'],
+      [94, 96, 'Outras actividades de serviços', 'servicos'],
+      [97, 98, 'Famílias empregadoras e produção doméstica', 'outro'],
+      [99, 99, 'Organismos internacionais', 'outro']
+    ];
+
+    const CAE_EXACT = {
+      '68100': ['Compra e venda de bens imobiliários', 'imobiliario'],
+      '68200': ['Arrendamento de bens imobiliários', 'imobiliario'],
+      '68311': ['Mediação imobiliária', 'imobiliario'],
+      '68321': ['Administração de imóveis por conta de outrem', 'imobiliario'],
+      '69200': ['Contabilidade, auditoria e consultoria fiscal', 'contabilidade'],
+      '70220': ['Consultoria para negócios e gestão', 'servicos'],
+      '71120': ['Actividades de engenharia e técnicas afins', 'servicos'],
+      '86210': ['Actividades de prática médica de clínica geral', 'saude'],
+      '86220': ['Actividades de prática médica de clínica especializada', 'saude'],
+      '86906': ['Outras actividades de saúde humana', 'saude'],
+      '62010': ['Actividades de programação informática', 'tic'],
+      '62020': ['Consultoria em informática', 'tic'],
+      '85591': ['Formação profissional', 'formacao']
+    };
+
+    const PRIORITY_AGENTS = {
+      resposta: ['Agente de resposta comercial', 'Qualifica o pedido, sugere prioridade, prepara a primeira resposta e propõe o próximo passo para não deixar intenção arrefecer.'],
+      admin: ['Agente de backoffice', 'Lê pedidos recorrentes, extrai dados-chave, prepara rascunhos e reduz cópia manual entre email, folhas de cálculo e CRM.'],
+      documentos: ['Agente de conhecimento interno', 'Pesquisa documentos aprovados, responde com fontes e assinala lacunas para reduzir dependência de memória informal.'],
+      reporting: ['Agente de reporting', 'Transforma ficheiros e notas em resumo executivo, variações relevantes e lista curta de decisões.'],
+      atendimento: ['Agente de atendimento assistido', 'Responde a perguntas frequentes com regras internas e encaminha excepções para a pessoa certa.'],
+      formacao: ['Agente de adopção IA', 'Cria exemplos por função, regras de uso seguro e exercícios para a equipa ganhar rotina antes de automatizar.']
+    };
+
+    const THINKING_STEPS = [
+      ['Validar contexto', 'Confirmar respostas, dimensão, volume e esforço repetitivo.'],
+      ['Ler NIF e CAE', 'Validar formato, mapear CAE e consultar VIES quando houver NIPC de empresa.'],
+      ['Priorizar caso de uso', 'Combinar dor declarada, stack actual e velocidade de decisão.'],
+      ['Construir business case', 'Gerar cenários conservador, base e ambicioso com assunções editáveis.'],
+      ['Preparar plano premium', 'Compor agentes, riscos, métricas e agenda de marcação.']
+    ];
 
     const els = {
       cardMode: document.getElementById('card-mode'),
@@ -1572,6 +2388,10 @@
       nextButton: document.getElementById('nextButton'),
       quizHint: document.getElementById('quizHint'),
       diagnosticBody: document.getElementById('diagnosticBody'),
+      analysisSection: document.getElementById('analise'),
+      thinkingSteps: document.getElementById('thinkingSteps'),
+      thinkingDetail: document.getElementById('thinkingDetail'),
+      thinkingProgress: document.getElementById('thinkingProgress'),
       resultSection: document.getElementById('resultado'),
       announcer: document.getElementById('diagnosticAnnouncer')
     };
@@ -1580,6 +2400,101 @@
       const question = QUESTIONS.find((item) => item.key === key);
       const match = question && question.options.find((option) => option[0] === value);
       return match ? match[1] : value;
+    }
+
+    function labelFrom(map, key) {
+      return key ? (map[key] || key) : '';
+    }
+
+    function digitsOnly(value) {
+      return String(value || '').replace(/\D/g, '');
+    }
+
+    function analyseNif(value) {
+      const clean = digitsOnly(value);
+      if (!clean) {
+        return { provided: false, valid: false, clean: '', kind: 'Não indicado', note: 'Sem NIF, a leitura usa apenas o sector declarado e as respostas.' };
+      }
+
+      if (clean.length !== 9) {
+        return { provided: true, valid: false, clean, kind: 'Formato a rever', note: 'O NIF português deve ter 9 dígitos.' };
+      }
+
+      const digits = clean.split('').map(Number);
+      const sum = digits.slice(0, 8).reduce((total, digit, index) => total + digit * (9 - index), 0);
+      let check = 11 - (sum % 11);
+      if (check >= 10) check = 0;
+      const valid = check === digits[8];
+      const prefix = clean.charAt(0);
+      const kind = {
+        '1': 'Pessoa singular',
+        '2': 'Pessoa singular',
+        '3': 'Pessoa singular',
+        '5': 'Pessoa colectiva',
+        '6': 'Organismo público',
+        '7': 'Entidade equiparada',
+        '8': 'Empresário em nome individual',
+        '9': 'Entidade não residente/equiparada'
+      }[prefix] || 'Prefixo pouco comum';
+
+      return {
+        provided: true,
+        valid,
+        clean,
+        kind,
+        note: valid
+          ? 'Passa a validação de dígito de controlo; não confirma situação fiscal nem actividade real.'
+          : 'Não passa a validação de dígito de controlo; confirme ou deixe o campo vazio.'
+      };
+    }
+
+    function analyseCae(value) {
+      const clean = digitsOnly(value);
+      if (!clean) {
+        return { provided: false, clean: '', valid: false, division: null, label: 'Não indicado', sector: null, note: 'Sem CAE, o mapa usa o sector escolhido no diagnóstico.' };
+      }
+
+      if (clean.length < 2 || clean.length > 5) {
+        return { provided: true, clean, valid: false, division: null, label: 'Formato a rever', sector: null, note: 'O CAE deve ter normalmente 5 dígitos; pelo menos a divisão de 2 dígitos é necessária.' };
+      }
+
+      const division = Number(clean.slice(0, 2));
+      const match = CAE_DIVISIONS.find(([min, max]) => division >= min && division <= max);
+      if (!match) {
+        return { provided: true, clean, valid: false, division, label: 'Divisão CAE não reconhecida', sector: null, note: 'Confirme o CAE principal antes de usar a recomendação sectorial.' };
+      }
+
+      const exact = CAE_EXACT[clean];
+      const exactLabel = Array.isArray(exact) ? exact[0] : exact;
+      const exactSector = Array.isArray(exact) ? exact[1] : null;
+      const sector = exactSector || match[3];
+      return {
+        provided: true,
+        clean,
+        valid: true,
+        division,
+        label: exactLabel || match[2],
+        sector,
+        note: exactLabel
+          ? 'Actividade reconhecida no mapa local; confirme se é o CAE principal actual.'
+          : 'Mapeamento feito pela divisão CAE; serve para afinar a conversa, não substitui consulta oficial.'
+      };
+    }
+
+    function normalizeWebsite(value) {
+      const trimmed = String(value || '').trim();
+      if (!trimmed) return '';
+      return /^https?:\/\//i.test(trimmed) ? trimmed : 'https://' + trimmed;
+    }
+
+    function websiteLooksValid(value) {
+      if (!value) return true;
+      try {
+        const parsed = new URL(normalizeWebsite(value));
+        return Boolean(parsed.hostname && parsed.hostname.includes('.'));
+      } catch {
+        return false;
+      }
     }
 
     function announce(message) {
@@ -1592,6 +2507,59 @@
       }
     }
 
+    function finiteNumber(value, fallback) {
+      const number = Number(value);
+      return Number.isFinite(number) ? number : fallback;
+    }
+
+    function diagnose(answers, overrides) {
+      const opts = overrides || {};
+      const sectorKey = SETORES_DIAG[answers.setorKey] ? answers.setorKey : 'outro';
+      const sector = SETORES_DIAG[sectorKey] || SETORES_DIAG.outro;
+      const custoHora = finiteNumber(opts.custoHora, sector.custoHora);
+      const recuperavel = finiteNumber(opts.recuperavel, sector.recuperavel);
+      const horasRepetitivas = Math.max(0, finiteNumber(answers.horasRepetitivas, 0));
+      const mensal = horasRepetitivas * 4.33 * custoHora * recuperavel;
+
+      return {
+        setorKey: sectorKey,
+        setorLabel: sector.label,
+        custoHora,
+        recuperavel,
+        horasRepetitivas,
+        mensal,
+        anual: mensal * 12,
+        agentes: sector.agentes,
+        benchmark: sector.benchmark,
+        fctElegivel: answers.existiaAntes2023 === 'sim',
+        fctAValidar: answers.existiaAntes2023 === 'naosei'
+      };
+    }
+
+    function diagnosticSectorKey() {
+      const cae = analyseCae(state.lead.cae);
+      if (cae.valid && cae.sector && SETORES_DIAG[cae.sector]) {
+        return cae.sector;
+      }
+      return SETORES_DIAG[state.answers.setor] ? state.answers.setor : 'outro';
+    }
+
+    function currentDiagnosis(overrides) {
+      return diagnose({
+        setorKey: diagnosticSectorKey(),
+        horasRepetitivas: MIDPOINTS.repetitivas[state.answers.repetitivas] || 0,
+        existiaAntes2023: state.answers.existia
+      }, overrides);
+    }
+
+    function applySectorAssumptions() {
+      const diagnosis = currentDiagnosis();
+      const hour = document.getElementById('assumptionHour');
+      const recovery = document.getElementById('assumptionRecovery');
+      if (hour) hour.value = String(diagnosis.custoHora);
+      if (recovery) recovery.value = String(Math.round(diagnosis.recuperavel * 100));
+    }
+
     function renderQuestion() {
       const question = QUESTIONS[state.currentStep];
       const progressValue = Math.round(((state.currentStep + 1) / QUESTIONS.length) * 100);
@@ -1600,6 +2568,7 @@
       els.cardTitle.textContent = 'Comece pela realidade da sua equipa';
       els.stepPill.textContent = 'Pergunta ' + (state.currentStep + 1) + '/' + QUESTIONS.length;
       els.progress.hidden = false;
+      els.progress.setAttribute('aria-valuemax', String(QUESTIONS.length));
       els.progress.setAttribute('aria-valuenow', String(state.currentStep + 1));
       els.progressBar.style.width = progressValue + '%';
       els.backButton.hidden = false;
@@ -1684,7 +2653,7 @@
         return;
       }
 
-      renderLeadForm();
+      renderResultPreview();
     }
 
     function goBack() {
@@ -1695,9 +2664,58 @@
       renderQuestion();
     }
 
+    function renderResultPreview() {
+      state.currentStep = QUESTIONS.length;
+      applySectorAssumptions();
+      const calc = estimate();
+      const diagnosis = currentDiagnosis({
+        custoHora: numberFromInput('assumptionHour', 19),
+        recuperavel: numberFromInput('assumptionRecovery', 30) / 100
+      });
+      const firstAgent = recommendedAgents()[0] || diagnosis.agentes[0];
+      const annual = formatEuro(calc.total * 12);
+
+      els.cardMode.textContent = 'Pré-relatório gratuito';
+      els.cardTitle.textContent = 'Já há um caso de uso claro';
+      els.stepPill.textContent = 'Preview';
+      els.progress.hidden = true;
+      els.backButton.hidden = false;
+      els.nextButton.hidden = true;
+      els.backButton.disabled = false;
+      els.quizHint.hidden = false;
+      els.quizHint.textContent = 'Pode ver este sinal sem deixar contacto. O relatório completo pede email para enviar e preparar a marcação.';
+
+      els.questionHost.innerHTML = `
+        <div class="preview-card">
+          <div class="preview-metric">
+            <span>Impacto mensal indicativo</span>
+            <strong>${formatEuro(calc.total)}</strong>
+            <p>${annual}/ano combinando horas recuperáveis e oportunidade comercial perdida. Assunções: ${diagnosis.custoHora} €/h e ${Math.round(diagnosis.recuperavel * 100)}% recuperável para ${diagnosis.setorLabel}.</p>
+          </div>
+          <div class="preview-agent">
+            <span>1.º agente recomendado</span>
+            <h3>${firstAgent.nome}</h3>
+            <p>${firstAgent.onde || firstAgent.descricao || ''} · Esforço ${firstAgent.esforco || 'Médio'}.</p>
+          </div>
+          <div class="preview-agent">
+            <span>Benchmark de partida</span>
+            <p>${diagnosis.benchmark}</p>
+          </div>
+          <div class="preview-actions">
+            <button class="btn btn-full" type="button" id="previewUnlock">Ver relatório completo e agenda <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('previewUnlock').addEventListener('click', renderLeadForm);
+      track('Diagnostico preview');
+      announce('Pré-relatório pronto com estimativa e primeiro agente recomendado.');
+    }
+
     function renderLeadForm() {
+      state.currentStep = QUESTIONS.length;
       els.cardMode.textContent = 'Resultado pronto';
-      els.cardTitle.textContent = 'Envie o mapa para si e veja já a estimativa';
+      els.cardTitle.textContent = 'Desbloqueie o relatório completo';
       els.stepPill.textContent = 'Contacto';
       els.progress.hidden = true;
       els.backButton.hidden = false;
@@ -1709,7 +2727,7 @@
         <form class="lead-form" id="leadForm" novalidate>
           <div>
             <h3 class="question-title">Para onde enviamos o diagnóstico?</h3>
-            <p class="question-help">O resultado aparece já nesta página. Os dados servem para enviar o mapa e preparar uma eventual conversa comercial.</p>
+            <p class="question-help">O relatório completo aparece já nesta página. Os dados servem para enviar o mapa, enriquecer o contexto quando indicar NIPC/CAE e preparar uma eventual conversa comercial.</p>
           </div>
           <div class="form-grid">
             <div class="field">
@@ -1728,6 +2746,54 @@
               <label for="leadPhone">Telefone opcional</label>
               <input id="leadPhone" name="telefone" autocomplete="tel" inputmode="tel" placeholder="+351 ...">
             </div>
+            <div class="field">
+              <label for="leadRole">Função</label>
+              <select id="leadRole" name="cargo" autocomplete="organization-title">
+                <option value="">Escolha se fizer sentido</option>
+                <option value="gerencia">Gerência / Administração</option>
+                <option value="comercial">Comercial / Marketing</option>
+                <option value="operacoes">Operações / Produção</option>
+                <option value="financeiro">Financeiro / Contabilidade</option>
+                <option value="rh">RH / Formação</option>
+                <option value="it">IT / Sistemas</option>
+                <option value="outro">Outra função</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="leadObjective">Objetivo principal</label>
+              <select id="leadObjective" name="objetivo">
+                <option value="">Escolha se fizer sentido</option>
+                <option value="marcar">Marcar sessão e validar piloto</option>
+                <option value="responder">Responder mais rápido a leads/pedidos</option>
+                <option value="automatizar">Reduzir trabalho administrativo repetitivo</option>
+                <option value="formar">Formar a equipa com casos práticos</option>
+                <option value="avaliar">Avaliar potencial sem compromisso</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="leadNif">NIF da empresa</label>
+              <input id="leadNif" name="nif" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="Ex.: 500000000">
+              <span class="field-hint">Opcional. Se for NIPC de empresa, tentamos validar em VIES durante a análise; se falhar, o diagnóstico continua.</span>
+            </div>
+            <div class="field">
+              <label for="leadCae">CAE principal</label>
+              <input id="leadCae" name="cae" inputmode="numeric" autocomplete="off" maxlength="8" placeholder="Ex.: 69200">
+              <span class="field-hint">Opcional. Se souber o CAE, o mapa fica mais sectorial.</span>
+            </div>
+            <div class="field">
+              <label for="leadWebsitePublic">Website da empresa</label>
+              <input id="leadWebsitePublic" name="website_empresa" type="url" inputmode="url" autocomplete="url" placeholder="https://...">
+            </div>
+            <div class="field">
+              <label for="leadContactWindow">Melhor janela de contacto</label>
+              <select id="leadContactWindow" name="janela_contacto">
+                <option value="">Sem preferência</option>
+                <option value="manha">Manhã</option>
+                <option value="almoco">Hora de almoço</option>
+                <option value="tarde">Tarde</option>
+                <option value="email">Preferência por email primeiro</option>
+              </select>
+            </div>
           </div>
           <div class="hp-field" aria-hidden="true">
             <label for="leadWebsite">Website</label>
@@ -1735,7 +2801,7 @@
           </div>
           <label class="consent" for="leadConsent">
             <input id="leadConsent" name="consentimento" type="checkbox" required>
-            <span>Autorizo a AiTiPro a tratar estes dados para enviar o diagnóstico, responder ao pedido e preparar uma eventual conversa comercial. Posso pedir eliminação a qualquer momento.</span>
+            <span>Autorizo a AiTiPro a tratar estes dados para enviar o diagnóstico, responder ao pedido, preparar uma eventual conversa comercial e, se eu indicar NIPC de empresa, fazer uma consulta pontual a fonte pública. Posso pedir eliminação a qualquer momento.</span>
           </label>
           <p class="form-error" id="leadError" role="alert"></p>
           <button class="btn btn-full" id="leadSubmit" type="submit">Ver resultado e enviar pedido <span aria-hidden="true">→</span></button>
@@ -1756,8 +2822,16 @@
       const empresa = String(data.get('empresa') || '').trim();
       const telefone = String(data.get('telefone') || '').trim();
       const website = String(data.get('website') || '').trim();
+      const cargo = String(data.get('cargo') || '').trim();
+      const objetivo = String(data.get('objetivo') || '').trim();
+      const nif = String(data.get('nif') || '').trim();
+      const cae = String(data.get('cae') || '').trim();
+      const websiteEmpresa = String(data.get('website_empresa') || '').trim();
+      const janelaContacto = String(data.get('janela_contacto') || '').trim();
       const consent = data.get('consentimento') === 'on';
       const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      const nifInfo = analyseNif(nif);
+      const caeInfo = analyseCae(cae);
 
       if (website) {
         return { ok: true, bot: true };
@@ -1775,11 +2849,94 @@
         return { ok: false, message: 'Indique o nome da empresa para qualificar o diagnóstico.' };
       }
 
+      if (telefone && !/^[+()\d\s.-]{6,40}$/.test(telefone)) {
+        return { ok: false, message: 'Confirme o telefone ou deixe o campo vazio.' };
+      }
+
+      if (nifInfo.provided && !nifInfo.valid) {
+        return { ok: false, message: 'O NIF não parece válido. Corrija ou deixe o campo vazio.' };
+      }
+
+      if (caeInfo.provided && !caeInfo.valid) {
+        return { ok: false, message: 'O CAE não parece válido. Use 5 dígitos ou deixe o campo vazio.' };
+      }
+
+      if (!websiteLooksValid(websiteEmpresa)) {
+        return { ok: false, message: 'Confirme o website da empresa ou deixe o campo vazio.' };
+      }
+
       if (!consent) {
         return { ok: false, message: 'Confirme o consentimento RGPD para prosseguir.' };
       }
 
-      return { ok: true, nome, email, empresa, telefone, consent, website };
+      return {
+        ok: true,
+        nome,
+        email,
+        empresa,
+        telefone,
+        cargo,
+        objetivo,
+        nif: nifInfo.clean,
+        cae: caeInfo.clean,
+        website_empresa: normalizeWebsite(websiteEmpresa),
+        janela_contacto: janelaContacto,
+        consent,
+        website
+      };
+    }
+
+    function canLookupNipc(nifInfo) {
+      return Boolean(nifInfo.valid && /^[5679]/.test(nifInfo.clean));
+    }
+
+    async function fetchCompanyEnrichment() {
+      const nifInfo = analyseNif(state.lead.nif);
+      if (!nifInfo.provided) {
+        return {
+          status: 'not_requested',
+          source: 'Sem consulta externa',
+          checks: ['Sem NIF/NIPC indicado; relatório usa CAE, sector e respostas declaradas.']
+        };
+      }
+
+      if (!canLookupNipc(nifInfo)) {
+        return {
+          status: 'skipped',
+          source: 'Sem consulta externa',
+          checks: ['NIF não parece NIPC de pessoa colectiva. Por minimização de dados, a consulta pública não foi feita.']
+        };
+      }
+
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 4500);
+      try {
+        const response = await fetch('/api/company-enrichment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nif: nifInfo.clean,
+            empresa: state.lead.empresa,
+            consentimento_rgpd: state.lead.consent === true
+          }),
+          signal: controller.signal
+        });
+
+        if (!response.ok) {
+          throw new Error('enrichment_failed');
+        }
+
+        const payload = await response.json();
+        return {
+          status: payload.status || 'unavailable',
+          source: payload.source || 'VIES',
+          company_name: payload.company_name || '',
+          fetched_at: payload.fetched_at || '',
+          checks: Array.isArray(payload.checks) && payload.checks.length ? payload.checks : ['Consulta externa sem detalhe adicional.']
+        };
+      } finally {
+        window.clearTimeout(timeout);
+      }
     }
 
     function handleLeadSubmit(event) {
@@ -1809,25 +2966,128 @@
         email: result.email,
         empresa: result.empresa,
         telefone: result.telefone,
+        cargo: result.cargo,
+        objetivo: result.objetivo,
+        nif: result.nif,
+        cae: result.cae,
+        website_empresa: result.website_empresa,
+        janela_contacto: result.janela_contacto,
         consent: result.consent
       };
+      state.companyEnrichment = { status: 'pending', source: 'VIES', checks: ['Consulta pendente durante a composição do relatório.'] };
 
       submit.disabled = true;
-      submit.textContent = 'A preparar o resultado...';
-      renderResult();
-      showResult();
-      renderSubmittedState('A guardar o pedido. O mapa já está disponível abaixo.');
-      sendLead()
-        .then(() => {
-          setDeliveryStatus('is-ok', 'Pedido registado. Também pode guardar este mapa em PDF.');
-          renderSubmittedState('Pedido registado. Pode guardar o mapa em PDF ou pedir o plano de implementação.');
-          track('Diagnostico lead', { status: 'ok' });
+      submit.textContent = 'A compor relatório...';
+      renderAnalysingState();
+      const enrichment = fetchCompanyEnrichment()
+        .then((payload) => {
+          state.companyEnrichment = payload;
+          return payload;
         })
         .catch(() => {
-          setDeliveryStatus('is-warn', 'Não consegui confirmar o envio automático. O resultado fica disponível e o botão abaixo abre um email já preenchido.');
-          renderSubmittedState('Resultado disponível. Como o envio automático falhou, use o email pré-preenchido no botão de plano.');
+          state.companyEnrichment = { status: 'unavailable', source: 'VIES', checks: ['Fonte externa indisponível; relatório gerado com CAE e respostas declaradas.'] };
+          return state.companyEnrichment;
+        });
+
+      Promise.all([runThinkingSequence(), enrichment]).then(() => {
+        renderResult();
+        showResult();
+        renderSubmittedState('Relatório composto. Pode guardar o mapa em PDF ou pedir a marcação.');
+        const delivery = sendLead()
+          .then(() => ({ ok: true }))
+          .catch(() => ({ ok: false }));
+        delivery.then((deliveryResult) => {
+          if (deliveryResult.ok) {
+            setDeliveryStatus('is-ok', 'Pedido registado. Também pode guardar este relatório em PDF.');
+            renderSubmittedState('Pedido registado. Pode guardar o relatório em PDF ou pedir a marcação de 20 minutos.');
+            track('Diagnostico lead', { status: 'ok' });
+            return;
+          }
+
+          activateMailFallback();
+          setDeliveryStatus('is-warn', 'Não consegui confirmar o envio automático. O relatório fica disponível e o botão abaixo abre um email já preenchido.');
+          renderSubmittedState('Relatório disponível. Como o envio automático falhou, use o email pré-preenchido no botão de marcação.');
           track('Diagnostico lead', { status: 'fallback' });
         });
+      });
+    }
+
+    function renderAnalysingState() {
+      els.cardMode.textContent = 'Análise em curso';
+      els.cardTitle.textContent = 'A compor o relatório';
+      els.stepPill.textContent = 'A analisar';
+      els.progress.hidden = true;
+      els.backButton.hidden = true;
+      els.nextButton.hidden = true;
+      els.quizHint.hidden = true;
+      els.resultSection.hidden = true;
+      els.analysisSection.hidden = false;
+      els.thinkingProgress.style.width = '0%';
+      els.thinkingDetail.textContent = 'A validar respostas, NIF/CAE opcional, fonte pública quando aplicável, dor prioritária e stack actual.';
+      els.thinkingSteps.replaceChildren();
+
+      THINKING_STEPS.forEach(([title, detail], index) => {
+        const item = document.createElement('li');
+        item.className = 'thinking-step';
+        item.dataset.step = String(index);
+        const mark = document.createElement('span');
+        mark.className = 'thinking-step__mark';
+        mark.textContent = String(index + 1);
+        const copy = document.createElement('span');
+        const strong = document.createElement('strong');
+        strong.textContent = title;
+        const small = document.createElement('small');
+        small.textContent = detail;
+        copy.append(strong, small);
+        item.append(mark, copy);
+        els.thinkingSteps.append(item);
+      });
+
+      els.questionHost.innerHTML = `
+        <div class="submitted-state">
+          <h3>Estamos a analisar antes de responder</h3>
+          <p>O relatório cruza impacto estimado, NIF/CAE opcional, fonte pública quando aplicável, stack actual, prioridade operacional e próxima decisão.</p>
+        </div>
+      `;
+      els.analysisSection.focus({ preventScroll: true });
+      els.analysisSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      announce('A compor relatório. O resultado será apresentado de seguida.');
+    }
+
+    function runThinkingSequence() {
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const delay = prefersReduced ? 80 : 620;
+
+      return THINKING_STEPS.reduce((promise, _step, index) => {
+        return promise.then(() => new Promise((resolve) => {
+          window.setTimeout(() => {
+            updateThinkingStep(index);
+            resolve();
+          }, delay);
+        }));
+      }, Promise.resolve()).then(() => new Promise((resolve) => window.setTimeout(resolve, prefersReduced ? 80 : 360)));
+    }
+
+    function updateThinkingStep(activeIndex) {
+      const items = Array.from(els.thinkingSteps.querySelectorAll('.thinking-step'));
+      items.forEach((item, index) => {
+        item.classList.remove('is-active', 'is-done');
+        if (index < activeIndex) item.classList.add('is-done');
+        if (index === activeIndex) item.classList.add('is-active');
+      });
+
+      const [title, detail] = THINKING_STEPS[activeIndex];
+      els.thinkingDetail.textContent = title + ': ' + detail;
+      els.thinkingProgress.style.width = Math.round(((activeIndex + 1) / THINKING_STEPS.length) * 100) + '%';
+
+      if (activeIndex === THINKING_STEPS.length - 1) {
+        window.setTimeout(() => {
+          items.forEach((item) => {
+            item.classList.remove('is-active');
+            item.classList.add('is-done');
+          });
+        }, 220);
+      }
     }
 
     function renderSubmittedState(message) {
@@ -1848,6 +3108,7 @@
     }
 
     function showResult() {
+      els.analysisSection.hidden = true;
       els.resultSection.hidden = false;
       els.resultSection.focus({ preventScroll: true });
       els.resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1855,16 +3116,21 @@
     }
 
     function estimate() {
-      const hour = numberFromInput('assumptionHour', 19);
-      const recovery = numberFromInput('assumptionRecovery', 30) / 100;
+      const diagnosis = currentDiagnosis({
+        custoHora: numberFromInput('assumptionHour', 19),
+        recuperavel: numberFromInput('assumptionRecovery', 30) / 100
+      });
+      const hour = diagnosis.custoHora;
+      const recovery = diagnosis.recuperavel;
       const leadValue = numberFromInput('assumptionLeadValue', 80);
-      const repetitiveHours = MIDPOINTS.repetitivas[state.answers.repetitivas] || 0;
+      const repetitiveHours = diagnosis.horasRepetitivas;
       const weeklyLeads = MIDPOINTS.leads[state.answers.leads] || 0;
       const lostProbability = MIDPOINTS.perdaLead[state.answers.resposta] || 0;
-      const timeValue = repetitiveHours * 4.33 * hour * recovery;
+      const timeValue = diagnosis.mensal;
       const leadValueLost = weeklyLeads * 4.33 * lostProbability * leadValue;
 
       return {
+        diagnosis,
         hour,
         recovery,
         leadValue,
@@ -1888,21 +3154,418 @@
     }
 
     function renderResult() {
+      applySectorAssumptions();
+      const diagnosis = currentDiagnosis();
       document.getElementById('resultName').textContent = state.lead.empresa || state.lead.nome || 'A sua empresa';
-      document.getElementById('resultSector').textContent = SECTOR_LABEL[state.answers.setor] || 'a sua empresa';
+      document.getElementById('resultSector').textContent = diagnosis.setorLabel;
+      renderExecutiveReport();
+      renderCompanyIntel();
+      renderImpactScenarios();
       renderAgents();
       renderStackNote();
+      renderBenchmark();
+      renderPriorityMatrix();
+      renderPlaybook();
+      renderRoadmap();
+      renderRiskControls();
+      renderSuccessMetrics();
+      renderFctCrossSell();
+      renderMeetingAgenda();
       updateMailto();
       bindResultControls();
       recalculateResult();
     }
 
-    function renderAgents() {
-      const host = document.getElementById('agentsHost');
-      const list = AGENTS[state.answers.setor] || AGENTS.outro;
+    function reportConfidence(intel) {
+      let confidence = 42;
+      if (intel.nif.valid) confidence += 12;
+      if (intel.cae.valid) confidence += 16;
+      if (state.lead.website_empresa) confidence += 8;
+      if (state.lead.cargo) confidence += 6;
+      if (state.lead.objetivo) confidence += 6;
+      if (state.answers.ferramentas.length) confidence += 6;
+      if (state.companyEnrichment && state.companyEnrichment.status === 'found') confidence += 8;
+      return Math.min(96, confidence);
+    }
+
+    function scoreLabel(score) {
+      if (score >= 5) return 'Muito forte';
+      if (score >= 4) return 'Forte';
+      if (score >= 3) return 'Médio';
+      if (score >= 2) return 'A validar';
+      return 'Baixo';
+    }
+
+    function reportData() {
+      const calc = estimate();
+      const intel = companyIntel();
+      const agent = recommendedAgents()[0] || { nome: 'Agente prioritário', onde: '' };
+      const sector = calc.diagnosis.setorLabel;
+      const pain = labelFrom(PAIN_LABEL, state.answers.dor) || 'o processo prioritário';
+      const timeline = labelFrom(TIMELINE_LABEL, state.answers.prazo) || 'prazo não definido';
+      const tools = state.answers.ferramentas.includes('nenhuma')
+        ? 'sem ferramenta de IA escolhida'
+        : state.answers.ferramentas.filter((item) => item !== 'nenhuma').map((item) => TOOL_LABEL[item] || item).join(' / ');
+      const confidence = reportConfidence(intel);
+      const thesis = 'A prioridade recomendada é testar "' + agent.nome + '" no fluxo "' + pain + '" antes de discutir automações maiores. O potencial estimado vem sobretudo de ' + (calc.leadValueLost >= calc.timeValue ? 'oportunidade comercial perdida' : 'tempo operacional recuperável') + '.';
+
+      return {
+        calc,
+        intel,
+        agent,
+        sector,
+        pain,
+        timeline,
+        tools,
+        confidence,
+        thesis
+      };
+    }
+
+    function executiveReportItems() {
+      const data = reportData();
+      return [
+        ['Tese de implementação', data.thesis],
+        ['Próxima decisão', data.timeline + '. A sessão deve validar dono interno, exemplos reais e critério de sucesso antes de qualquer compra de ferramenta.'],
+        ['Confiança do diagnóstico', data.confidence + '/100. ' + (data.confidence >= 75 ? 'Boa base para conversa comercial imediata.' : 'Ainda precisa de confirmação operacional na reunião.')]
+      ];
+    }
+
+    function renderExecutiveReport() {
+      const data = reportData();
+      document.getElementById('executiveLead').textContent =
+        'Relatório composto para ' + (state.lead.empresa || 'a empresa') + ': ' + data.sector + ', foco em "' + data.pain + '", stack ' + data.tools + ' e urgência ' + data.intel.score.tier.toLowerCase() + '.';
+
+      const host = document.getElementById('executiveBullets');
+      host.replaceChildren();
+      executiveReportItems().forEach(([title, text]) => {
+        const item = document.createElement('li');
+        const strong = document.createElement('strong');
+        strong.textContent = title;
+        const copy = document.createTextNode(text);
+        item.append(strong, copy);
+        host.append(item);
+      });
+    }
+
+    function impactScenarios() {
+      const calc = estimate();
+      return [
+        ['Conservador', calc.total * 0.55, 'Só ganhos claros, com adopção parcial e validação humana apertada.'],
+        ['Base', calc.total, 'Assunções actuais do diagnóstico, ajustáveis nos sliders.'],
+        ['Ambicioso', calc.total * 1.45, 'Boa adopção, maior cobertura de pedidos e melhorias no follow-up.']
+      ];
+    }
+
+    function renderImpactScenarios() {
+      const host = document.getElementById('scenarioHost');
       host.replaceChildren();
 
-      list.forEach(([title, description], index) => {
+      impactScenarios().forEach(([label, value, note]) => {
+        const card = document.createElement('div');
+        card.className = 'scenario-card';
+        const span = document.createElement('span');
+        span.textContent = label;
+        const strong = document.createElement('strong');
+        strong.textContent = formatEuro(value) + '/mês';
+        const paragraph = document.createElement('p');
+        paragraph.textContent = formatEuro(value * 12) + '/ano. ' + note;
+        card.append(span, strong, paragraph);
+        host.append(card);
+      });
+    }
+
+    function priorityMatrixRows() {
+      const data = reportData();
+      const monthly = data.calc.total;
+      const valueScore = monthly >= 5000 ? 5 : monthly >= 2500 ? 4 : monthly >= 1000 ? 3 : monthly >= 400 ? 2 : 1;
+      const speedScore = state.answers.prazo === 'agora' ? 5 : state.answers.prazo === 'mes' ? 4 : state.answers.prazo === 'trimestre' ? 3 : 2;
+      const externalOk = state.companyEnrichment && state.companyEnrichment.status === 'found';
+      const dataScore = data.intel.cae.valid && externalOk ? 5 : data.intel.cae.valid || data.intel.nif.valid ? 4 : 3;
+      const adoptionScore = state.answers.ferramentas.includes('nenhuma') ? 2 : state.answers.ferramentas.length >= 2 ? 5 : 4;
+
+      return [
+        ['Valor económico', valueScore, 'Estimativa mensal base de ' + formatEuro(monthly) + ' antes de custos de implementação.'],
+        ['Velocidade de decisão', speedScore, 'Prazo declarado: ' + data.timeline + '.'],
+        ['Dados e contexto', dataScore, data.intel.cae.valid ? 'CAE ajuda a adaptar o playbook sectorial.' : 'Sem CAE, a sessão deve confirmar actividade real e processos.'],
+        ['Adopção pela equipa', adoptionScore, data.tools === 'sem ferramenta de IA escolhida' ? 'Primeiro passo é escolher ferramenta e regras.' : 'A stack actual permite começar sem trocar tudo.']
+      ];
+    }
+
+    function renderPriorityMatrix() {
+      const host = document.getElementById('priorityMatrix');
+      host.replaceChildren();
+
+      priorityMatrixRows().forEach(([label, score, note]) => {
+        const row = document.createElement('div');
+        row.className = 'matrix-row';
+        const top = document.createElement('div');
+        top.className = 'matrix-row__top';
+        const title = document.createElement('span');
+        title.textContent = label;
+        const value = document.createElement('span');
+        value.textContent = scoreLabel(score) + ' · ' + score + '/5';
+        top.append(title, value);
+        const bar = document.createElement('div');
+        bar.className = 'matrix-row__bar';
+        const fill = document.createElement('span');
+        fill.style.width = (score * 20) + '%';
+        bar.append(fill);
+        const paragraph = document.createElement('p');
+        paragraph.textContent = note;
+        row.append(top, bar, paragraph);
+        host.append(row);
+      });
+    }
+
+    function roadmapItems() {
+      const data = reportData();
+      return [
+        ['0-30 dias', 'Piloto controlado', 'Escolher processo "' + data.pain + '", preparar base de conhecimento mínima, formar 2-4 utilizadores e medir antes/depois.'],
+        ['31-60 dias', 'Operacionalizar', 'Criar templates, regras de revisão humana, biblioteca de prompts/processos e rotina semanal de melhoria.'],
+        ['61-90 dias', 'Escalar com segurança', 'Alargar a mais uma equipa/processo, definir owner, métricas mensais e critérios para automatização técnica.']
+      ];
+    }
+
+    function renderRoadmap() {
+      const host = document.getElementById('roadmapHost');
+      host.replaceChildren();
+
+      roadmapItems().forEach(([period, title, text]) => {
+        const item = document.createElement('div');
+        item.className = 'roadmap-phase';
+        const periodEl = document.createElement('span');
+        periodEl.textContent = period;
+        const copy = document.createElement('div');
+        const strong = document.createElement('strong');
+        strong.textContent = title;
+        const paragraph = document.createElement('p');
+        paragraph.textContent = text;
+        copy.append(strong, paragraph);
+        item.append(periodEl, copy);
+        host.append(item);
+      });
+    }
+
+    function riskControlItems() {
+      const data = reportData();
+      const items = [
+        ['Qualidade dos dados', 'Usar exemplos reais, retirar dados sensíveis e manter fontes aprovadas para evitar respostas inventadas.'],
+        ['RGPD e confidencialidade', 'Separar dados de clientes, criar regras de uso e manter revisão humana nos fluxos com informação pessoal.'],
+        ['Adoção interna', 'Nomear um dono do piloto e medir uso semanal; sem dono interno, o agente vira demonstração.']
+      ];
+
+      if (state.answers.ferramentas.includes('nenhuma')) {
+        items.push(['Escolha de ferramenta', 'Antes de implementar, decidir ferramenta aprovada, permissões e política de dados.']);
+      } else {
+        items.push(['Integração na stack', 'Começar por ' + data.tools + ' e só avaliar novas ferramentas se houver bloqueio real.']);
+      }
+
+      return items;
+    }
+
+    function renderRiskControls() {
+      const host = document.getElementById('riskHost');
+      host.replaceChildren();
+
+      riskControlItems().forEach(([title, text]) => {
+        const item = document.createElement('li');
+        const strong = document.createElement('strong');
+        strong.textContent = title;
+        item.append(strong, document.createTextNode(text));
+        host.append(item);
+      });
+    }
+
+    function successMetricItems() {
+      const data = reportData();
+      const leadMetric = data.calc.leadValueLost >= data.calc.timeValue
+        ? ['Tempo até primeira resposta', 'Medir minutos/horas desde pedido até resposta útil; alvo inicial: reduzir 30-50%.']
+        : ['Horas repetitivas recuperadas', 'Medir horas semanais poupadas no processo escolhido; alvo inicial: recuperar 20-30%.'];
+
+      return [
+        leadMetric,
+        ['Taxa de uso pela equipa', 'Pelo menos 2 utilizadores activos por semana no piloto, com exemplos reais.'],
+        ['Qualidade da resposta', 'Amostra semanal de outputs revistos: correcto, útil, com fonte ou pronto para edição humana.'],
+        ['Próximo passo comercial', 'No fim de 14 dias: decidir formar, pilotar com acompanhamento ou arquivar por falta de valor.']
+      ];
+    }
+
+    function renderSuccessMetrics() {
+      const host = document.getElementById('metricHost');
+      host.replaceChildren();
+
+      successMetricItems().forEach(([title, text]) => {
+        const item = document.createElement('li');
+        const strong = document.createElement('strong');
+        strong.textContent = title;
+        item.append(strong, document.createTextNode(text));
+        host.append(item);
+      });
+    }
+
+    function companyIntel() {
+      const nif = analyseNif(state.lead.nif);
+      const cae = analyseCae(state.lead.cae);
+      const score = leadScore(nif, cae);
+      const caeSectorLabel = cae.sector ? SECTOR_LABEL[cae.sector] : '';
+      const sectorMismatch = cae.valid && cae.sector && state.answers.setor && cae.sector !== state.answers.setor;
+
+      return {
+        nif,
+        cae,
+        score,
+        sectorMismatch,
+        caeSectorLabel
+      };
+    }
+
+    function leadScore(nif, cae) {
+      let score = 20;
+      if (['3', '4'].includes(state.answers.leads)) score += 15;
+      if (['3', '4'].includes(state.answers.resposta)) score += 20;
+      if (['3', '4'].includes(state.answers.repetitivas)) score += 15;
+      if (state.answers.prazo === 'agora') score += 18;
+      if (state.answers.prazo === 'mes') score += 12;
+      if (state.answers.prazo === 'explorar') score -= 8;
+      if (state.lead.objetivo === 'marcar') score += 10;
+      if (state.lead.telefone) score += 6;
+      if (nif.valid) score += 4;
+      if (cae.valid) score += 4;
+
+      const bounded = Math.max(0, Math.min(100, score));
+      const tier = bounded >= 75 ? 'Alta' : bounded >= 50 ? 'Média' : 'Exploratória';
+      const nextStep = tier === 'Alta'
+        ? 'Marcação recomendada em horário útil: há sinais de impacto e intenção.'
+        : tier === 'Média'
+          ? 'Boa candidata a sessão curta se houver dono interno para piloto.'
+          : 'Manter o diagnóstico como referência e avançar quando houver prioridade clara.';
+
+      return { value: bounded, tier, nextStep };
+    }
+
+    function addIntelCard(host, title, value, note, wide) {
+      const card = document.createElement('div');
+      card.className = 'analysis-card' + (wide ? ' is-wide' : '');
+      const label = document.createElement('span');
+      label.textContent = title;
+      const strong = document.createElement('strong');
+      strong.textContent = value;
+      const paragraph = document.createElement('p');
+      paragraph.textContent = note;
+      card.append(label, strong, paragraph);
+      host.append(card);
+    }
+
+    function renderCompanyIntel() {
+      const host = document.getElementById('companyIntel');
+      const intel = companyIntel();
+      const enrichment = state.companyEnrichment || { status: 'not_requested', checks: [] };
+      host.replaceChildren();
+
+      addIntelCard(
+        host,
+        'NIF',
+        intel.nif.provided ? (intel.nif.clean + ' · ' + (intel.nif.valid ? intel.nif.kind : 'a rever')) : 'Não indicado',
+        intel.nif.note
+      );
+
+      addIntelCard(
+        host,
+        'CAE',
+        intel.cae.provided ? (intel.cae.clean + ' · ' + intel.cae.label) : 'Não indicado',
+        intel.sectorMismatch
+          ? 'O CAE sugere ' + intel.caeSectorLabel + ', diferente do sector escolhido. Vale validar isto na sessão.'
+          : intel.cae.note
+      );
+
+      addIntelCard(
+        host,
+        'Foco prioritário',
+        labelFrom(PAIN_LABEL, state.answers.dor) || 'Não definido',
+        firstPilotSummary()
+      );
+
+      addIntelCard(
+        host,
+        'Urgência',
+        intel.score.tier + ' · ' + intel.score.value + '/100',
+        intel.score.nextStep
+      );
+
+      addIntelCard(
+        host,
+        'Janela de contacto',
+        labelFrom(CONTACT_WINDOW_LABEL, state.lead.janela_contacto) || 'Sem preferência',
+        state.lead.objetivo
+          ? 'Objetivo declarado: ' + labelFrom(OBJECTIVE_LABEL, state.lead.objetivo) + '.'
+          : 'Sem objetivo adicional indicado no formulário.',
+        true
+      );
+
+      addIntelCard(
+        host,
+        'Fonte externa',
+        enrichmentLabel(enrichment),
+        enrichmentNote(enrichment),
+        true
+      );
+    }
+
+    function enrichmentLabel(enrichment) {
+      if (enrichment.status === 'found') return 'Validado em ' + (enrichment.source || 'VIES');
+      if (enrichment.status === 'not_found') return 'Não confirmado em ' + (enrichment.source || 'VIES');
+      if (enrichment.status === 'skipped') return 'Consulta não feita';
+      if (enrichment.status === 'unavailable') return 'Fonte indisponível';
+      if (enrichment.status === 'pending') return 'Consulta em curso';
+      return 'Não solicitado';
+    }
+
+    function enrichmentNote(enrichment) {
+      const checks = Array.isArray(enrichment.checks) ? enrichment.checks.filter(Boolean) : [];
+      const companyName = enrichment.company_name ? ' Nome público: ' + enrichment.company_name + '.' : '';
+      return (checks[0] || 'Sem consulta externa; relatório usa respostas declaradas.') + companyName;
+    }
+
+    function firstPilotSummary() {
+      const sector = currentDiagnosis().setorLabel;
+      const pain = state.answers.dor;
+      if (pain === 'resposta') return 'Começar por um fluxo de triagem e primeira resposta para ' + sector + '.';
+      if (pain === 'admin') return 'Escolher uma tarefa administrativa repetida e medir tempo poupado antes/depois.';
+      if (pain === 'documentos') return 'Reunir documentos aprovados e criar respostas com fontes citadas.';
+      if (pain === 'reporting') return 'Usar um relatório recorrente para testar resumo, variações e próximos passos.';
+      if (pain === 'atendimento') return 'Criar FAQ controlada e rota de encaminhamento para excepções.';
+      if (pain === 'formacao') return 'Começar por regras de uso seguro e exercícios por função, antes de automatizar.';
+      return 'Validar primeiro o processo de maior atrito antes de escolher tecnologia.';
+    }
+
+    function recommendedAgents() {
+      const diagnosis = currentDiagnosis();
+      const base = diagnosis.agentes || SETORES_DIAG.outro.agentes;
+      const priority = PRIORITY_AGENTS[state.answers.dor];
+      const list = [];
+      const seen = new Set();
+
+      function push(agent) {
+        const item = Array.isArray(agent)
+          ? { nome: agent[0], onde: agent[1], esforco: 'Baixo' }
+          : agent;
+        if (!item || seen.has(item.nome)) return;
+        seen.add(item.nome);
+        list.push(item);
+      }
+
+      base.forEach(push);
+      push(priority);
+      return list.slice(0, 3);
+    }
+
+    function renderAgents() {
+      const host = document.getElementById('agentsHost');
+      const list = recommendedAgents();
+      host.replaceChildren();
+
+      list.forEach((agent, index) => {
         const item = document.createElement('div');
         item.className = 'agent';
 
@@ -1912,11 +3575,18 @@
 
         const copy = document.createElement('div');
         const heading = document.createElement('h4');
-        heading.textContent = title;
+        heading.textContent = agent.nome;
+        const meta = document.createElement('div');
+        meta.className = 'agent-meta';
+        const where = document.createElement('span');
+        where.textContent = agent.onde || 'Processo prioritário';
+        const effort = document.createElement('span');
+        effort.textContent = 'Esforço ' + (agent.esforco || 'Médio');
+        meta.append(where, effort);
         const paragraph = document.createElement('p');
-        paragraph.textContent = description;
+        paragraph.textContent = agent.descricao || agent.onde || 'Começar por um piloto controlado, com exemplos reais e revisão humana.';
 
-        copy.append(heading, paragraph);
+        copy.append(heading, meta, paragraph);
         item.append(badge, copy);
         host.append(item);
       });
@@ -1936,6 +3606,82 @@
       note.textContent = 'Como a equipa já usa ' + readable + ', o plano deve começar por integrar estes agentes nessa stack antes de propor novas ferramentas.';
     }
 
+    function renderBenchmark() {
+      const line = document.getElementById('benchmarkLine');
+      line.textContent = currentDiagnosis().benchmark;
+    }
+
+    function renderFctCrossSell() {
+      const panel = document.getElementById('fctPanel');
+      const copy = document.getElementById('fctCopy');
+      const diagnosis = currentDiagnosis();
+
+      if (!diagnosis.fctElegivel && !diagnosis.fctAValidar) {
+        panel.hidden = true;
+        return;
+      }
+
+      panel.hidden = false;
+      copy.textContent = diagnosis.fctElegivel
+        ? 'Como indicou que a empresa já tinha trabalhadores antes de 2023, pode fazer sentido estimar saldo FCT e usar formação certificada para financiar parte da adopção de IA.'
+        : 'Como não tem a certeza sobre histórico antes de 2023, vale validar saldo FCT antes de decidir orçamento de formação.';
+    }
+
+    function playbookItems() {
+      const sector = currentDiagnosis().setorLabel;
+      const pain = labelFrom(PAIN_LABEL, state.answers.dor) || 'o processo prioritário';
+      const tool = state.answers.ferramentas.includes('nenhuma')
+        ? 'uma ferramenta aprovada'
+        : state.answers.ferramentas.filter((item) => item !== 'nenhuma').map((item) => TOOL_LABEL[item] || item).join(' / ');
+
+      return [
+        'Dia 1-2: escolher um processo concreto em ' + sector + ' ligado a "' + pain + '" e recolher 20 exemplos reais sem dados sensíveis.',
+        'Dia 3-5: desenhar respostas-padrão, regras de validação humana e base de conhecimento mínima para o agente prioritário.',
+        'Dia 6-10: testar o fluxo em ' + tool + ' com 2 pessoas da equipa e medir tempo até resposta, retrabalho e qualidade percebida.',
+        'Dia 11-14: decidir se avança para formação da equipa, piloto acompanhado ou backlog de automações, com um dono interno nomeado.'
+      ];
+    }
+
+    function renderPlaybook() {
+      const host = document.getElementById('playbookHost');
+      host.replaceChildren();
+
+      playbookItems().forEach((text, index) => {
+        const item = document.createElement('li');
+        const number = document.createElement('span');
+        number.textContent = String(index + 1);
+        const copy = document.createElement('strong');
+        copy.textContent = text;
+        item.append(number, copy);
+        host.append(item);
+      });
+    }
+
+    function meetingAgendaItems() {
+      const intel = companyIntel();
+      const caeText = intel.cae.valid ? 'CAE ' + intel.cae.clean + ' e actividade real' : 'sector e actividade real';
+      return [
+        '5 min: validar ' + caeText + ', urgência e objectivo da equipa.',
+        '10 min: mapear o processo "' + (labelFrom(PAIN_LABEL, state.answers.dor) || 'prioritário') + '", ferramentas, dados disponíveis e riscos RGPD.',
+        '5 min: fechar próximo passo: formação prática, piloto assistido ou backlog de automações.'
+      ];
+    }
+
+    function renderMeetingAgenda() {
+      const host = document.getElementById('meetingAgenda');
+      host.replaceChildren();
+
+      meetingAgendaItems().forEach((text, index) => {
+        const item = document.createElement('li');
+        const number = document.createElement('span');
+        number.textContent = String(index + 1);
+        const copy = document.createElement('strong');
+        copy.textContent = text;
+        item.append(number, copy);
+        host.append(item);
+      });
+    }
+
     let resultControlsBound = false;
 
     function bindResultControls() {
@@ -1946,6 +3692,8 @@
       ['assumptionHour', 'assumptionRecovery', 'assumptionLeadValue'].forEach((id) => {
         document.getElementById(id).addEventListener('input', () => {
           recalculateResult();
+          renderImpactScenarios();
+          renderPriorityMatrix();
           updateMailto();
         });
       });
@@ -1978,27 +3726,68 @@
 
     function payloadForLead() {
       const calc = estimate();
-      const suggestedAgents = (AGENTS[state.answers.setor] || AGENTS.outro).map((agent) => agent[0]);
+      const intel = companyIntel();
+      const enrichment = state.companyEnrichment || { status: 'not_requested', checks: [] };
+      const suggestedAgents = recommendedAgents().map((agent) => agent.nome);
+      const enrichmentRows = enrichmentSummaryItems(enrichment);
 
       return {
         nome: state.lead.nome,
         email: state.lead.email,
         telefone: state.lead.telefone || null,
         empresa: state.lead.empresa,
+        cargo: labelFrom(ROLE_LABEL, state.lead.cargo) || null,
+        objetivo: labelFrom(OBJECTIVE_LABEL, state.lead.objetivo) || null,
+        nif: intel.nif.clean || null,
+        nif_valido: intel.nif.provided ? intel.nif.valid : null,
+        nif_tipo: intel.nif.provided ? intel.nif.kind : null,
+        cae: intel.cae.clean || null,
+        cae_divisao: intel.cae.division,
+        cae_sector: intel.cae.sector ? SECTOR_LABEL[intel.cae.sector] : null,
+        website_empresa: state.lead.website_empresa || null,
+        janela_contacto: labelFrom(CONTACT_WINDOW_LABEL, state.lead.janela_contacto) || null,
         setor: labelFor('setor', state.answers.setor),
         colaboradores: labelFor('colab', state.answers.colab),
         leads_semana: labelFor('leads', state.answers.leads),
         tempo_resposta: labelFor('resposta', state.answers.resposta),
         horas_repetitivas: labelFor('repetitivas', state.answers.repetitivas),
+        dor_prioritaria: labelFor('dor', state.answers.dor),
+        prazo_decisao: labelFor('prazo', state.answers.prazo),
+        existia_antes_2023: labelFor('existia', state.answers.existia),
         ferramentas: state.answers.ferramentas.map((tool) => labelFor('ferramentas', tool)),
         perda_estimada_mensal: Math.round(calc.total),
         assuncao_custo_hora: calc.hour,
         assuncao_pct_recuperavel: Math.round(calc.recovery * 100),
         assuncao_valor_lead: calc.leadValue,
         agentes_sugeridos: suggestedAgents,
+        lead_score: intel.score.value,
+        urgencia: intel.score.tier,
+        enriquecimento_estado: enrichmentLabel(enrichment),
+        enriquecimento_empresa: enrichmentRows,
+        relatorio_executivo: executiveReportItems().map(([title, text]) => title + ': ' + text),
+        cenarios_impacto: impactScenarios().map(([label, value, note]) => label + ': ' + formatEuro(value) + '/mês; ' + formatEuro(value * 12) + '/ano. ' + note),
+        matriz_prioridade: priorityMatrixRows().map(([label, score, note]) => label + ': ' + score + '/5. ' + note),
+        plano_14_dias: playbookItems(),
+        roadmap_90_dias: roadmapItems().map(([period, title, text]) => period + ' — ' + title + ': ' + text),
+        riscos_governanca: riskControlItems().map(([title, text]) => title + ': ' + text),
+        metricas_sucesso: successMetricItems().map(([title, text]) => title + ': ' + text),
+        agenda_reuniao: meetingAgendaItems(),
         consentimento_rgpd: state.lead.consent === true,
         origem: 'diagnostico-web'
       };
+    }
+
+    function enrichmentSummaryItems(enrichment) {
+      const rows = [
+        'Estado: ' + enrichmentLabel(enrichment),
+        'Fonte: ' + (enrichment.source || 'n/a')
+      ];
+      if (enrichment.company_name) rows.push('Nome público: ' + enrichment.company_name);
+      if (enrichment.fetched_at) rows.push('Consultado em: ' + enrichment.fetched_at);
+      if (Array.isArray(enrichment.checks)) {
+        enrichment.checks.slice(0, 4).forEach((item) => rows.push(item));
+      }
+      return rows;
     }
 
     async function sendLead() {
@@ -2023,24 +3812,64 @@
 
     function updateMailto() {
       const calc = estimate();
+      const intel = companyIntel();
       const subject = 'Diagnóstico de agentes de IA - ' + (state.lead.empresa || 'empresa');
       const body = [
         'Olá Bilal,',
         '',
-        'Fiz o diagnóstico de agentes de IA e quero transformar o resultado num plano.',
+        'Fiz o diagnóstico de agentes de IA e quero marcar uma sessão de 20 minutos para validar o próximo passo.',
         '',
         'Empresa: ' + (state.lead.empresa || ''),
         'Nome: ' + (state.lead.nome || ''),
         'Email: ' + (state.lead.email || ''),
         'Telefone: ' + (state.lead.telefone || ''),
+        'Função: ' + (labelFrom(ROLE_LABEL, state.lead.cargo) || ''),
+        'NIF: ' + (intel.nif.clean || 'não indicado'),
+        'CAE: ' + (intel.cae.clean ? intel.cae.clean + ' - ' + intel.cae.label : 'não indicado'),
+        'Website: ' + (state.lead.website_empresa || ''),
         'Sector: ' + labelFor('setor', state.answers.setor),
+        'Foco prioritário: ' + labelFor('dor', state.answers.dor),
+        'Prazo: ' + labelFor('prazo', state.answers.prazo),
+        'Existia antes de 2023: ' + labelFor('existia', state.answers.existia),
+        'Janela de contacto: ' + (labelFrom(CONTACT_WINDOW_LABEL, state.lead.janela_contacto) || 'sem preferência'),
+        'Fonte externa: ' + enrichmentLabel(state.companyEnrichment || {}),
         'Estimativa mensal: ' + formatEuro(calc.total),
+        'Urgência: ' + intel.score.tier + ' (' + intel.score.value + '/100)',
         'Ferramentas actuais: ' + state.answers.ferramentas.map((tool) => labelFor('ferramentas', tool)).join(', '),
         '',
-        'Gostava de perceber o próximo passo.'
+        'Sumário executivo:',
+        '- ' + executiveReportItems().map(([title, text]) => title + ': ' + text).join('\n- '),
+        '',
+        'Cenários:',
+        '- ' + impactScenarios().map(([label, value]) => label + ': ' + formatEuro(value) + '/mês').join('\n- '),
+        '',
+        'Agenda sugerida:',
+        '- ' + meetingAgendaItems().join('\n- '),
+        '',
+        'Gostava de perceber disponibilidade para a sessão.'
       ].join('\n');
 
-      document.getElementById('planCta').href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      const mailto = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      const cta = document.getElementById('planCta');
+      cta.dataset.mailto = mailto;
+      if (BOOKING_URL) {
+        cta.href = BOOKING_URL;
+        cta.target = '_blank';
+        cta.rel = 'noopener noreferrer';
+        cta.innerHTML = 'Agendar análise de 20 min <span aria-hidden="true">→</span>';
+        return;
+      }
+
+      activateMailFallback();
+    }
+
+    function activateMailFallback() {
+      const cta = document.getElementById('planCta');
+      const fallback = cta.dataset.mailto || ('mailto:' + CONTACT_EMAIL);
+      cta.href = fallback;
+      cta.removeAttribute('target');
+      cta.removeAttribute('rel');
+      cta.innerHTML = 'Pedir marcação por email <span aria-hidden="true">→</span>';
     }
 
     els.backButton.addEventListener('click', goBack);
