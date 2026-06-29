@@ -53,6 +53,15 @@ vercel env add RESEND_API_KEY production
 # (c) opcional, se quiseres receber noutro email além do default
 vercel env add LEAD_ALERT_EMAIL production
 # ex.: bilal.machraa@aitipro.com,fernando@aitipro.com
+
+# (d) opcional, mas recomendado se houver tráfego pago/outreach em escala:
+# rate-limit durável para /api/lead sem alterar a tabela Neon
+vercel env add UPSTASH_REDIS_REST_URL production
+vercel env add UPSTASH_REDIS_REST_TOKEN production
+
+# (e) opcional: restringir origem de lead/analytics se mudares domínio ou porta local
+vercel env add LEAD_ALLOWED_ORIGINS production
+vercel env add ANALYTICS_ALLOWED_ORIGINS production
 ```
 
 ## 4. Deploy
@@ -80,6 +89,7 @@ Como o `aitipro.com` já é gerido pela tua conta Vercel (o `formacao-ai-ltx.ait
 - **Sem `DATABASE_URL`:** o `/api/lead` devolve 503 → o front-end cai automaticamente no mailto. Não perdes leads — o visitante envia por email.
 - **Com `DATABASE_URL` só:** lead grava no Neon, sem email automático. Vês os leads em `SELECT * FROM leads_fct_calc ORDER BY submitted_at DESC` no Neon Console.
 - **Com `DATABASE_URL` + `RESEND_API_KEY`:** lead grava no Neon **e** recebes email formatado (com a estimativa que a pessoa calculou) em `LEAD_ALERT_EMAIL`.
+- **Com `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN`:** o rate-limit de leads fica durável entre instâncias Vercel. Sem Upstash, há fallback em memória por instância.
 
 ## Ver os leads recebidos
 
@@ -137,6 +147,6 @@ CREATE TABLE leads_fct_calc (
 ## Segurança / RGPD
 
 - A connection string do Neon e a chave Resend vivem **só** nas env vars do Vercel — nunca no código fonte nem no git.
-- A tabela guarda apenas o que o lead **voluntariamente** submeteu + a sua estimativa + user-agent/referer técnicos.
+- A tabela guarda apenas o que o lead **voluntariamente** submeteu + a sua estimativa. Os campos técnicos `user_agent` e `referer` existem no schema legado, mas a API envia `NULL` por minimização RGPD.
 - Pode pedir-se a eliminação ao Bilal — `DELETE FROM leads_fct_calc WHERE email = '…'`.
 - Nenhum dado sensível (NIF, IBAN, salários de trabalhadores reais) é capturado.

@@ -4,6 +4,10 @@
   "private": true,
   "description": "Calculadora pública do saldo FCT — AiTiPro",
   "type": "module",
+  "scripts": {
+    "test": "node test/calculo.test.mjs",
+    "check": "node --check api/lead.js && node --check api/umami-send.js && npm test"
+  },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
     "resend": "^4.0.0"

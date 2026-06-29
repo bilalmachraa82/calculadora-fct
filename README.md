@@ -26,6 +26,7 @@ Sem framework, sem build step. O front-end é estático; a única parte server-s
    - Sem `DATABASE_URL` → devolve **503** → o front-end cai no **fallback `mailto:`** (abre o email do visitante). Nenhum lead se perde.
    - Com `DATABASE_URL` → `INSERT` na tabela Neon `leads_fct_calc`.
    - Com `RESEND_API_KEY` → envia também email de notificação (best-effort; não bloqueia o insert).
+   - Rate-limit por IP anonimizado; se `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` existirem, o limite é durável entre instâncias.
 
 ---
 
@@ -91,6 +92,11 @@ Definidas no Vercel (Project → Settings → Environment Variables). **Nunca** 
 | `LEAD_ALERT_EMAIL` | não | Destinatário(s), default `bilal.machraa@aitipro.com` |
 | `LEAD_ALERT_FROM` | não | Remetente Resend, default `onboarding@resend.dev` |
 | `LEAD_ALLOWED_ORIGINS` | não | Lista CORS separada por vírgulas; default inclui domínio de produção e localhost |
+| `LEAD_RATE_LIMIT_MAX` | não | Máximo de submissões por IP anonimizado/janela, default `12` |
+| `LEAD_RATE_LIMIT_WINDOW_SEC` | não | Janela do rate-limit em segundos, default `900` |
+| `UPSTASH_REDIS_REST_URL` | não | Backend durável opcional para rate-limit |
+| `UPSTASH_REDIS_REST_TOKEN` | não | Token Upstash REST; nunca commitar |
+| `ANALYTICS_ALLOWED_ORIGINS` | não | Lista CORS do proxy Umami; se ausente usa `LEAD_ALLOWED_ORIGINS` |
 
 Para desenvolvimento local, criar `.env.local` (já no `.gitignore`) com as mesmas chaves.
 
@@ -99,6 +105,12 @@ Para desenvolvimento local, criar `.env.local` (já no `.gitignore`) com as mesm
 ## Desenvolvimento e deploy
 
 ```bash
+# testes determinísticos do cálculo
+npm test
+
+# checks de sintaxe das APIs + testes
+npm run check
+
 # correr localmente (com Vercel CLI)
 vercel dev
 
@@ -115,8 +127,9 @@ Ver `DEPLOY.md` para o passo-a-passo completo (link ao team correcto, env vars, 
 - [x] Calculadora + 3 cenários + secção informativa + 6 passos de resgate
 - [x] Captura de lead com fallback mailto
 - [x] Tabela Neon `leads_fct_calc`
+- [x] SEO social card + robots/sitemap + JSON-LD
+- [x] Testes determinísticos de cálculo (`npm test`)
 - [ ] Deploy em produção no team AiTiPro + subdomínio `calculadora-fct.aitipro.com`
-- [ ] Trocar wordmark de texto pelo PNG oficial do logo AiTiPro
 - [ ] (opcional) Página `/admin` protegida por token para listar leads sem entrar no Neon
 - [ ] (opcional) Sugestão automática de mix de módulos de formação consoante o setor
 
