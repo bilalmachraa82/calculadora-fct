@@ -14,7 +14,11 @@
 //   LEAD_ALERT_EMAIL      (opcional)     destinatário(s), default bilal.machraa@aitipro.com
 //   LEAD_ALERT_FROM       (opcional)     remetente Resend, default onboarding@resend.dev
 //   LEAD_ALLOWED_ORIGINS  (opcional)     lista CORS separada por vírgulas
+//   LEAD_RATE_LIMIT_MAX   (opcional)     pedidos por janela/IP, default 12
+//   LEAD_RATE_LIMIT_WINDOW_SEC (opcional) janela em segundos, default 900
+//   UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN (opcional) rate-limit durável
 
+import { createHash } from 'node:crypto';
 import { neon } from '@neondatabase/serverless';
 import { Resend } from 'resend';
 
@@ -27,6 +31,17 @@ const MAX_BODY_BYTES = 10_000;
 const ALLOWED_ORIGINS = (process.env.LEAD_ALLOWED_ORIGINS ||
   'https://calculadora-fct.aitipro.com,http://localhost:3000,http://localhost:3001,http://localhost:5173,http://127.0.0.1:3000')
   .split(',').map(s => s.trim()).filter(Boolean);
+const RATE_LIMIT_MAX = clampPositiveInt(process.env.LEAD_RATE_LIMIT_MAX, 12, 1, 1000);
+const RATE_LIMIT_WINDOW_SEC = clampPositiveInt(process.env.LEAD_RATE_LIMIT_WINDOW_SEC, 900, 60, 86400);
+const UPSTASH_URL = String(process.env.UPSTASH_REDIS_REST_URL || '').replace(/\/+$/, '');
+const UPSTASH_TOKEN = String(process.env.UPSTASH_REDIS_REST_TOKEN || '');
+const memoryRateLimit = new Map();
+
+function clampPositiveInt(value, fallback, min, max) {
+  const n = parseInt(value, 10);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.min(max, Math.max(min, n));
+}
 
 function esc(s) {
   return String(s == null ? '' : s)
@@ -52,6 +67,79 @@ function clampInt(v, min, max) {
   if (!Number.isFinite(n)) return null;
   if (n < min || n > max) return null;
   return n;
+}
+
+function requestIp(req) {
+  const xff = req.headers['x-forwarded-for'];
+  const raw = Array.isArray(xff) ? xff[0] : (xff || (req.socket && req.socket.remoteAddress) || 'unknown');
+  return String(raw).split(',')[0].trim() || 'unknown';
+}
+
+function rateLimitKey(req) {
+  const ipHash = createHash('sha256').update(requestIp(req)).digest('hex').slice(0, 32);
+  return `lead:${ipHash}`;
+}
+
+function jsonContentTypeAllowed(req) {
+  const type = String(req.headers['content-type'] || '').toLowerCase();
+  return !type || type.includes('application/json');
+}
+
+function memoryRateLimitCheck(key) {
+  const now = Date.now();
+  const windowMs = RATE_LIMIT_WINDOW_SEC * 1000;
+  const current = memoryRateLimit.get(key);
+  const entry = current && current.resetAt > now
+    ? { count: current.count + 1, resetAt: current.resetAt }
+    : { count: 1, resetAt: now + windowMs };
+  memoryRateLimit.set(key, entry);
+
+  if (memoryRateLimit.size > 5000) {
+    for (const [storedKey, stored] of memoryRateLimit) {
+      if (stored.resetAt <= now) memoryRateLimit.delete(storedKey);
+    }
+  }
+
+  return {
+    limited: entry.count > RATE_LIMIT_MAX,
+    retryAfter: Math.max(1, Math.ceil((entry.resetAt - now) / 1000)),
+  };
+}
+
+async function upstashRateLimitCheck(key) {
+  const response = await fetch(`${UPSTASH_URL}/pipeline`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${UPSTASH_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify([
+      ['INCR', key],
+      ['EXPIRE', key, RATE_LIMIT_WINDOW_SEC],
+    ]),
+  });
+  if (!response.ok) throw new Error(`upstash:${response.status}`);
+
+  const payload = await response.json();
+  const count = Number(payload && payload[0] && payload[0].result);
+  if (!Number.isFinite(count)) throw new Error('upstash:invalid-response');
+
+  return {
+    limited: count > RATE_LIMIT_MAX,
+    retryAfter: RATE_LIMIT_WINDOW_SEC,
+  };
+}
+
+async function rateLimitCheck(req) {
+  const key = rateLimitKey(req);
+  if (UPSTASH_URL && UPSTASH_TOKEN) {
+    try {
+      return await upstashRateLimitCheck(key);
+    } catch (err) {
+      console.error('Rate limit backend error:', err);
+    }
+  }
+  return memoryRateLimitCheck(key);
 }
 
 // Cria/actualiza o contacto no HubSpot CRM. Idempotente: faz upsert por email,
@@ -164,6 +252,7 @@ export default async function handler(req, res) {
   }
   if (!originAllowed(req)) return res.status(403).json({ error: 'Origin not allowed.' });
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed.' });
+  if (!jsonContentTypeAllowed(req)) return res.status(415).json({ error: 'Unsupported media type.' });
 
   const contentLength = Number(req.headers['content-length'] || 0);
   if (contentLength > MAX_BODY_BYTES) return res.status(413).json({ error: 'Payload too large.' });
@@ -182,6 +271,12 @@ export default async function handler(req, res) {
 
   const honeypot = cleanText(body.website || body.empresa_site, 200);
   if (honeypot) return res.status(204).end();
+
+  const limit = await rateLimitCheck(req);
+  if (limit.limited) {
+    res.setHeader('Retry-After', String(limit.retryAfter));
+    return res.status(429).json({ error: 'Too many requests.' });
+  }
 
   const consent = body.consent === true || body.consent === 'true' || body.consent === '1';
   const nome     = cleanText(body.nome, 200);
@@ -222,16 +317,13 @@ export default async function handler(req, res) {
   }
 
   // HubSpot CRM best-effort — upsert do contacto; não falha o request se falhar.
-  let hubspotStatus = 'skipped';
   try {
-    hubspotStatus = await pushToHubspot({ nome, empresa, email, telefone, estimativa });
+    await pushToHubspot({ nome, empresa, email, telefone, estimativa });
   } catch (err) {
     console.error('HubSpot push error:', err);
-    hubspotStatus = `failed:${err.message || 'unknown'}`;
   }
 
   // Notificação Resend best-effort — não falha o request se o email falhar.
-  let emailStatus = 'skipped';
   if (process.env.RESEND_API_KEY) {
     try {
       const resend = new Resend(process.env.RESEND_API_KEY);
@@ -243,10 +335,9 @@ export default async function handler(req, res) {
         subject: `[Calculadora FCT] ${empresa} — ${nome}`,
         html
       });
-      emailStatus = (r && r.error) ? `failed:${r.error.message || 'unknown'}` : 'sent';
+      if (r && r.error) console.error('Resend send error:', r.error);
     } catch (err) {
       console.error('Resend error:', err);
-      emailStatus = `failed:${err.message || 'unknown'}`;
     }
   }
 
