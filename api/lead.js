@@ -18,8 +18,10 @@
 import { neon } from '@neondatabase/serverless';
 import { Resend } from 'resend';
 
+const sql = process.env.DATABASE_URL ? neon(process.env.DATABASE_URL) : null;
+
 const ALERT_TO = (process.env.LEAD_ALERT_EMAIL || 'bilal.machraa@aitipro.com')
-  .split(',').map(s => s.trim());
+  .split(',').map(s => s.trim()).filter(Boolean);
 const ALERT_FROM = process.env.LEAD_ALERT_FROM || 'AiTiPro Calculadora <onboarding@resend.dev>';
 const MAX_BODY_BYTES = 10_000;
 const ALLOWED_ORIGINS = (process.env.LEAD_ALLOWED_ORIGINS ||
@@ -166,8 +168,7 @@ export default async function handler(req, res) {
   const contentLength = Number(req.headers['content-length'] || 0);
   if (contentLength > MAX_BODY_BYTES) return res.status(413).json({ error: 'Payload too large.' });
 
-  const databaseUrl = process.env.DATABASE_URL;
-  if (!databaseUrl) {
+  if (!sql) {
     // Sem DB configurada: devolve 503 para o front-end cair no fallback mailto.
     return res.status(503).json({ error: 'Lead backend not configured.' });
   }
@@ -207,7 +208,6 @@ export default async function handler(req, res) {
 
   let leadId;
   try {
-    const sql = neon(databaseUrl);
     const inserted = await sql`
       INSERT INTO leads_fct_calc
         (nome, empresa, email, telefone, setor, n_trab, ano_const, saldo_base, saldo_cons, saldo_otim, meses, user_agent, referer)
@@ -250,10 +250,5 @@ export default async function handler(req, res) {
     }
   }
 
-  // Diagnóstico opt-in: com header "x-debug: 1" devolve o estado das integrações.
-  // Resposta normal mantém-se { ok: true } (o front-end ignora campos extra).
-  if (req.headers['x-debug'] === '1') {
-    return res.status(200).json({ ok: true, hubspot: hubspotStatus, email: emailStatus, leadId });
-  }
   return res.status(200).json({ ok: true });
 }

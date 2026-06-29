@@ -86,6 +86,7 @@ Definidas no Vercel (Project → Settings → Environment Variables). **Nunca** 
 | Variável | Obrigatória | Para quê |
 |---|---|---|
 | `DATABASE_URL` | sim (para gravar leads) | Connection string Postgres da Neon |
+| `HUBSPOT_TOKEN` | não | Upsert best-effort do contacto no HubSpot CRM |
 | `RESEND_API_KEY` | não | Notificação por email a cada lead |
 | `LEAD_ALERT_EMAIL` | não | Destinatário(s), default `bilal.machraa@aitipro.com` |
 | `LEAD_ALERT_FROM` | não | Remetente Resend, default `onboarding@resend.dev` |
