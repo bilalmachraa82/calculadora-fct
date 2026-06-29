@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://diagnostico.aitipro.com/sitemap.xml

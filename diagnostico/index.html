@@ -1,0 +1,2051 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnóstico de Agentes de IA para PMEs | AiTiPro</title>
+  <meta name="description" content="Diagnóstico gratuito para identificar agentes de IA úteis na sua empresa, estimar tempo e oportunidades recuperáveis e receber um mapa de prioridades.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://diagnostico.aitipro.com/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#eef3f7">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_PT">
+  <meta property="og:site_name" content="AiTiPro">
+  <meta property="og:title" content="Diagnóstico de Agentes de IA para PMEs | AiTiPro">
+  <meta property="og:description" content="Descubra os 3 agentes de IA com maior potencial para a sua equipa, com uma estimativa transparente e ajustável.">
+  <meta property="og:url" content="https://diagnostico.aitipro.com/">
+  <meta property="og:image" content="https://diagnostico.aitipro.com/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Diagnóstico de Agentes de IA para PMEs | AiTiPro">
+  <meta name="twitter:description" content="Diagnóstico gratuito para estimar impacto e priorizar agentes de IA na sua empresa.">
+  <meta name="twitter:image" content="https://diagnostico.aitipro.com/social-card.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://aitipro.com/#organization",
+        "name": "AiTiPro",
+        "url": "https://aitipro.com/",
+        "logo": "https://diagnostico.aitipro.com/aitipro_logo_principal.png",
+        "email": "bilal.machraa@aitipro.com"
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://diagnostico.aitipro.com/#app",
+        "name": "Diagnóstico de Agentes de IA para PMEs",
+        "url": "https://diagnostico.aitipro.com/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "inLanguage": "pt-PT",
+        "provider": {
+          "@id": "https://aitipro.com/#organization"
+        },
+        "description": "Ferramenta gratuita que ajuda empresas portuguesas a identificar casos de uso prioritários para agentes de IA e formação prática."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://diagnostico.aitipro.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "O diagnóstico substitui uma consultoria?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Não. O diagnóstico é uma estimativa inicial para orientar prioridades. A implementação exige validação com processos, dados, equipa e regras internas."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Preciso de mudar de ferramenta de IA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Não necessariamente. O diagnóstico considera ferramentas já usadas pela equipa, como ChatGPT, Microsoft Copilot, Gemini ou Claude."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Como são usados os dados submetidos?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Os dados são usados para enviar o resultado, responder ao pedido e preparar uma eventual conversa comercial. Pode pedir eliminação a qualquer momento."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #eef3f7;
+      --surface: #ffffff;
+      --surface-soft: #f7fafc;
+      --ink: #132033;
+      --ink-strong: #0a1525;
+      --muted: #5b6a7e;
+      --muted-strong: #3a4b61;
+      --line: #dbe5ed;
+      --line-strong: #c5d3df;
+      --brand: #20c997;
+      --brand-dark: #0e9f78;
+      --brand-soft: #dcfff4;
+      --navy: #14243a;
+      --amber: #d8791f;
+      --amber-soft: #fff4e7;
+      --danger: #b42318;
+      --danger-soft: #fff1f0;
+      --shadow: 0 18px 50px rgba(14, 31, 53, 0.10);
+      --radius: 8px;
+      --content: 1120px;
+      color-scheme: light;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      line-height: 1.5;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.is-locked {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 20;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      background: var(--ink-strong);
+      color: #ffffff;
+      transform: translateY(-150%);
+      transition: transform 160ms ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .container {
+      width: min(100% - 48px, var(--content));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid rgba(197, 211, 223, 0.75);
+      background: rgba(238, 243, 247, 0.92);
+      backdrop-filter: blur(12px);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      gap: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      min-width: 122px;
+    }
+
+    .brand img {
+      display: block;
+      width: 118px;
+      height: auto;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted-strong);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .nav a {
+      text-decoration: none;
+    }
+
+    .nav a:hover,
+    .nav a:focus-visible {
+      color: var(--ink-strong);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      gap: 8px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      padding: 11px 18px;
+      background: var(--brand);
+      color: #06251b;
+      font-weight: 800;
+      line-height: 1.1;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, border-color 140ms ease;
+      box-shadow: 0 10px 24px rgba(32, 201, 151, 0.24);
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      background: #2de0aa;
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(32, 201, 151, 0.30);
+    }
+
+    .btn:disabled {
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+      opacity: 0.62;
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--ink-strong);
+      border-color: var(--line-strong);
+      box-shadow: none;
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:focus-visible {
+      background: var(--surface-soft);
+      box-shadow: none;
+    }
+
+    .btn-quiet {
+      background: transparent;
+      color: var(--muted-strong);
+      border-color: var(--line);
+      box-shadow: none;
+    }
+
+    .btn-quiet:hover,
+    .btn-quiet:focus-visible {
+      background: #ffffff;
+      color: var(--ink-strong);
+      box-shadow: none;
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .hero {
+      padding: 56px 0 46px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(420px, 520px);
+      align-items: start;
+      gap: 40px;
+    }
+
+    .hero-copy {
+      padding-top: 18px;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--amber);
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 680px;
+      margin-bottom: 18px;
+      color: var(--ink-strong);
+      font-size: 50px;
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    h1 strong {
+      color: var(--brand-dark);
+    }
+
+    .lead {
+      max-width: 660px;
+      margin-bottom: 24px;
+      color: var(--muted-strong);
+      font-size: 18px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      max-width: 600px;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      min-height: 58px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.58);
+      color: var(--muted-strong);
+      font-size: 14px;
+    }
+
+    .trust-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .trust-item strong {
+      display: block;
+      color: var(--ink-strong);
+      font-size: 14px;
+    }
+
+    .diagnostic-card {
+      border: 1px solid rgba(197, 211, 223, 0.9);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .diagnostic-card__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface-soft);
+    }
+
+    .card-kicker {
+      margin: 0;
+      color: var(--amber);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .diagnostic-card h2 {
+      margin: 3px 0 0;
+      color: var(--ink-strong);
+      font-size: 20px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .step-pill {
+      flex: 0 0 auto;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--muted-strong);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .diagnostic-card__body {
+      padding: 22px;
+    }
+
+    .progress {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: #e7eef4;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--brand);
+      transition: width 220ms ease;
+    }
+
+    .question-title {
+      margin-bottom: 6px;
+      color: var(--ink-strong);
+      font-size: 24px;
+      line-height: 1.22;
+      letter-spacing: 0;
+    }
+
+    .question-help {
+      margin-bottom: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .choice-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .choice {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      align-items: start;
+      gap: 12px;
+      width: 100%;
+      min-height: 58px;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .choice:hover,
+    .choice:focus-visible {
+      border-color: var(--brand-dark);
+      background: #f4fffb;
+    }
+
+    .choice[aria-pressed="true"] {
+      border-color: var(--brand-dark);
+      background: var(--brand-soft);
+      box-shadow: inset 0 0 0 1px var(--brand-dark);
+    }
+
+    .choice__mark {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--line-strong);
+      border-radius: 50%;
+      margin-top: 2px;
+      background: #ffffff;
+    }
+
+    .choice[aria-pressed="true"] .choice__mark {
+      border-color: var(--brand-dark);
+      background: radial-gradient(circle, var(--brand-dark) 0 42%, transparent 44%);
+    }
+
+    .choice strong {
+      display: block;
+      color: var(--ink-strong);
+      font-size: 15px;
+    }
+
+    .choice small {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .quiz-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .microcopy {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .lead-form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      color: var(--muted-strong);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .field input {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      padding: 11px 12px;
+      outline: none;
+    }
+
+    .field input:focus {
+      border-color: var(--brand-dark);
+      box-shadow: 0 0 0 3px rgba(32, 201, 151, 0.18);
+    }
+
+    .consent {
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+      color: var(--muted-strong);
+      font-size: 13px;
+    }
+
+    .consent input {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--brand-dark);
+    }
+
+    .form-error {
+      display: none;
+      padding: 10px 12px;
+      border: 1px solid rgba(180, 35, 24, 0.22);
+      border-radius: var(--radius);
+      background: var(--danger-soft);
+      color: var(--danger);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .form-error.is-visible {
+      display: block;
+    }
+
+    .submitted-state {
+      display: grid;
+      gap: 12px;
+    }
+
+    .submitted-state h3 {
+      margin-bottom: 0;
+      color: var(--ink-strong);
+      font-size: 24px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .submitted-state p {
+      margin: 0;
+      color: var(--muted-strong);
+    }
+
+    .hp-field {
+      position: absolute;
+      left: -10000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .section {
+      padding: 54px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-header {
+      max-width: 720px;
+      margin-bottom: 24px;
+    }
+
+    .section-header h2 {
+      margin-bottom: 8px;
+      color: var(--ink-strong);
+      font-size: 32px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .section-header p {
+      color: var(--muted-strong);
+    }
+
+    .proof-grid,
+    .step-grid,
+    .faq-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .proof-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .proof-item,
+    .step-item,
+    .faq-item {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 18px;
+      box-shadow: 0 10px 28px rgba(14, 31, 53, 0.05);
+    }
+
+    .proof-item strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--brand-dark);
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .proof-item p,
+    .step-item p,
+    .faq-item p {
+      margin-bottom: 0;
+      color: var(--muted-strong);
+      font-size: 14px;
+    }
+
+    .step-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .step-item h3,
+    .faq-item h3 {
+      margin-bottom: 6px;
+      color: var(--ink-strong);
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    .faq-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .result-section {
+      padding: 52px 0;
+      border-top: 1px solid var(--line);
+      background: #f8fbfd;
+    }
+
+    .result-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .result-hero,
+    .result-panel,
+    .final-cta {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 10px 28px rgba(14, 31, 53, 0.06);
+    }
+
+    .result-hero {
+      padding: 26px;
+    }
+
+    .result-kicker {
+      margin-bottom: 8px;
+      color: var(--amber);
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .result-hero h2 {
+      margin-bottom: 12px;
+      color: var(--ink-strong);
+      font-size: 34px;
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .big-number {
+      margin: 14px 0 4px;
+      color: var(--brand-dark);
+      font-size: 58px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .result-note {
+      color: var(--muted-strong);
+      font-size: 14px;
+    }
+
+    .breakdown {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .breakdown-item {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+    }
+
+    .breakdown-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .breakdown-item strong {
+      display: block;
+      margin-top: 5px;
+      color: var(--ink-strong);
+      font-size: 22px;
+    }
+
+    .result-panel {
+      padding: 22px;
+      margin-top: 16px;
+    }
+
+    .result-panel:first-child {
+      margin-top: 0;
+    }
+
+    .result-panel h3 {
+      margin-bottom: 14px;
+      color: var(--ink-strong);
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    .range-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 82px;
+      gap: 12px;
+      align-items: center;
+      margin-top: 14px;
+    }
+
+    .range-row label {
+      color: var(--muted-strong);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .range-row output {
+      color: var(--ink-strong);
+      text-align: right;
+      font-weight: 900;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--brand-dark);
+    }
+
+    .formula {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+      color: var(--muted-strong);
+      font-size: 13px;
+    }
+
+    .agents {
+      display: grid;
+      gap: 10px;
+    }
+
+    .agent {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+    }
+
+    .agent-index {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      font-weight: 900;
+    }
+
+    .agent h4 {
+      margin: 0 0 3px;
+      color: var(--ink-strong);
+      font-size: 16px;
+    }
+
+    .agent p {
+      margin: 0;
+      color: var(--muted-strong);
+      font-size: 14px;
+    }
+
+    .stack-note,
+    .delivery-status {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: var(--radius);
+      font-size: 14px;
+    }
+
+    .stack-note {
+      border: 1px solid rgba(32, 201, 151, 0.32);
+      background: var(--brand-soft);
+      color: #07583f;
+    }
+
+    .delivery-status {
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+      color: var(--muted-strong);
+    }
+
+    .delivery-status.is-ok {
+      border-color: rgba(32, 201, 151, 0.32);
+      background: var(--brand-soft);
+      color: #07583f;
+    }
+
+    .delivery-status.is-warn {
+      border-color: rgba(216, 121, 31, 0.34);
+      background: var(--amber-soft);
+      color: #7a410c;
+    }
+
+    .final-cta {
+      padding: 22px;
+      background: var(--navy);
+      color: #ffffff;
+    }
+
+    .final-cta h3 {
+      margin-bottom: 8px;
+      font-size: 22px;
+      letter-spacing: 0;
+    }
+
+    .final-cta p {
+      color: #d7e2eb;
+      font-size: 14px;
+    }
+
+    .cta-stack {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .final-cta .btn-secondary {
+      background: transparent;
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+
+    .final-cta .btn-secondary:hover,
+    .final-cta .btn-secondary:focus-visible {
+      background: rgba(255, 255, 255, 0.10);
+    }
+
+    .site-footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-grid {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .footer-grid img {
+      width: 116px;
+      height: auto;
+      margin-bottom: 8px;
+    }
+
+    .footer-contact {
+      text-align: right;
+    }
+
+    .footer-contact a {
+      color: var(--ink-strong);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .result-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy {
+        padding-top: 0;
+      }
+
+      h1 {
+        font-size: 40px;
+      }
+
+      .proof-grid,
+      .step-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(100% - 32px, var(--content));
+      }
+
+      .site-header {
+        position: static;
+      }
+
+      .header-inner {
+        min-height: 66px;
+      }
+
+      .nav a:not(.header-cta) {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 34px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .lead {
+        font-size: 17px;
+      }
+
+      .trust-grid,
+      .form-grid,
+      .faq-grid,
+      .breakdown {
+        grid-template-columns: 1fr;
+      }
+
+      .diagnostic-card__top,
+      .diagnostic-card__body,
+      .result-hero,
+      .result-panel,
+      .final-cta {
+        padding: 18px;
+      }
+
+      .hero-actions,
+      .quiz-nav {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .hero-actions .btn,
+      .quiz-nav .btn {
+        width: 100%;
+      }
+
+      .question-title {
+        font-size: 22px;
+      }
+
+      .section-header h2 {
+        font-size: 28px;
+      }
+
+      .result-hero h2 {
+        font-size: 28px;
+      }
+
+      .big-number {
+        font-size: 46px;
+      }
+
+      .footer-grid {
+        display: grid;
+      }
+
+      .footer-contact {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .container {
+        width: min(100% - 24px, var(--content));
+      }
+
+      h1 {
+        font-size: 31px;
+      }
+
+      .brand img {
+        width: 104px;
+      }
+
+      .header-cta {
+        padding-inline: 12px;
+      }
+
+      .diagnostic-card__top {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .step-pill {
+        align-self: flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
+    @media print {
+      .site-header,
+      .hero,
+      .section,
+      .site-footer,
+      .final-cta .btn,
+      .skip-link {
+        display: none !important;
+      }
+
+      body {
+        background: #ffffff;
+      }
+
+      .result-section {
+        display: block !important;
+        padding: 0;
+        border: 0;
+        background: #ffffff;
+      }
+
+      .result-layout {
+        display: block;
+      }
+
+      .result-hero,
+      .result-panel,
+      .final-cta {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#diagnostico">Saltar para o diagnóstico</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="https://aitipro.com/" aria-label="AiTiPro">
+        <img src="/aitipro_logo_principal.png" alt="AiTiPro" width="925" height="216">
+      </a>
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#rgpd">RGPD</a>
+        <a class="btn header-cta" href="#diagnostico">Começar <span aria-hidden="true">→</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Diagnóstico AiTiPro para PMEs</p>
+          <h1 id="hero-title">Descubra quais <strong>agentes de IA</strong> fazem sentido na sua empresa</h1>
+          <p class="lead">
+            Responda a 6 perguntas e receba uma estimativa ajustável do tempo e das oportunidades que podem ser recuperados, com 3 agentes prioritários para começar sem mudar a stack da equipa.
+          </p>
+          <div class="hero-actions">
+            <a class="btn" href="#diagnostico">Fazer diagnóstico <span aria-hidden="true">→</span></a>
+            <a class="btn btn-secondary" href="#como-funciona">Ver metodologia</a>
+          </div>
+          <div class="trust-grid" aria-label="Sinais de confiança">
+            <div class="trust-item">
+              <span class="trust-icon" aria-hidden="true">✓</span>
+              <span><strong>Resultado em 2 minutos</strong>Sem reunião obrigatória para ver a estimativa.</span>
+            </div>
+            <div class="trust-item">
+              <span class="trust-icon" aria-hidden="true">✓</span>
+              <span><strong>Formação certificada</strong>AiTiPro é entidade formadora certificada pela DGERT.</span>
+            </div>
+            <div class="trust-item">
+              <span class="trust-icon" aria-hidden="true">✓</span>
+              <span><strong>Feito para equipas portuguesas</strong>Foco em processos comerciais, administrativos e operacionais.</span>
+            </div>
+            <div class="trust-item">
+              <span class="trust-icon" aria-hidden="true">✓</span>
+              <span><strong>RGPD desde o formulário</strong>Consentimento explícito e recolha mínima de dados.</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="diagnostic-card" id="diagnostico" aria-labelledby="diagnostic-title">
+          <div class="diagnostic-card__top">
+            <div>
+              <p class="card-kicker" id="card-mode">Diagnóstico gratuito</p>
+              <h2 id="diagnostic-title">Comece pela realidade da sua equipa</h2>
+            </div>
+            <span class="step-pill" id="stepPill">Pergunta 1/6</span>
+          </div>
+          <div class="diagnostic-card__body" id="diagnosticBody">
+            <div class="progress" role="progressbar" aria-label="Progresso do diagnóstico" aria-valuemin="1" aria-valuemax="6" aria-valuenow="1">
+              <span id="progressBar"></span>
+            </div>
+            <div id="questionHost"></div>
+            <div class="quiz-nav">
+              <button class="btn btn-quiet" type="button" id="backButton">Voltar</button>
+              <button class="btn" type="button" id="nextButton">Continuar <span aria-hidden="true">→</span></button>
+            </div>
+            <p class="microcopy" id="quizHint">As respostas servem apenas para calcular a estimativa e priorizar o mapa.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="prova-title">
+      <div class="container">
+        <div class="section-header">
+          <p class="eyebrow">Orientado para conversão real</p>
+          <h2 id="prova-title">O output não é uma lista genérica de ferramentas</h2>
+          <p>O diagnóstico transforma sinais simples da empresa num plano inicial: onde a equipa perde tempo, onde a resposta comercial falha e que tipo de agente deve ser testado primeiro.</p>
+        </div>
+        <div class="proof-grid">
+          <div class="proof-item">
+            <strong>6</strong>
+            <p>Perguntas de contexto, suficientes para estimar valor sem pedir dados sensíveis.</p>
+          </div>
+          <div class="proof-item">
+            <strong>3</strong>
+            <p>Agentes recomendados por sector, com descrição prática do primeiro caso de uso.</p>
+          </div>
+          <div class="proof-item">
+            <strong>0</strong>
+            <p>Promessas absolutas: a página mostra assunções editáveis e trata o valor como indicativo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="como-funciona" aria-labelledby="metodo-title">
+      <div class="container">
+        <div class="section-header">
+          <p class="eyebrow">Método</p>
+          <h2 id="metodo-title">Como o diagnóstico calcula a prioridade</h2>
+          <p>A fórmula é simples de propósito: permite qualificar o contacto, abrir uma conversa comercial concreta e evitar recomendações que não encaixam na stack actual.</p>
+        </div>
+        <div class="step-grid">
+          <div class="step-item">
+            <span class="step-number" aria-hidden="true">1</span>
+            <h3>Mapeia contexto</h3>
+            <p>Sector, dimensão, volume de leads, velocidade de resposta, esforço repetitivo e ferramentas já usadas.</p>
+          </div>
+          <div class="step-item">
+            <span class="step-number" aria-hidden="true">2</span>
+            <h3>Estima impacto</h3>
+            <p>Combina horas recuperáveis e oportunidade comercial perdida. Todos os valores podem ser ajustados no resultado.</p>
+          </div>
+          <div class="step-item">
+            <span class="step-number" aria-hidden="true">3</span>
+            <h3>Prioriza formação e implementação</h3>
+            <p>Entrega 3 agentes iniciais e um CTA para converter a estimativa num plano de formação prática com a AiTiPro.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="result-section" id="resultado" aria-labelledby="resultado-title" tabindex="-1" hidden>
+      <div class="container result-layout">
+        <div>
+          <div class="result-hero">
+            <p class="result-kicker">Resultado indicativo</p>
+            <h2 id="resultado-title"><span id="resultName">A sua empresa</span>, aqui está o mapa inicial</h2>
+            <p class="result-note">Estimativa para <span id="resultSector">a sua empresa</span>. Ajuste as assunções abaixo para aproximar o valor à sua realidade.</p>
+            <div class="big-number" id="resultTotal">0 €</div>
+            <p class="result-note"><span id="resultAnnual">0 €</span> por ano, antes de custos de implementação ou formação.</p>
+            <div class="breakdown">
+              <div class="breakdown-item">
+                <span>Tempo recuperável</span>
+                <strong id="resultTime">0 €</strong>
+              </div>
+              <div class="breakdown-item">
+                <span>Oportunidade comercial</span>
+                <strong id="resultLeads">0 €</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-panel">
+            <h3>Assunções editáveis</h3>
+            <div class="range-row">
+              <label for="assumptionHour">Custo médio por hora</label>
+              <output id="labelHour" for="assumptionHour">19 €</output>
+            </div>
+            <input type="range" id="assumptionHour" min="10" max="45" step="1" value="19">
+            <div class="range-row">
+              <label for="assumptionRecovery">Tempo recuperável com IA</label>
+              <output id="labelRecovery" for="assumptionRecovery">30%</output>
+            </div>
+            <input type="range" id="assumptionRecovery" min="10" max="70" step="5" value="30">
+            <div class="range-row">
+              <label for="assumptionLeadValue">Valor esperado por lead/cliente</label>
+              <output id="labelLeadValue" for="assumptionLeadValue">80 €</output>
+            </div>
+            <input type="range" id="assumptionLeadValue" min="20" max="500" step="10" value="80">
+            <p class="formula" id="formulaText"></p>
+          </div>
+        </div>
+
+        <div>
+          <div class="result-panel">
+            <h3>3 agentes por onde começar</h3>
+            <div class="agents" id="agentsHost"></div>
+            <p class="stack-note" id="stackNote"></p>
+            <p class="delivery-status" id="deliveryStatus" aria-live="polite">A preparar o envio do pedido.</p>
+          </div>
+
+          <div class="final-cta">
+            <h3>Transforme o diagnóstico num plano de formação</h3>
+            <p>Se fizer sentido avançar, a próxima conversa deve sair daqui com um caso de uso prioritário, equipa-alvo, ferramentas e critérios de sucesso.</p>
+            <div class="cta-stack">
+              <a class="btn" id="planCta" href="mailto:bilal.machraa@aitipro.com">Pedir plano de implementação <span aria-hidden="true">→</span></a>
+              <button class="btn btn-secondary" type="button" id="printButton">Imprimir ou guardar PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="rgpd" aria-labelledby="rgpd-title">
+      <div class="container">
+        <div class="section-header">
+          <p class="eyebrow">RGPD</p>
+          <h2 id="rgpd-title">Dados mínimos para um contacto útil</h2>
+          <p>O formulário recolhe apenas nome, email profissional, empresa, telefone opcional e respostas do diagnóstico. A finalidade é enviar o resultado, responder ao pedido e preparar uma eventual conversa comercial sobre formação certificada.</p>
+        </div>
+        <div class="faq-grid">
+          <div class="faq-item">
+            <h3>Posso ver o resultado sem reunião?</h3>
+            <p>Sim. O resultado aparece no browser assim que submete o formulário. A conversa é opcional e deve acrescentar valor ao plano.</p>
+          </div>
+          <div class="faq-item">
+            <h3>Os números são garantias?</h3>
+            <p>Não. São uma estimativa indicativa baseada nas respostas e nas assunções editáveis. A implementação exige validação com processos reais.</p>
+          </div>
+          <div class="faq-item">
+            <h3>Há dados sensíveis no diagnóstico?</h3>
+            <p>Não são pedidos ficheiros, clientes, passwords, dados clínicos ou dados financeiros. O telefone é opcional.</p>
+          </div>
+          <div class="faq-item">
+            <h3>Como peço eliminação?</h3>
+            <p>Envie pedido para <a href="mailto:bilal.machraa@aitipro.com">bilal.machraa@aitipro.com</a>. A eliminação não afecta obrigações legais que possam existir.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <img src="/aitipro_logo_principal.png" alt="AiTiPro" width="925" height="216">
+        <div>Capacitação e soluções tecnológicas de IA para PMEs.</div>
+      </div>
+      <div class="footer-contact">
+        <strong>Contacto comercial</strong><br>
+        <a href="mailto:bilal.machraa@aitipro.com">bilal.machraa@aitipro.com</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="sr-only" id="diagnosticAnnouncer" aria-live="polite"></div>
+
+  <script>
+    const CONTACT_EMAIL = 'bilal.machraa@aitipro.com';
+
+    const state = {
+      currentStep: 0,
+      answers: {
+        setor: null,
+        colab: null,
+        leads: null,
+        resposta: null,
+        repetitivas: null,
+        ferramentas: []
+      },
+      lead: {}
+    };
+
+    const QUESTIONS = [
+      {
+        key: 'setor',
+        label: 'Contexto',
+        title: 'Qual é o sector da empresa?',
+        help: 'Isto ajuda a ajustar o tipo de agente recomendado.',
+        mode: 'single',
+        options: [
+          ['imobiliario', 'Imobiliário / Condomínios', 'Gestão de pedidos, documentos e atendimento.'],
+          ['saude', 'Saúde / Clínicas', 'Marcações, FAQ e triagem administrativa.'],
+          ['retalho', 'Retalho / Comércio', 'Apoio a vendas, atendimento e reporting.'],
+          ['servicos', 'Serviços profissionais / Contabilidade', 'Documentação, reuniões, email e análise.'],
+          ['industria', 'Indústria / Produção', 'Procedimentos, turnos, qualidade e KPIs.'],
+          ['outro', 'Outro sector', 'Mapeamos a recomendação de forma mais genérica.']
+        ]
+      },
+      {
+        key: 'colab',
+        label: 'Dimensão',
+        title: 'Quantos colaboradores tem a empresa?',
+        help: 'A dimensão aproxima a complexidade de adopção e formação.',
+        mode: 'single',
+        options: [
+          ['1', '1 a 5', 'Equipa pequena, adopção rápida e poucos papéis.'],
+          ['2', '6 a 20', 'PME em crescimento, processos a consolidar.'],
+          ['3', '21 a 50', 'Várias equipas, maior necessidade de normas.'],
+          ['4', 'Mais de 50', 'Adoção por áreas e governação mais relevante.']
+        ]
+      },
+      {
+        key: 'leads',
+        label: 'Procura',
+        title: 'Quantos leads ou pedidos entram por semana?',
+        help: 'Inclua contactos comerciais, pedidos de orçamento, marcações ou pedidos de suporte.',
+        mode: 'single',
+        options: [
+          ['1', 'Menos de 10', 'Baixo volume, foco em qualidade e consistência.'],
+          ['2', '10 a 30', 'Volume suficiente para padronizar respostas.'],
+          ['3', '30 a 100', 'Boa oportunidade para triagem e follow-up.'],
+          ['4', 'Mais de 100', 'Prioridade alta para automatizar classificação e resposta.']
+        ]
+      },
+      {
+        key: 'resposta',
+        label: 'Velocidade',
+        title: 'Qual é o tempo médio de resposta a um lead?',
+        help: 'Quanto maior a demora, maior tende a ser a oportunidade comercial perdida.',
+        mode: 'single',
+        options: [
+          ['1', 'Menos de 1 hora', 'Resposta rápida, optimização incremental.'],
+          ['2', '1 a 4 horas', 'Ainda competitivo, mas já há margem.'],
+          ['3', '4 a 24 horas', 'Risco relevante de perder intenção.'],
+          ['4', 'Mais de 24 horas', 'Prioridade para triagem e resposta assistida.']
+        ]
+      },
+      {
+        key: 'repetitivas',
+        label: 'Esforço',
+        title: 'Quantas horas por semana a equipa gasta em tarefas repetitivas?',
+        help: 'Considere copiar dados, escrever respostas semelhantes, preparar relatórios e procurar informação.',
+        mode: 'single',
+        options: [
+          ['1', 'Menos de 5 horas', 'Pouca dor operacional ou equipa muito pequena.'],
+          ['2', '5 a 15 horas', 'Primeiros ganhos práticos com assistentes.'],
+          ['3', '15 a 30 horas', 'Bom candidato para agentes por processo.'],
+          ['4', 'Mais de 30 horas', 'Impacto potencial elevado se houver governação.']
+        ]
+      },
+      {
+        key: 'ferramentas',
+        label: 'Stack actual',
+        title: 'Que ferramentas de IA a equipa já usa?',
+        help: 'Pode escolher mais do que uma. A recomendação tenta aproveitar o que já existe.',
+        mode: 'multi',
+        options: [
+          ['nenhuma', 'Nenhuma / a começar', 'A formação deve começar pela escolha segura da ferramenta.'],
+          ['chatgpt', 'ChatGPT', 'Pode servir para agentes de conteúdo, email e análise.'],
+          ['copilot', 'Microsoft Copilot', 'Útil quando a equipa vive em Microsoft 365.'],
+          ['gemini', 'Gemini', 'Útil em equipas com Google Workspace.'],
+          ['claude', 'Claude', 'Bom candidato para documentação e análise extensa.'],
+          ['outra', 'Outra ferramenta', 'Mantemos a recomendação neutra e adaptável.']
+        ]
+      }
+    ];
+
+    const MIDPOINTS = {
+      leads: { '1': 5, '2': 20, '3': 65, '4': 120 },
+      repetitivas: { '1': 3, '2': 10, '3': 22, '4': 35 },
+      perdaLead: { '1': 0.05, '2': 0.15, '3': 0.28, '4': 0.45 }
+    };
+
+    const AGENTS = {
+      imobiliario: [
+        ['Triagem de pedidos', 'Classifica emails e pedidos de condóminos/clientes, sugere prioridade e rascunha resposta no tom da empresa.'],
+        ['Base documental pesquisável', 'Encontra atas, contratos, regulamentos e histórico com fontes citadas para reduzir tempo de procura.'],
+        ['Atendimento assistido', 'Responde a perguntas frequentes com base em políticas internas e encaminha excepções para a equipa.']
+      ],
+      saude: [
+        ['Assistente de marcações', 'Apoia perguntas frequentes, preparação de marcações e mensagens administrativas não clínicas.'],
+        ['Triagem de email', 'Organiza pedidos por tipo, urgência administrativa e área responsável.'],
+        ['Procedimentos internos', 'Transforma normas e procedimentos em respostas pesquisáveis, com supervisão humana reforçada.']
+      ],
+      retalho: [
+        ['Follow-up comercial', 'Gera respostas e próximos passos por tipo de lead, produto ou campanha.'],
+        ['Atendimento de produto', 'Responde com base em documentação de produto, políticas de troca e disponibilidade.'],
+        ['Resumo de vendas', 'Converte dados de vendas ou campanhas em resumo executivo com sinais de acção.']
+      ],
+      servicos: [
+        ['Assistente de reuniões', 'Transforma notas e reuniões em tarefas, resumos e documentos estruturados.'],
+        ['Análise de ficheiros', 'Ajuda a resumir CSV/Excel e a explicar variações relevantes para clientes ou gestão.'],
+        ['Triagem de email', 'Organiza pedidos recorrentes e sugere rascunhos consistentes.']
+      ],
+      industria: [
+        ['Procedimentos operacionais', 'Converte SOPs e normas em checklists pesquisáveis para operação e qualidade.'],
+        ['Resumo de KPIs', 'Transforma dados de turno ou produção em alertas e resumo executivo.'],
+        ['Base técnica assistida', 'Ajuda a pesquisar manuais, instruções e normas internas com fontes citadas.']
+      ],
+      outro: [
+        ['Triagem de email', 'Organiza pedidos, sugere prioridade e rascunha respostas recorrentes.'],
+        ['Base de conhecimento', 'Responde a perguntas frequentes com documentação interna validada.'],
+        ['Reporting assistido', 'Transforma ficheiros e notas em resumo executivo com próximos passos.']
+      ]
+    };
+
+    const SECTOR_LABEL = {
+      imobiliario: 'imobiliário / condomínios',
+      saude: 'saúde / clínicas',
+      retalho: 'retalho / comércio',
+      servicos: 'serviços profissionais',
+      industria: 'indústria / produção',
+      outro: 'a sua empresa'
+    };
+
+    const TOOL_LABEL = {
+      nenhuma: 'nenhuma ferramenta',
+      chatgpt: 'ChatGPT',
+      copilot: 'Microsoft Copilot',
+      gemini: 'Gemini',
+      claude: 'Claude',
+      outra: 'outra ferramenta'
+    };
+
+    const els = {
+      cardMode: document.getElementById('card-mode'),
+      cardTitle: document.getElementById('diagnostic-title'),
+      stepPill: document.getElementById('stepPill'),
+      progress: document.querySelector('.progress'),
+      progressBar: document.getElementById('progressBar'),
+      questionHost: document.getElementById('questionHost'),
+      backButton: document.getElementById('backButton'),
+      nextButton: document.getElementById('nextButton'),
+      quizHint: document.getElementById('quizHint'),
+      diagnosticBody: document.getElementById('diagnosticBody'),
+      resultSection: document.getElementById('resultado'),
+      announcer: document.getElementById('diagnosticAnnouncer')
+    };
+
+    function labelFor(key, value) {
+      const question = QUESTIONS.find((item) => item.key === key);
+      const match = question && question.options.find((option) => option[0] === value);
+      return match ? match[1] : value;
+    }
+
+    function announce(message) {
+      els.announcer.textContent = message;
+    }
+
+    function track(name, props) {
+      if (typeof window.plausible === 'function') {
+        window.plausible(name, { props: props || {} });
+      }
+    }
+
+    function renderQuestion() {
+      const question = QUESTIONS[state.currentStep];
+      const progressValue = Math.round(((state.currentStep + 1) / QUESTIONS.length) * 100);
+
+      els.cardMode.textContent = 'Diagnóstico gratuito';
+      els.cardTitle.textContent = 'Comece pela realidade da sua equipa';
+      els.stepPill.textContent = 'Pergunta ' + (state.currentStep + 1) + '/' + QUESTIONS.length;
+      els.progress.hidden = false;
+      els.progress.setAttribute('aria-valuenow', String(state.currentStep + 1));
+      els.progressBar.style.width = progressValue + '%';
+      els.backButton.hidden = false;
+      els.nextButton.hidden = question.mode !== 'multi';
+      els.backButton.disabled = state.currentStep === 0;
+      els.quizHint.hidden = false;
+      els.quizHint.textContent = question.mode === 'multi'
+        ? 'Escolha as ferramentas relevantes e continue para ver o resultado.'
+        : 'As respostas servem apenas para calcular a estimativa e priorizar o mapa.';
+
+      els.questionHost.replaceChildren();
+
+      const title = document.createElement('h3');
+      title.className = 'question-title';
+      title.textContent = question.title;
+
+      const help = document.createElement('p');
+      help.className = 'question-help';
+      help.textContent = question.help;
+
+      const list = document.createElement('div');
+      list.className = 'choice-list';
+
+      question.options.forEach(([value, text, description]) => {
+        const selected = question.mode === 'multi'
+          ? state.answers[question.key].includes(value)
+          : state.answers[question.key] === value;
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'choice';
+        button.setAttribute('aria-pressed', String(selected));
+        button.addEventListener('click', () => selectOption(question, value));
+
+        const mark = document.createElement('span');
+        mark.className = 'choice__mark';
+        mark.setAttribute('aria-hidden', 'true');
+
+        const textWrap = document.createElement('span');
+        const strong = document.createElement('strong');
+        strong.textContent = text;
+        const small = document.createElement('small');
+        small.textContent = description;
+        textWrap.append(strong, small);
+        button.append(mark, textWrap);
+        list.append(button);
+      });
+
+      els.questionHost.append(title, help, list);
+      els.nextButton.disabled = question.mode === 'multi' && state.answers[question.key].length === 0;
+      announce('Pergunta ' + (state.currentStep + 1) + ' de ' + QUESTIONS.length + ': ' + question.title);
+    }
+
+    function selectOption(question, value) {
+      if (question.mode === 'multi') {
+        const current = state.answers[question.key];
+        if (value === 'nenhuma') {
+          state.answers[question.key] = current.includes('nenhuma') ? [] : ['nenhuma'];
+        } else if (current.includes(value)) {
+          state.answers[question.key] = current.filter((item) => item !== value);
+        } else {
+          state.answers[question.key] = current.filter((item) => item !== 'nenhuma').concat(value);
+        }
+        renderQuestion();
+        return;
+      }
+
+      state.answers[question.key] = value;
+      track('Diagnostico resposta', { pergunta: question.key });
+      window.setTimeout(() => goNext(), 120);
+    }
+
+    function goNext() {
+      const question = QUESTIONS[state.currentStep];
+      if (question.mode === 'multi' && state.answers[question.key].length === 0) {
+        return;
+      }
+
+      if (state.currentStep < QUESTIONS.length - 1) {
+        state.currentStep += 1;
+        renderQuestion();
+        return;
+      }
+
+      renderLeadForm();
+    }
+
+    function goBack() {
+      if (state.currentStep === 0) {
+        return;
+      }
+      state.currentStep -= 1;
+      renderQuestion();
+    }
+
+    function renderLeadForm() {
+      els.cardMode.textContent = 'Resultado pronto';
+      els.cardTitle.textContent = 'Envie o mapa para si e veja já a estimativa';
+      els.stepPill.textContent = 'Contacto';
+      els.progress.hidden = true;
+      els.backButton.hidden = false;
+      els.nextButton.hidden = true;
+      els.backButton.disabled = false;
+      els.quizHint.hidden = true;
+
+      els.questionHost.innerHTML = `
+        <form class="lead-form" id="leadForm" novalidate>
+          <div>
+            <h3 class="question-title">Para onde enviamos o diagnóstico?</h3>
+            <p class="question-help">O resultado aparece já nesta página. Os dados servem para enviar o mapa e preparar uma eventual conversa comercial.</p>
+          </div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="leadName">Nome *</label>
+              <input id="leadName" name="nome" autocomplete="name" placeholder="O seu nome" required>
+            </div>
+            <div class="field">
+              <label for="leadEmail">Email profissional *</label>
+              <input id="leadEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="nome@empresa.pt" required>
+            </div>
+            <div class="field">
+              <label for="leadCompany">Empresa *</label>
+              <input id="leadCompany" name="empresa" autocomplete="organization" placeholder="Nome da empresa" required>
+            </div>
+            <div class="field">
+              <label for="leadPhone">Telefone opcional</label>
+              <input id="leadPhone" name="telefone" autocomplete="tel" inputmode="tel" placeholder="+351 ...">
+            </div>
+          </div>
+          <div class="hp-field" aria-hidden="true">
+            <label for="leadWebsite">Website</label>
+            <input id="leadWebsite" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <label class="consent" for="leadConsent">
+            <input id="leadConsent" name="consentimento" type="checkbox" required>
+            <span>Autorizo a AiTiPro a tratar estes dados para enviar o diagnóstico, responder ao pedido e preparar uma eventual conversa comercial. Posso pedir eliminação a qualquer momento.</span>
+          </label>
+          <p class="form-error" id="leadError" role="alert"></p>
+          <button class="btn btn-full" id="leadSubmit" type="submit">Ver resultado e enviar pedido <span aria-hidden="true">→</span></button>
+        </form>
+      `;
+
+      const form = document.getElementById('leadForm');
+      form.addEventListener('submit', handleLeadSubmit);
+      document.getElementById('leadName').focus();
+      track('Diagnostico gate');
+      announce('Resultado pronto. Preencha o formulário para ver a estimativa.');
+    }
+
+    function validateLeadForm(form) {
+      const data = new FormData(form);
+      const nome = String(data.get('nome') || '').trim();
+      const email = String(data.get('email') || '').trim();
+      const empresa = String(data.get('empresa') || '').trim();
+      const telefone = String(data.get('telefone') || '').trim();
+      const website = String(data.get('website') || '').trim();
+      const consent = data.get('consentimento') === 'on';
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      if (website) {
+        return { ok: true, bot: true };
+      }
+
+      if (nome.length < 2) {
+        return { ok: false, message: 'Indique o seu nome.' };
+      }
+
+      if (!emailOk) {
+        return { ok: false, message: 'Indique um email profissional válido.' };
+      }
+
+      if (empresa.length < 2) {
+        return { ok: false, message: 'Indique o nome da empresa para qualificar o diagnóstico.' };
+      }
+
+      if (!consent) {
+        return { ok: false, message: 'Confirme o consentimento RGPD para prosseguir.' };
+      }
+
+      return { ok: true, nome, email, empresa, telefone, consent, website };
+    }
+
+    function handleLeadSubmit(event) {
+      event.preventDefault();
+
+      const form = event.currentTarget;
+      const error = document.getElementById('leadError');
+      const submit = document.getElementById('leadSubmit');
+      const result = validateLeadForm(form);
+
+      error.textContent = '';
+      error.classList.remove('is-visible');
+
+      if (!result.ok) {
+        error.textContent = result.message;
+        error.classList.add('is-visible');
+        return;
+      }
+
+      if (result.bot) {
+        submit.disabled = true;
+        return;
+      }
+
+      state.lead = {
+        nome: result.nome,
+        email: result.email,
+        empresa: result.empresa,
+        telefone: result.telefone,
+        consent: result.consent
+      };
+
+      submit.disabled = true;
+      submit.textContent = 'A preparar o resultado...';
+      renderResult();
+      showResult();
+      renderSubmittedState('A guardar o pedido. O mapa já está disponível abaixo.');
+      sendLead()
+        .then(() => {
+          setDeliveryStatus('is-ok', 'Pedido registado. Também pode guardar este mapa em PDF.');
+          renderSubmittedState('Pedido registado. Pode guardar o mapa em PDF ou pedir o plano de implementação.');
+          track('Diagnostico lead', { status: 'ok' });
+        })
+        .catch(() => {
+          setDeliveryStatus('is-warn', 'Não consegui confirmar o envio automático. O resultado fica disponível e o botão abaixo abre um email já preenchido.');
+          renderSubmittedState('Resultado disponível. Como o envio automático falhou, use o email pré-preenchido no botão de plano.');
+          track('Diagnostico lead', { status: 'fallback' });
+        });
+    }
+
+    function renderSubmittedState(message) {
+      els.cardMode.textContent = 'Resultado gerado';
+      els.cardTitle.textContent = 'Mapa inicial criado';
+      els.stepPill.textContent = 'Resultado';
+      els.progress.hidden = true;
+      els.backButton.hidden = true;
+      els.nextButton.hidden = true;
+      els.quizHint.hidden = true;
+      els.questionHost.innerHTML = `
+        <div class="submitted-state">
+          <h3>O diagnóstico está pronto</h3>
+          <p>${message}</p>
+          <a class="btn btn-full" href="#resultado">Ver mapa de agentes <span aria-hidden="true">→</span></a>
+        </div>
+      `;
+    }
+
+    function showResult() {
+      els.resultSection.hidden = false;
+      els.resultSection.focus({ preventScroll: true });
+      els.resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      announce('Resultado calculado e apresentado.');
+    }
+
+    function estimate() {
+      const hour = numberFromInput('assumptionHour', 19);
+      const recovery = numberFromInput('assumptionRecovery', 30) / 100;
+      const leadValue = numberFromInput('assumptionLeadValue', 80);
+      const repetitiveHours = MIDPOINTS.repetitivas[state.answers.repetitivas] || 0;
+      const weeklyLeads = MIDPOINTS.leads[state.answers.leads] || 0;
+      const lostProbability = MIDPOINTS.perdaLead[state.answers.resposta] || 0;
+      const timeValue = repetitiveHours * 4.33 * hour * recovery;
+      const leadValueLost = weeklyLeads * 4.33 * lostProbability * leadValue;
+
+      return {
+        hour,
+        recovery,
+        leadValue,
+        repetitiveHours,
+        weeklyLeads,
+        lostProbability,
+        timeValue,
+        leadValueLost,
+        total: timeValue + leadValueLost
+      };
+    }
+
+    function numberFromInput(id, fallback) {
+      const element = document.getElementById(id);
+      const value = element ? Number(element.value) : fallback;
+      return Number.isFinite(value) ? value : fallback;
+    }
+
+    function formatEuro(value) {
+      return Math.round(value).toLocaleString('pt-PT') + ' €';
+    }
+
+    function renderResult() {
+      document.getElementById('resultName').textContent = state.lead.empresa || state.lead.nome || 'A sua empresa';
+      document.getElementById('resultSector').textContent = SECTOR_LABEL[state.answers.setor] || 'a sua empresa';
+      renderAgents();
+      renderStackNote();
+      updateMailto();
+      bindResultControls();
+      recalculateResult();
+    }
+
+    function renderAgents() {
+      const host = document.getElementById('agentsHost');
+      const list = AGENTS[state.answers.setor] || AGENTS.outro;
+      host.replaceChildren();
+
+      list.forEach(([title, description], index) => {
+        const item = document.createElement('div');
+        item.className = 'agent';
+
+        const badge = document.createElement('span');
+        badge.className = 'agent-index';
+        badge.textContent = String(index + 1);
+
+        const copy = document.createElement('div');
+        const heading = document.createElement('h4');
+        heading.textContent = title;
+        const paragraph = document.createElement('p');
+        paragraph.textContent = description;
+
+        copy.append(heading, paragraph);
+        item.append(badge, copy);
+        host.append(item);
+      });
+    }
+
+    function renderStackNote() {
+      const tools = state.answers.ferramentas.filter((tool) => tool !== 'nenhuma');
+      const note = document.getElementById('stackNote');
+
+      if (state.answers.ferramentas.includes('nenhuma') || tools.length === 0) {
+        note.textContent = 'Como a equipa ainda está a começar, o plano deve incluir escolha de ferramenta, regras de uso seguro e primeiros casos práticos.';
+        return;
+      }
+
+      const names = tools.map((tool) => TOOL_LABEL[tool] || 'a ferramenta actual');
+      const readable = names.length > 1 ? names.slice(0, -1).join(', ') + ' e ' + names.slice(-1) : names[0];
+      note.textContent = 'Como a equipa já usa ' + readable + ', o plano deve começar por integrar estes agentes nessa stack antes de propor novas ferramentas.';
+    }
+
+    let resultControlsBound = false;
+
+    function bindResultControls() {
+      if (resultControlsBound) {
+        return;
+      }
+
+      ['assumptionHour', 'assumptionRecovery', 'assumptionLeadValue'].forEach((id) => {
+        document.getElementById(id).addEventListener('input', () => {
+          recalculateResult();
+          updateMailto();
+        });
+      });
+
+      document.getElementById('printButton').addEventListener('click', () => window.print());
+      document.getElementById('planCta').addEventListener('click', () => track('Diagnostico plano'));
+      resultControlsBound = true;
+    }
+
+    function recalculateResult() {
+      const calc = estimate();
+
+      document.getElementById('labelHour').textContent = calc.hour + ' €';
+      document.getElementById('labelRecovery').textContent = Math.round(calc.recovery * 100) + '%';
+      document.getElementById('labelLeadValue').textContent = calc.leadValue + ' €';
+      document.getElementById('resultTotal').textContent = formatEuro(calc.total);
+      document.getElementById('resultAnnual').textContent = formatEuro(calc.total * 12);
+      document.getElementById('resultTime').textContent = formatEuro(calc.timeValue);
+      document.getElementById('resultLeads').textContent = formatEuro(calc.leadValueLost);
+      document.getElementById('formulaText').textContent =
+        'Cálculo: ' + calc.repetitiveHours + ' h/semana repetitivas x 4,33 semanas x ' + calc.hour + ' €/h x ' + Math.round(calc.recovery * 100) + '% recuperável; mais ' +
+        calc.weeklyLeads + ' leads/semana x 4,33 x ' + Math.round(calc.lostProbability * 100) + '% de oportunidade perdida x ' + calc.leadValue + ' €/lead. Estimativa indicativa, não garantia de resultado.';
+    }
+
+    function setDeliveryStatus(className, text) {
+      const status = document.getElementById('deliveryStatus');
+      status.className = 'delivery-status ' + className;
+      status.textContent = text;
+    }
+
+    function payloadForLead() {
+      const calc = estimate();
+      const suggestedAgents = (AGENTS[state.answers.setor] || AGENTS.outro).map((agent) => agent[0]);
+
+      return {
+        nome: state.lead.nome,
+        email: state.lead.email,
+        telefone: state.lead.telefone || null,
+        empresa: state.lead.empresa,
+        setor: labelFor('setor', state.answers.setor),
+        colaboradores: labelFor('colab', state.answers.colab),
+        leads_semana: labelFor('leads', state.answers.leads),
+        tempo_resposta: labelFor('resposta', state.answers.resposta),
+        horas_repetitivas: labelFor('repetitivas', state.answers.repetitivas),
+        ferramentas: state.answers.ferramentas.map((tool) => labelFor('ferramentas', tool)),
+        perda_estimada_mensal: Math.round(calc.total),
+        assuncao_custo_hora: calc.hour,
+        assuncao_pct_recuperavel: Math.round(calc.recovery * 100),
+        assuncao_valor_lead: calc.leadValue,
+        agentes_sugeridos: suggestedAgents,
+        consentimento_rgpd: state.lead.consent === true,
+        origem: 'diagnostico-web'
+      };
+    }
+
+    async function sendLead() {
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 8000);
+
+      try {
+        const response = await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payloadForLead()),
+          signal: controller.signal
+        });
+
+        if (!response.ok && response.status !== 204) {
+          throw new Error('lead_failed');
+        }
+      } finally {
+        window.clearTimeout(timeout);
+      }
+    }
+
+    function updateMailto() {
+      const calc = estimate();
+      const subject = 'Diagnóstico de agentes de IA - ' + (state.lead.empresa || 'empresa');
+      const body = [
+        'Olá Bilal,',
+        '',
+        'Fiz o diagnóstico de agentes de IA e quero transformar o resultado num plano.',
+        '',
+        'Empresa: ' + (state.lead.empresa || ''),
+        'Nome: ' + (state.lead.nome || ''),
+        'Email: ' + (state.lead.email || ''),
+        'Telefone: ' + (state.lead.telefone || ''),
+        'Sector: ' + labelFor('setor', state.answers.setor),
+        'Estimativa mensal: ' + formatEuro(calc.total),
+        'Ferramentas actuais: ' + state.answers.ferramentas.map((tool) => labelFor('ferramentas', tool)).join(', '),
+        '',
+        'Gostava de perceber o próximo passo.'
+      ].join('\n');
+
+      document.getElementById('planCta').href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    }
+
+    els.backButton.addEventListener('click', goBack);
+    els.nextButton.addEventListener('click', goNext);
+    renderQuestion();
+  </script>
+</body>
+</html>

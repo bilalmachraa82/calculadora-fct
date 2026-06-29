@@ -1,0 +1,13 @@
+{
+  "name": "aitipro-diagnostico",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check api/lead.js",
+    "audit:deps": "npm audit --omit=dev"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.0"
+  }
+}
