@@ -35,6 +35,8 @@ const RATE_LIMIT_MAX = clampPositiveInt(process.env.LEAD_RATE_LIMIT_MAX, 12, 1, 
 const RATE_LIMIT_WINDOW_SEC = clampPositiveInt(process.env.LEAD_RATE_LIMIT_WINDOW_SEC, 900, 60, 86400);
 const UPSTASH_URL = String(process.env.UPSTASH_REDIS_REST_URL || '').replace(/\/+$/, '');
 const UPSTASH_TOKEN = String(process.env.UPSTASH_REDIS_REST_TOKEN || '');
+// Sem UPSTASH_* o limite é por instância serverless. Útil como fallback,
+// mas produção com tráfego deve configurar Upstash para proteção durável.
 const memoryRateLimit = new Map();
 
 function clampPositiveInt(value, fallback, min, max) {
