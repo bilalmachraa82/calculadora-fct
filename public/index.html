@@ -28,15 +28,15 @@
 <meta property="og:title" content="Calculadora FCT 2026 — AiTiPro">
 <meta property="og:description" content="Calcule uma estimativa do saldo FCT da sua empresa e veja como o transformar em formação certificada DGERT.">
 <meta property="og:url" content="https://calculadora-fct.aitipro.com/">
-<meta property="og:image" content="https://calculadora-fct.aitipro.com/aitipro_logo_principal.png">
-<meta property="og:image:width" content="925">
-<meta property="og:image:height" content="216">
-<meta property="og:image:alt" content="Logótipo AiTiPro">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://calculadora-fct.aitipro.com/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Calculadora FCT 2026 da AiTiPro">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Calculadora FCT 2026 — AiTiPro">
 <meta name="twitter:description" content="Estime o saldo FCT da sua empresa e peça uma proposta de formação certificada DGERT.">
-<meta name="twitter:image" content="https://calculadora-fct.aitipro.com/aitipro_logo_principal.png">
-<meta name="twitter:image:alt" content="Logótipo AiTiPro">
+<meta name="twitter:image" content="https://calculadora-fct.aitipro.com/social-card.png">
+<meta name="twitter:image:alt" content="Calculadora FCT 2026 da AiTiPro">
 <title>Calculadora FCT 2026: estime saldo para formação DGERT | AiTiPro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -349,6 +349,7 @@
   /* Aurora Glows */
   .glow-container {
     position: relative;
+    overflow: hidden;
   }
   .glow-container::before {
     content: "";
@@ -743,6 +744,46 @@
     color: var(--text-secondary);
     line-height: 1.6;
   }
+  .trust-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0 2.2rem;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface-alt);
+  }
+  .trust-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    align-items: flex-start;
+    color: var(--text-secondary);
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+  .trust-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: var(--radius-sm);
+    background: rgba(42, 229, 160, 0.10);
+    color: var(--color-primary-text);
+    font-weight: 800;
+    line-height: 1;
+  }
+  .trust-item strong {
+    display: block;
+    color: var(--color-text-heading);
+    margin-bottom: 0.1rem;
+  }
+  .trust-item a {
+    color: var(--color-primary-text);
+    font-weight: 600;
+  }
   
   .bento-card:hover {
     transform: translateY(-4px);
@@ -757,6 +798,9 @@
     }
     .bento-card.col-2 {
       grid-column: span 1;
+    }
+    .trust-strip {
+      grid-template-columns: 1fr;
     }
   }
 
@@ -859,6 +903,10 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
+  .mobile-calc-cta {
+    display: none;
+    margin-top: 1rem;
+  }
   @media (max-width: 480px) {
     .hero-stats {
       flex-direction: column;
@@ -871,6 +919,13 @@
       padding-top: 1.25rem;
     }
     .hero-stat-num { font-size: 1.9rem; }
+  }
+  @media (max-width: 640px) {
+    .mobile-calc-cta {
+      display: inline-flex;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
   }
 
   /* FAQ GRID */
@@ -1113,6 +1168,11 @@
     margin-top: 1rem;
     text-align: center;
   }
+  .lead-note a,
+  .privacy-note a {
+    color: var(--color-primary-text);
+    font-weight: 600;
+  }
   .check-field {
     display: flex;
     gap: 0.75rem;
@@ -1171,6 +1231,12 @@
   }
   .footer-legal strong {
     color: var(--color-text-heading);
+  }
+  .privacy-note {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    color: var(--text-secondary);
   }
   
   @media (max-width: 640px) {
@@ -1272,6 +1338,7 @@
           <p class="lead" style="font-size: 1.05rem;">
             Caso não seja resgatado até <strong>31 de dezembro de 2026</strong>, este valor será transferido para o Estado português (Fundo de Garantia). A estimativa ajuda a decidir se vale a pena confirmar o saldo oficial.
           </p>
+          <a class="btn btn-primary mobile-calc-cta" id="mobileCalcCta" href="#calcForm">Calcular saldo estimado</a>
           <div class="hero-stats">
             <div>
               <span class="hero-stat-num">~517 M€</span>
@@ -1385,7 +1452,7 @@
         <div class="info-card">
           <span class="big">~517 M€</span>
           <h3>Saldo retido nacional</h3>
-          <p>Dados de abril de 2026 estimam que centenas de milhões de euros ainda continuam esquecidos nos cofres da Segurança Social Direta.</p>
+          <p>Estimativa interna AiTiPro, abril de 2026. O saldo oficial de cada empresa deve ser confirmado diretamente no portal FCT.</p>
         </div>
         <div class="info-card">
           <span class="big">0,925%</span>
@@ -1425,6 +1492,20 @@
       <div class="section-label">O Parceiro Certo</div>
       <h2>Formação certificada elegível para o resgate</h2>
       <p class="lead">A legislação do FCT exige que as verbas mobilizadas para formação sejam faturadas por entidades formadoras devidamente certificadas. A AiTiPro preenche todos os requisitos legais.</p>
+      <div class="trust-strip" role="list" aria-label="Sinais de confiança">
+        <div class="trust-item" role="listitem">
+          <span class="trust-mark" aria-hidden="true">✓</span>
+          <div><strong>Certificação DGERT</strong>Formação por entidade certificada, requisito central para mobilizar verba FCT em formação profissional.</div>
+        </div>
+        <div class="trust-item" role="listitem">
+          <span class="trust-mark" aria-hidden="true">§</span>
+          <div><strong>Base legal visível</strong>Resumo legal no rodapé e fluxo alinhado com o portal oficial do Fundo de Compensação.</div>
+        </div>
+        <div class="trust-item" role="listitem">
+          <span class="trust-mark" aria-hidden="true">↗</span>
+          <div><strong>Confirmação oficial</strong>A estimativa não substitui a consulta em <a href="https://www.fundoscompensacao.pt" target="_blank" rel="noopener noreferrer">fundoscompensacao.pt</a>.</div>
+        </div>
+      </div>
       
       <div class="bento-grid">
         <!-- Card 1: DGERT -->
@@ -1582,7 +1663,7 @@
             <div class="form-message" id="leadErrors" aria-live="polite"></div>
             
             <button type="submit" class="btn btn-primary btn-block" id="leadBtn">Solicitar proposta gratuita</button>
-            <p class="lead-note">Os dados recolhidos servem apenas para responder a este pedido. Pode pedir correção ou apagamento através do contacto comercial da AiTiPro.</p>
+            <p class="lead-note">Os dados recolhidos servem apenas para responder a este pedido. Consulte a <a href="#privacidade">nota de privacidade</a>.</p>
           </form>
           
           <div id="leadOk" role="status" aria-live="polite" tabindex="-1"></div>
@@ -1612,6 +1693,9 @@
       <p><strong>AiTiPro</strong> é uma entidade formadora certificada DGERT. Website principal: <a href="https://aitipro.com" target="_blank" rel="noopener noreferrer">aitipro.com</a></p>
       <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">
         Base legal: Lei 70/2013 · DL 115/2023 de 15 de dezembro · DL 396/2007 (SNQ) · Portaria 851/2010 · FAQ #14g do portal oficial do IGFCSS. As estimativas apresentadas por esta calculadora são simulações matemáticas aproximadas e não dispensam a verificação formal de saldos no portal oficial nem substituem aconselhamento legal personalizado.
+      </p>
+      <p class="privacy-note" id="privacidade">
+        <strong>Nota de privacidade:</strong> usamos nome, empresa, email, telefone opcional e estimativa apenas para responder ao pedido FCT. Não há inscrição em newsletter por este formulário. Pode pedir acesso, correção ou apagamento por email para <a href="mailto:bilal.machraa@aitipro.com">bilal.machraa@aitipro.com</a>.
       </p>
     </div>
   </div>
@@ -1704,6 +1788,12 @@
     return /^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(email);
   }
 
+  function track(eventName, data){
+    try {
+      if (window.umami) window.umami.track(eventName, data || {});
+    } catch(e){}
+  }
+
   // --- Rolling Number Anim Utility ---
   // Acessibilidade: respeita prefers-reduced-motion; quando o elemento está dentro de uma
   // aria-live region (ex.: #results), marca aria-busy durante a animação para evitar
@@ -1763,6 +1853,7 @@
     }
     if (firstInvalid){
       showFormMessage('calcErrors','Corrija os campos assinalados para calcular a estimativa.');
+      track('calc-validation-error', { field: firstInvalid });
       focusFirst(firstInvalid);
       return;
     }
@@ -1792,7 +1883,7 @@
     r.style.display = 'block';
 
     // Analytics: cálculo concluído (funil, sem dados pessoais)
-    try { if (window.umami) window.umami.track('calcular', { setor: s.nome, nTrab: nTrab }); } catch(e){}
+    track('calcular', { setor: s.nome, nTrab: nTrab });
 
     // Animation Duration (reduced motion support)
     var animationDuration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 800;
@@ -1853,12 +1944,20 @@
     if (!cta) return;
     cta.addEventListener('click', function(ev){
       ev.preventDefault();
-      try { if (window.umami) window.umami.track('cta-resgatar'); } catch(e){}
+      track('cta-resgatar');
       var contacto = document.getElementById('contacto');
       var nome = document.getElementById('lNome');
       var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (contacto) contacto.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'});
       setTimeout(function(){ if (nome) nome.focus({preventScroll:true}); }, reduce ? 0 : 500);
+    });
+  })();
+
+  (function(){
+    var cta = document.getElementById('mobileCalcCta');
+    if (!cta) return;
+    cta.addEventListener('click', function(){
+      track('cta-calculadora-mobile');
     });
   })();
   
@@ -1901,7 +2000,7 @@
     ok.style.display = 'block';
 
     // Analytics: lead capturado (conversão final do funil)
-    try { if (window.umami) window.umami.track('lead', { via: via }); } catch(e){}
+    track('lead', { via: via });
 
     var head = via === 'mailto'
       ? "Abrimos o seu cliente de email com a mensagem pronta — basta clicar em enviar. Se não abriu, escreva-nos diretamente para <strong>" + ALERT_EMAIL + "</strong>."
@@ -1943,6 +2042,7 @@
     if (!d.consent){ showFormMessage('leadErrors','É necessário autorizar o contacto para enviar o pedido.'); firstInvalid = firstInvalid || 'lConsent'; }
     
     if (firstInvalid){
+      track('lead-validation-error', { field: firstInvalid });
       focusFirst(firstInvalid);
       return;
     }
@@ -1955,6 +2055,7 @@
     btn.textContent = 'A submeter…';
 
     function fallbackMailto(){
+      track('lead-fallback-mailto');
       var assunto = encodeURIComponent('[Calculadora FCT] Pedido de Proposta: ' + d.empresa);
       var corpo = encodeURIComponent(buildResumo(d));
       window.location.href = 'mailto:' + ALERT_EMAIL + '?subject=' + assunto + '&body=' + corpo;
@@ -1970,8 +2071,12 @@
       signal: ctrl ? ctrl.signal : undefined
     }).then(function(r){
       if (r.ok){ showLeadOk('api'); }
-      else { fallbackMailto(); }
-    }).catch(function(){
+      else {
+        track('lead-api-error', { status: r.status });
+        fallbackMailto();
+      }
+    }).catch(function(err){
+      track('lead-api-error', { status: err && err.name === 'AbortError' ? 'timeout' : 'network' });
       fallbackMailto();
     }).then(function(){
       if (timer) clearTimeout(timer);
@@ -1979,6 +2084,17 @@
       btn.textContent = 'Solicitar proposta gratuita';
     });
   }
+
+  (function(){
+    var leadForm = document.getElementById('leadForm');
+    if (!leadForm) return;
+    var leadFormStarted = false;
+    leadForm.addEventListener('focusin', function(){
+      if (leadFormStarted) return;
+      leadFormStarted = true;
+      track('lead-form-focus');
+    });
+  })();
 
   document.getElementById('leadForm').addEventListener('submit', function(ev){
     ev.preventDefault();
