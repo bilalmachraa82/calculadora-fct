@@ -21,20 +21,28 @@
 </script>
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="canonical" href="https://calculadora-fct.aitipro.com/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d3b38'/%3E%3Cg transform='translate(18 12) skewX(-12)'%3E%3Crect width='8' height='40' rx='2' fill='%232ae5a0'/%3E%3Crect x='10' width='8' height='40' rx='2' fill='%231bc88a'/%3E%3Crect x='20' width='8' height='40' rx='2' fill='%23ffffff'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_PT">
 <meta property="og:site_name" content="AiTiPro">
 <meta property="og:title" content="Calculadora FCT 2026 — AiTiPro">
 <meta property="og:description" content="Calcule uma estimativa do saldo FCT da sua empresa e veja como o transformar em formação certificada DGERT.">
 <meta property="og:url" content="https://calculadora-fct.aitipro.com/">
+<meta property="og:image" content="https://calculadora-fct.aitipro.com/aitipro_logo_principal.png">
+<meta property="og:image:width" content="925">
+<meta property="og:image:height" content="216">
+<meta property="og:image:alt" content="Logótipo AiTiPro">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Calculadora FCT 2026 — AiTiPro">
 <meta name="twitter:description" content="Estime o saldo FCT da sua empresa e peça uma proposta de formação certificada DGERT.">
+<meta name="twitter:image" content="https://calculadora-fct.aitipro.com/aitipro_logo_principal.png">
+<meta name="twitter:image:alt" content="Logótipo AiTiPro">
 <title>Calculadora FCT 2026: estime saldo para formação DGERT | AiTiPro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap"></noscript>
 <!-- Analytics privacy-first (Umami Cloud via proxy first-party /u — contorna ad-blockers, cookieless) -->
 <script defer src="/u/script.js" data-website-id="f6328289-5032-4d41-b082-ff953bf39b4d" data-host-url="/u"></script>
 <script type="application/ld+json">
@@ -45,7 +53,8 @@
       "@type": "Organization",
       "@id": "https://aitipro.com/#organization",
       "name": "AiTiPro",
-      "url": "https://aitipro.com/"
+      "url": "https://aitipro.com/",
+      "logo": "https://calculadora-fct.aitipro.com/aitipro_logo_principal.png"
     },
     {
       "@type": "WebApplication",
@@ -669,7 +678,7 @@
     margin-bottom: 0.5rem;
     line-height: 1;
   }
-  .info-card h4 {
+  .info-card h3 {
     font-size: 1.1rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
@@ -723,7 +732,7 @@
     stroke: currentColor;
     fill: none;
   }
-  .bento-card h4 {
+  .bento-card h3 {
     font-size: 1.25rem;
     font-weight: 700;
     margin-bottom: 0.6rem;
@@ -801,7 +810,7 @@
     padding: 1.25rem 1.5rem;
     transition: border-color var(--transition-base), background var(--transition-base), transform var(--transition-base);
   }
-  .timeline-content h4 {
+  .timeline-content h3 {
     font-size: 1.05rem;
     font-weight: 700;
     color: var(--color-text-heading);
@@ -935,7 +944,7 @@
   .field-error {
     min-height: 1.1rem;
     margin-top: 0.25rem;
-    color: #ef4444;
+    color: var(--color-error-text);
     font-size: 0.78rem;
     font-weight: 600;
   }
@@ -1248,6 +1257,12 @@
   <!-- HERO + CALCULADORA (Layout de duas colunas) -->
   <section class="section glow-container">
     <div class="wrap">
+      <noscript>
+        <div class="alert alert-orange" role="alert" style="margin:0 0 1.5rem;">
+          <span aria-hidden="true">⚠</span>
+          <div>Esta calculadora precisa de JavaScript ativo para estimar o saldo. Sem JavaScript, peça a sua estimativa FCT por email: <a href="mailto:bilal.machraa@aitipro.com">bilal.machraa@aitipro.com</a>.</div>
+        </div>
+      </noscript>
       <div class="grid-2" style="align-items: start;">
         <div>
           <h1>Quanto tem a sua empresa <span style="color:var(--color-primary-text);">esquecido no FCT?</span></h1>
@@ -1255,7 +1270,7 @@
             O Fundo de Compensação do Trabalho guarda contribuições que as empresas portuguesas fizeram entre 2013 e 2023. O saldo pode ser mobilizado a 100% para formação certificada da sua equipa até ao fim de 2026.
           </p>
           <p class="lead" style="font-size: 1.05rem;">
-            Caso não seja resgatado até <strong>31 de dezembro de 2026</strong>, este valor será definitivamente transferido para o Estado português (Fundo de Garantia). Não perca o seu saldo.
+            Caso não seja resgatado até <strong>31 de dezembro de 2026</strong>, este valor será transferido para o Estado português (Fundo de Garantia). A estimativa ajuda a decidir se vale a pena confirmar o saldo oficial.
           </p>
           <div class="hero-stats">
             <div>
@@ -1364,17 +1379,17 @@
       <div class="info-grid">
         <div class="info-card">
           <span class="big">31 Dez 2026</span>
-          <h4>Fim do prazo legal</h4>
+          <h3>Fim do prazo legal</h3>
           <p>O DL 115/2023 determina 31 de dezembro de 2026 como o limite de resgate. Após o prazo, o montante passa definitivamente para o FGCT.</p>
         </div>
         <div class="info-card">
           <span class="big">~517 M€</span>
-          <h4>Saldo retido nacional</h4>
+          <h3>Saldo retido nacional</h3>
           <p>Dados de abril de 2026 estimam que centenas de milhões de euros ainda continuam esquecidos nos cofres da Segurança Social Direta.</p>
         </div>
         <div class="info-card">
           <span class="big">0,925%</span>
-          <h4>Fórmula da taxa retida</h4>
+          <h3>Fórmula da taxa retida</h3>
           <p>Incidiu sobre a remuneração base mensal e diuturnidades de cada contrato sob regime de conta de outrem ativo no período.</p>
         </div>
       </div>
@@ -1415,36 +1430,36 @@
         <!-- Card 1: DGERT -->
         <div class="glass-card bento-card col-2">
           <div class="bento-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 11 11 13 15 9"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 11 11 13 15 9"/></svg>
           </div>
-          <h4>Certificação DGERT</h4>
+          <h3>Certificação DGERT</h3>
           <p>Condição necessária e legalmente suficiente para a elegibilidade do resgate FCT (DL 396/2007). Não confunda com o Portugal 2030 ou Formação-Ação: o resgate FCT não requer acreditação IAPMEI, listas fechadas ou candidaturas complexas.</p>
         </div>
         
         <!-- Card 2: IEFP -->
         <div class="glass-card bento-card">
           <div class="bento-icon">
-            <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
           </div>
-          <h4>Cumulável com Apoios</h4>
+          <h3>Cumulável com Apoios</h3>
           <p>Uma vez que o saldo FCT é dinheiro que já pertence à própria entidade empregadora, o seu uso é 100% cumulável com outros apoios públicos, como o Voucher Formação do IEFP.</p>
         </div>
         
         <!-- Card 3: Código do Trabalho -->
         <div class="glass-card bento-card">
           <div class="bento-icon">
-            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           </div>
-          <h4>40 Horas Obrigatórias</h4>
+          <h3>40 Horas Obrigatórias</h3>
           <p>A formação desenvolvida pela AiTiPro cumpre na totalidade o requisito legal de formação contínua anual obrigatória determinado pelo Artigo 131.º do Código do Trabalho.</p>
         </div>
         
         <!-- Card 4: IA Prática -->
         <div class="glass-card bento-card col-2">
           <div class="bento-icon">
-            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
           </div>
-          <h4>Produtividade e Inteligência Artificial</h4>
+          <h3>Produtividade e Inteligência Artificial</h3>
           <p>Desenvolvemos planos práticos de capacitação em IA Generativa, engenharia de prompts, Copilot e automação de fluxos de trabalho administrativos. Foco em outputs práticos e produtividade real para as PMEs portuguesas.</p>
         </div>
       </div>
@@ -1462,42 +1477,42 @@
         <div class="timeline-item">
           <div class="timeline-number">1</div>
           <div class="timeline-content">
-            <h4>Consulta do Saldo Oficial</h4>
+            <h3>Consulta do Saldo Oficial</h3>
             <p>Aceda a fundoscompensacao.pt com a conta da Segurança Social Direta e consulte o valor real retido em conta.</p>
           </div>
         </div>
         <div class="timeline-item">
           <div class="timeline-number">2</div>
           <div class="timeline-content">
-            <h4>Definição da Ação de Formação</h4>
+            <h3>Definição da Ação de Formação</h3>
             <p>Escolha um dos planos práticos de Inteligência Artificial da AiTiPro, alinhando a carga horária e formandos.</p>
           </div>
         </div>
         <div class="timeline-item">
           <div class="timeline-number">3</div>
           <div class="timeline-content">
-            <h4>Auscultação dos Trabalhadores</h4>
+            <h3>Auscultação dos Trabalhadores</h3>
             <p>Efetue a auscultação formal da equipa com a antecedência legal mínima de 10 dias sobre a data de início da ação.</p>
           </div>
         </div>
         <div class="timeline-item">
           <div class="timeline-number">4</div>
           <div class="timeline-content">
-            <h4>Submissão do Pedido no Portal</h4>
+            <h3>Submissão do Pedido no Portal</h3>
             <p>Introduza o valor a mobilizar, o NIF da AiTiPro e a declaração sob compromisso de honra de consulta dos colaboradores.</p>
           </div>
         </div>
         <div class="timeline-item">
           <div class="timeline-number">5</div>
           <div class="timeline-content">
-            <h4>Recebimento do Reembolso</h4>
+            <h3>Recebimento do Reembolso</h3>
             <p>O IGFCSS processa a transferência bancária da verba diretamente para o IBAN da empresa até ao dia 8 do mês seguinte.</p>
           </div>
         </div>
         <div class="timeline-item">
           <div class="timeline-number">6</div>
           <div class="timeline-content">
-            <h4>Realização e Validação da Ação</h4>
+            <h3>Realização e Validação da Ação</h3>
             <p>Execução do plano de formação prática com a equipa, com recolha e arquivo dos certificados DGERT emitidos.</p>
           </div>
         </div>
@@ -1516,7 +1531,7 @@
             Os nossos especialistas analisam a realidade operacional da sua empresa, desenham o mix de módulos de produtividade IA mais adequado à sua estrutura e apoiam toda a instrução administrativa de resgate do saldo FCT.
           </p>
           <p class="lead" style="font-size: 1rem; color: var(--color-text-heading);">
-            A janela temporal expira no fim de 2026. Aja agora para evitar a perda definitiva de verbas legítimas do seu negócio.
+            O prazo legal termina no fim de 2026. Podemos ajudar a transformar a estimativa num plano elegível antes da submissão no portal oficial.
           </p>
         </div>
         
@@ -1554,20 +1569,20 @@
             </div>
             
             <!-- Honeypot (oculto a humanos e a leitores de ecrã) -->
-            <div class="field hp-field" aria-hidden="true">
+            <div class="field hp-field" aria-hidden="true" inert>
               <label for="lWebsite">Website</label>
               <input type="text" id="lWebsite" name="website" tabindex="-1" autocomplete="off">
             </div>
             
             <label class="check-field" for="lConsent">
-              <input type="checkbox" id="lConsent" required> 
-              <span>Autorizo a AiTiPro a contactar-me para elaborar o plano e confirmar a estimativa FCT.</span>
+              <input type="checkbox" id="lConsent" name="consent" required>
+              <span>Autorizo a AiTiPro a contactar-me sobre este pedido de estimativa e plano FCT. Não autorizo newsletter nem comunicações não relacionadas.</span>
             </label>
             
             <div class="form-message" id="leadErrors" aria-live="polite"></div>
             
-            <button type="submit" class="btn btn-primary btn-block" id="leadBtn">Solicitar Proposta Gratuita</button>
-            <p class="lead-note">Os dados recolhidos servem apenas para dar seguimento a este pedido. Em conformidade total com o RGPD.</p>
+            <button type="submit" class="btn btn-primary btn-block" id="leadBtn">Solicitar proposta gratuita</button>
+            <p class="lead-note">Os dados recolhidos servem apenas para responder a este pedido. Pode pedir correção ou apagamento através do contacto comercial da AiTiPro.</p>
           </form>
           
           <div id="leadOk" role="status" aria-live="polite" tabindex="-1"></div>
@@ -1890,7 +1905,7 @@
 
     var head = via === 'mailto'
       ? "Abrimos o seu cliente de email com a mensagem pronta — basta clicar em enviar. Se não abriu, escreva-nos diretamente para <strong>" + ALERT_EMAIL + "</strong>."
-      : "Contacto registado com sucesso. A equipa da AiTiPro irá contactá-lo com a proposta personalizada em breve.";
+      : "Contacto registado com sucesso. A equipa da AiTiPro irá contactá-lo com a proposta personalizada até 1 dia útil.";
       
     var next =
       "<p style='margin-top:1.2rem; font-weight:600; color:var(--color-primary-text);'>Entretanto, pode acelerar os seguintes passos:</p>" +
@@ -1946,18 +1961,22 @@
       showLeadOk('mailto');
     }
 
+    var ctrl = (window.AbortController) ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function(){ ctrl.abort(); }, 12000) : null;
     fetch('/api/lead', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify(d)
+      body: JSON.stringify(d),
+      signal: ctrl ? ctrl.signal : undefined
     }).then(function(r){
       if (r.ok){ showLeadOk('api'); }
       else { fallbackMailto(); }
     }).catch(function(){
       fallbackMailto();
     }).then(function(){
+      if (timer) clearTimeout(timer);
       btn.disabled = false; 
-      btn.textContent = 'Solicitar Proposta Gratuita';
+      btn.textContent = 'Solicitar proposta gratuita';
     });
   }
 
